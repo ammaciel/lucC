@@ -13,7 +13,7 @@
 #' @param numberSubIntervals Integer. Number of subintervals to feature extraction.
 #' @keywords datasets
 #' @return Dataframe with statistical features, fbgf
-#' @import tools testetst
+#' @import lubridate
 #' @export
 #'
 #' @examples \dontrun{
@@ -57,12 +57,12 @@
 #################################################################
 
 
-# install packages
-packages <- c("lubridate")
-if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
-  install.packages(setdiff(packages, rownames(installed.packages())), dependencies = TRUE)
-}
-remove(packages)
+# # install packages
+# packages <- c("lubridate")
+# if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
+#   install.packages(setdiff(packages, rownames(installed.packages())), dependencies = TRUE)
+# }
+# remove(packages)
 
 
 # ALLEN'S INTERVAL ALGEBRA
@@ -99,9 +99,15 @@ remove(packages)
 # time7 <- interval(ymd("2011-08-01"),ymd("2011-09-15"))
 # time8 <- interval(ymd("2011-08-15"),ymd("2011-08-29"))
 
+# Transform two dates in an interval
+stilf_interval <- function (first_date, second_date) {
+ # first_date <- int_standardize(first_date)
+#  second_date <- int_standardize(second_date)
+  interval(ymd(first_date), ymd(second_date))
+}
 
 # Allen's Temporal Intervals Relations
-library(lubridate)
+
 # 1. The '<' relation = stilf_before
 stilf_before <- function (first_interval, second_interval) {
   stopifnot(c(is.interval(first_interval), is.interval(second_interval)))

@@ -1,3 +1,44 @@
+#' @title Plot Maps with STILF Events
+#' @name stilf_plot
+#' @aliases stilf_plot
+#' @author Adeline M. Maciel
+#' @docType data
+#'
+#' @description Provide a set of Allen's intreval operations end_date classified time series data. And return a logical value if a interval is TRUE or FALSE
+#' @usage after(fileTS = NULL, nameColumnValue = NULL,
+#' subInterval = FALSE, numberSubIntervals = 2)
+#' @param fileTS Dataframe. A time series file.
+#' @param nameColumnValue Character. Name of a column with value, such as, Vegetation Index EVI or NDVI.
+#' @param subInterval Logical. If TRUE, the data.frame will be divide in subintervals. Given a data.frame with 23 rows and 3 subintervals, the first and second subinterval will have 8 rows each, and the last only 7 rows. If FALSE (the default) nothing subinterval will be created.
+#' @param numberSubIntervals Integer. Number of subintervals end_date feature extraction.
+#' @keywords datasets
+#' @return Dataframe with statistical features, fbgf
+#' @import dplyr sp rgdal raster
+#' @export
+#'
+#' @examples \dontrun{
+#' # Open a data example
+#' library(stilf)
+#' 
+#' # Apply the filterTS function on df data frame
+#' dataFiltered <- filterTS(fileTS = df, nameColumnValue = "value", outlier = TRUE, value= -0.300)
+#'
+#' # Apply splitTS fcuntion end_date divide time series for year
+#' splitTS(dataFiltered,2002,2005,"date",typeInterval = "annual")
+#'
+#' # Get features start_date time series divided in annual values without subintervals
+#' example1 <- featuresExtractionTS(fileTS = ts.annual_2002, nameColumnValue =
+#' "filtered.value", subInterval = FALSE)
+#'
+#' # Get features start_date time series divided in annual values with subintervals
+#' example2 <- featuresExtractionTS(fileTS = ts.annual_2002, nameColumnValue =
+#' "filtered.value", subInterval = TRUE, numberSubIntervals = 3)
+#'
+#' # Show data frames example1 and example2 utils::View(example1) utils::View(example2)
+#'
+#'}
+#'
+
 #################################################################
 ##                                                             ##
 ##   (c) Adeline Marinho <adelsud6@gmail.com>                  ##
@@ -13,13 +54,13 @@
 #################################################################
 
 
-# install packages
-packages <- c("dplyr","sp","rgdal","raster")
-if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
-  install.packages(setdiff(packages, rownames(installed.packages())), dependencies = TRUE)
-}
-remove(packages)
-
+# # install packages
+# packages <- c("dplyr","sp","rgdal","raster")
+# if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
+#   install.packages(setdiff(packages, rownames(installed.packages())), dependencies = TRUE)
+# }
+# remove(packages)
+# 
 
 ############
 # RAW Dataframe
@@ -83,9 +124,9 @@ createPoints <- function(df, LongLat){
     colnames(pts1) <- c('x1', 'y1', 'z','w', 'x', 'y')
     pts1 <- data.frame(pts1$x,pts1$y,pts1$z,pts1$w,pts1$x1,pts1$y1)
     names(pts1)[1:6] = c('x', 'y', 'z','w','x1', 'y1')
-    ptss <- sprintf("pts_%s",dates[x]) # para completo
-    assign(ptss,pts1, envir = parent.frame())
-    assign(ptss,pts1, envir = .GlobalEnv)
+    ptss <<- sprintf("pts_%s",dates[x]) # para completo
+    #assign(ptss,pts1, envir = parent.frame())
+    #assign(ptss,pts1, envir = .GlobalEnv)
   }
 
 }  
@@ -94,7 +135,7 @@ createPoints <- function(df, LongLat){
   # 2. For df_input dataframe, generate a map
   #************************
 
-plotMapsInput <- function(df, LongLat = FALSE){ #, path_output, width_png, height_png){
+stilf_plot_maps_input <- function(df, LongLat = FALSE){ #, path_output, width_png, height_png){
   
   createPoints(df, LongLat)
   
@@ -221,7 +262,7 @@ createPointsEvents <- function(df, LongLat){
   #************************
   # 2. For df_output...  dataframe, generate a map with events
   #************************
-plotMapsOutputEvents <- function(df, LongLat = FALSE, sizeSquare=1){ #, path_output, question, width_png, height_png){
+stilf_plot_maps_output_events <- function(df, LongLat = FALSE, sizeSquare=1){ #, path_output, question, width_png, height_png){
   
   createPointsEvents(df, LongLat)
   
@@ -283,7 +324,7 @@ plotMapsOutputEvents <- function(df, LongLat = FALSE, sizeSquare=1){ #, path_out
 # PLOT OF TIME SERIES AS SEQUENCE OF LINES OVER TIME - ONLY EVENT FILE output...
 ############
 
-plotSequenceEvents <- function(df, dateStart="2000-01-01", dateEnd="2016-12-31"){ #, path_output, question, width_png, width_png){
+stilf_plot_sequence_events <- function(df, dateStart="2000-01-01", dateEnd="2016-12-31"){ #, path_output, question, width_png, width_png){
     
   # alter this file name
   dfSeq <- df
@@ -338,7 +379,7 @@ plotSequenceEvents <- function(df, dateStart="2000-01-01", dateEnd="2016-12-31")
 # PLOT OF BARPLOT OVER TIME - ONLY EVENT FILE output...
 ############
 
-plotBarplotEvents <- function(df){ 
+stilf_plot_barplot_events <- function(df){ 
   
   dfSeq <- df
   

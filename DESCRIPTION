@@ -1,6 +1,6 @@
-Package: Events
+Package: stilf
 Type: Package
-Title: Events from Classified Map
+Title: Spatial-temporal Interval Logic Formalism
 Version: 0.1
 Date: 2017-02-13
 Authors@R: person("Adeline", "Maciel", role = c("aut", "cre"), email = "adelsud6@gmail.com")
@@ -11,13 +11,14 @@ License: GPL (>= 2)
 LazyData: TRUE
 Depends: R (>= 3.1.2)
 RoxygenNote: 5.0.1
-Imports: tools,
+Imports: lubridate, 
+    tools,
     zoo,
     raster,
     sp,
     signal,
     dplyr
-URL: https://github.com/ammaciel/Events
-BugReports: https://github.com/ammaciel/Events
+URL: https://github.com/ammaciel/stilf
+BugReports: https://github.com/ammaciel/stilf
     
     
