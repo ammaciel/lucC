@@ -13,7 +13,7 @@
 #' @param numberSubIntervals Integer. Number of subintervals to feature extraction.
 #' @keywords datasets
 #' @return Dataframe with statistical features, fbgf
-#' @import tools
+#' @import tools testetst
 #' @export
 #'
 #' @examples \dontrun{
