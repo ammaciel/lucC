@@ -1,0 +1,23 @@
+Package: Events
+Type: Package
+Title: Events from Classified Map
+Version: 0.1
+Date: 2017-02-13
+Authors@R: person("Adeline", "Maciel", role = c("aut", "cre"), email = "adelsud6@gmail.com")
+Author:  Adeline Maciel [aut, cre]
+Maintainer: Adeline Maciel <adelsud6@gmail.com>
+Description: Spatialtemporal interval logic formalism (STILF) search for events in classified maps
+License: GPL (>= 2)
+LazyData: TRUE
+Depends: R (>= 3.1.2)
+RoxygenNote: 5.0.1
+Imports: tools,
+    zoo,
+    raster,
+    sp,
+    signal,
+    dplyr
+URL: https://github.com/ammaciel/Events
+BugReports: https://github.com/ammaciel/Events
+    
+    
