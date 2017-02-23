@@ -1,2 +1,2 @@
 # stilf
-spatialtemporal interval logic formalism
+Spatial-temporal Interval Logic Formalism

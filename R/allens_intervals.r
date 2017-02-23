@@ -57,7 +57,10 @@
 #'}
 #'
 #'
+<<<<<<< HEAD:R/allens_intervals.r
 
+=======
+>>>>>>> 090dcabe586f90af56c1efb0465e99faf2038ca7:R/allens_intervals.r
 
 # ALLEN'S INTERVAL ALGEBRA
 # Thirteen basic relation
