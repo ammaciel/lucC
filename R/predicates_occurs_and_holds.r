@@ -1,3 +1,21 @@
+#################################################################
+##                                                             ##
+##   (c) Adeline Marinho <adelsud6@gmail.com>                  ##
+##                                                             ##
+##       Image Processing Division                             ##
+##       National Institute for Space Research (INPE), Brazil  ##
+##                                                             ##
+##                                                             ##
+##   R script with predicates holds(o,p,t) and occur(o,p,Te)   ##
+##                                                             ##  
+##                                             2016-08-22      ##
+##                                                             ##
+##  J. F. Allen.  end_datewards a general theory of action and ##
+##  time. Artificial Intelligence, 23(2): 123--154, 1984.      ##
+##                                                             ##
+#################################################################
+
+
 #' @title Predicates Allens
 #' @name predicates_intervals
 #' @aliases predicates_intervals
@@ -39,31 +57,6 @@
 #'}
 #'
 #'
-#################################################################
-##                                                             ##
-##   (c) Adeline Marinho <adelsud6@gmail.com>                  ##
-##                                                             ##
-##       Image Processing Division                             ##
-##       National Institute for Space Research (INPE), Brazil  ##
-##                                                             ##
-##                                                             ##
-##   R script with predicates holds(o,p,t) and occur(o,p,Te)   ##
-##                                                             ##  
-##                                             2016-08-22      ##
-##                                                             ##
-##  J. F. Allen.  end_datewards a general theory of action and       ##
-##  time. Artificial Intelligence, 23(2): 123--154, 1984.      ##
-##                                                             ##
-#################################################################
-
-
-# # install packages
-# packages <- c("dplyr","lubridate")
-# if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
-#   install.packages(setdiff(packages, rownames(installed.packages())), dependencies = TRUE)
-# }
-# remove(packages)
-# 
 
 # HOLDS(property, time) 
 # Asserts that a property holds during a time interval
@@ -72,8 +65,7 @@
 # parameters: o = geo-objects, p = properties of objects and t = time intervals
 
 stilf_holds <- function(o, p, t){
- # library(dplyr) # bind_rows
-
+ 
   t <- int_standardize(t)
 
   intStart <- format(int_start(t), format = '%Y-%m-%d')
@@ -85,7 +77,7 @@ stilf_holds <- function(o, p, t){
 
   for (i in 1:nrow(df)) {
     if ((df$label[i] == p) & ((df$start_date[i] > intStart) & (df$end_date[i] < intEnd))) {
-      temp <- bind_rows(temp,df[i,])
+      temp <- dplyr::bind_rows(temp,df[i,])
       cat(sprintf("time: %d in interval: %s -- %s = TRUE \n", i, df$start_date[i], df$end_date[i]))
     } else {
       # cat(sprintf("time: %d in interval: %s -- %s = FALSE \n", i, df$start_date[i], df$start_date[i]))
@@ -103,7 +95,6 @@ stilf_holds <- function(o, p, t){
 # parameters: o = geo-objects, p = properties of objects and Te = event time intervals
 
 stilf_occur <- function(o, p, te){
- # library(dplyr)
 
   t <- int_standardize(te)
 
@@ -116,7 +107,7 @@ stilf_occur <- function(o, p, te){
 
   for (i in 1:nrow(df)) {
     if ((df$label[i] == p) & ((df$start_date[i] >= intStart) & (df$end_date[i] <= intEnd))) {
-      temp <- bind_rows(temp,df[i,])
+      temp <- dplyr::bind_rows(temp,df[i,])
       cat(sprintf("time: %d in interval: %s -- %s = TRUE \n", i, df$start_date[i], df$end_date[i]))
     } else {
       # cat(sprintf("time: %d in interval: %s -- %s = FALSE \n", i, df$start_date[i], df$start_date[i]))
