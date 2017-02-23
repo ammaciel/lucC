@@ -1,3 +1,21 @@
+#################################################################
+##                                                             ##
+##   (c) Adeline Marinho <adelsud6@gmail.com>                  ##
+##                                                             ##
+##       Image Processing Division                             ##
+##       National Institute for Space Research (INPE), Brazil  ##
+##                                                             ##
+##                                                             ##
+##   R script with thirteen Allen's relationships              ##
+##                                                             ##
+##                                             2016-08-22      ##
+##                                                             ##
+##  J. F. Allen.  Towards a general theory of action and       ##
+##  time. Artificial Intelligence, 23(2): 123--154, 1984.      ##
+##                                                             ##
+#################################################################
+
+
 #' @title Allens Intervals
 #' @name allen_intervals
 #' @aliases allen_intervals
@@ -39,30 +57,6 @@
 #'}
 #'
 #'
-#################################################################
-##                                                             ##
-##   (c) Adeline Marinho <adelsud6@gmail.com>                  ##
-##                                                             ##
-##       Image Processing Division                             ##
-##       National Institute for Space Research (INPE), Brazil  ##
-##                                                             ##
-##                                                             ##
-##   R script with thirteen Allen's relationships              ##
-##                                                             ##
-##                                             2016-08-22      ##
-##                                                             ##
-##  J. F. Allen.  Towards a general theory of action and       ##
-##  time. Artificial Intelligence, 23(2): 123--154, 1984.      ##
-##                                                             ##
-#################################################################
-
-
-# # install packages
-# packages <- c("lubridate")
-# if (length(setdiff(packages, rownames(installed.packages()))) > 0) {
-#   install.packages(setdiff(packages, rownames(installed.packages())), dependencies = TRUE)
-# }
-# remove(packages)
 
 
 # ALLEN'S INTERVAL ALGEBRA
