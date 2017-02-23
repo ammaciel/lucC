@@ -58,7 +58,6 @@
 #'
 #'
 
-
 # ALLEN'S INTERVAL ALGEBRA
 # Thirteen basic relation
 #
