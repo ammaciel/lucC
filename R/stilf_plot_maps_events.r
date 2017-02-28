@@ -235,7 +235,10 @@ stilf_plot_sequence_events <- function(data_tb = NULL, start.date = "2000-01-01"
     scale_x_date(limits=as.Date(c(start.date, end.date))) +
     #scale_color_discrete(name = "Legend:") +
     scale_color_brewer(name="Legend:", palette= "Set3") +
-    theme(legend.position = "bottom", legend.text=element_text(size=10),legend.key = element_blank())
+    theme(legend.position = "bottom", 
+          legend.text=element_text(size=10),
+          axis.text.y=element_blank(),
+          legend.key = element_blank())
   
   print(g)
  
@@ -308,7 +311,9 @@ stilf_plot_barplot_events <- function(data_tb = NULL){
     ylab(expression("Area km"^{2}))+
     xlab("Years")+
     scale_fill_brewer(name="Legend:", palette= "Set3") +
-    theme(legend.position = "bottom", legend.text=element_text(size=10), legend.key = element_blank())
+    theme(legend.position = "bottom", 
+          legend.text=element_text(size=10), 
+          legend.key = element_blank())
   
   print(g)
   

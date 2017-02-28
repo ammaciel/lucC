@@ -10,9 +10,9 @@ Description: Spatial-temporal Interval Logic Formalism (STILF) search for events
 License: file LICENSE
 LazyData: TRUE
 Depends: R (>= 3.1.2),
+        dplyr
 RoxygenNote: 6.0.1
-Imports: dplyr,
-      ggplot2,
+Imports: ggplot2,
       tibble,
       sp,
       jsonlite,
