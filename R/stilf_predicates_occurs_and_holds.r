@@ -16,13 +16,13 @@
 #################################################################
 
 
-#' @title Predicates Allens Holds
+#' @title Predicate Allen Holds
 #' @name stilf_predicate_holds
 #' @aliases stilf_predicate_holds
 #' @author Adeline M. Maciel
 #' @docType data
 #'
-#' @description Provide a predicate of Allen's which asserts that a property holds during a time interval. Return a tibble with value into interval
+#' @description Provide a predicate of Allen's which asserts that a property holds during a time interval. Return a tibble with value within interval defined
 #' 
 #' @usage stilf_predicate_holds (geo_objects = NULL, object_properties = NULL, 
 #' time_intervals = stilf_interval("2000-01-01", "2004-01-01"))
@@ -128,7 +128,7 @@ stilf_predicate_holds <- function(geo_objects = NULL, object_properties = NULL, 
 }
 
 
-#' @title Predicates Allens Occur
+#' @title Predicate Allen Occur
 #' @name stilf_predicate_occur
 #' @aliases stilf_predicate_occur
 #' @author Adeline M. Maciel

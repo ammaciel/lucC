@@ -50,6 +50,11 @@ stilf_starting_point <- function(){
   
   cat("\nChange the global default setting successfully. Now, will not auto-convert to factors!\n")
   
+  cat("\nA input data must to have seven columns names called:\n
+      'longitude','latitude','start_date','end_date','label','id','index'.\n 
+      The 'id' is an unique value for each set of longitude and latitude equals,\n
+      with start_date and end_date different.\n
+      The 'index' is a continuos number, like a row line.\n\n")
 }
 
 

@@ -3,7 +3,7 @@
 \docType{data}
 \name{stilf_predicate_occur}
 \alias{stilf_predicate_occur}
-\title{Predicates Allens Occur}
+\title{Predicate Allen Occur}
 \usage{
 stilf_predicate_occur (geo_objects = NULL, object_properties = NULL, 
 event_time_intervals = stilf_interval("2000-01-01", "2004-01-01"))

@@ -3,7 +3,7 @@
 \docType{data}
 \name{stilf_predicate_holds}
 \alias{stilf_predicate_holds}
-\title{Predicates Allens Holds}
+\title{Predicate Allen Holds}
 \usage{
 stilf_predicate_holds (geo_objects = NULL, object_properties = NULL, 
 time_intervals = stilf_interval("2000-01-01", "2004-01-01"))
@@ -19,7 +19,7 @@ time_intervals = stilf_interval("2000-01-01", "2004-01-01"))
 Tibble with all events hold during a time interval
 }
 \description{
-Provide a predicate of Allen's which asserts that a property holds during a time interval. Return a tibble with value into interval
+Provide a predicate of Allen's which asserts that a property holds during a time interval. Return a tibble with value within interval defined
 }
 \examples{
 \dontrun{

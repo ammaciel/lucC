@@ -6,7 +6,7 @@ Date: 2017-02-28
 Authors@R: person("Adeline", "Maciel", role = c("aut", "cre"), email = "adelsud6@gmail.com")
 Author: Adeline Maciel [aut, cre]
 Maintainer: Adeline Maciel <adelsud6@gmail.com>
-Description: Spatial-temporal Interval Logic Formalism (STILF) search for events in classified maps of remote sensing data
+Description: Spatial-temporal Interval Logic Formalism (STILF) search for events in classified maps from remote sensing data. With this formalism is possible to discover if exist a particular event in dataset.
 License: file LICENSE
 LazyData: TRUE
 Depends: R (>= 3.1.2),
