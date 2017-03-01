@@ -69,7 +69,7 @@ stilf_toJSON <- function (data_tb, path_json_file = NULL) {
   input_data <- as.data.frame(input_data)
   
   input_data %>%
-    jsonlite::toJSON (pretty = TRUE, digits=12) %>%
+    jsonlite::toJSON (pretty = TRUE, digits=15) %>%
     readr::write_lines (json_file)
   
   cat("\nFile CSV format saved successfully!\n")

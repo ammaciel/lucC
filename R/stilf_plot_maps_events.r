@@ -39,7 +39,7 @@
 #' 
 #' stilf_starting_point()
 #' 
-#' # open a CSV file example
+#' # open a JSON file example
 #' file_json = "./inst/example_json_Sinop_part.json"
 #' 
 #' # open file JSON
@@ -178,7 +178,7 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = FALSE, size_squa
 #' 
 #' stilf_starting_point()
 #' 
-#' # open a CSV file example
+#' # open a JSON file example
 #' file_json = "./inst/example_json_Sinop_part.json"
 #' 
 #' # open file JSON
@@ -219,7 +219,7 @@ stilf_plot_sequence_events <- function(data_tb = NULL, start.date = "2000-01-01"
   mapSeq$end_date <- as.Date(mapSeq$end_date, format = '%Y-%m-%d')
   
   data <- as.data.frame(mapSeq) # data from package datasets
-  data$Category <- as.character(mapSeq$id) # this makes things simpler later
+  data$Category <- as.character(mapSeq$index) # this makes things simpler later
   
   g <- ggplot2::ggplot(data, aes(y = data$Category)) +
     labs(x = "Years", y = "Time series set") +
@@ -268,6 +268,9 @@ stilf_plot_sequence_events <- function(data_tb = NULL, start.date = "2000-01-01"
 #' library(stilf)
 #' 
 #' stilf_starting_point()
+#' 
+#' # open a JSON file example
+#' file_json = "./inst/example_json_Sinop_part.json"
 #' 
 #' # open file JSON
 #' input_tb_raw_json <- file_json %>% 

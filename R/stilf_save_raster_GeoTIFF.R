@@ -6,9 +6,9 @@
 ##       National Institute for Space Research (INPE), Brazil  ##
 ##                                                             ##
 ##                                                             ##
-##   R script to plot events as maps and sequences             ##
+##   R script to save raster in GeoTIFF format                 ##
 ##                                                             ##  
-##                                             2017-02-26      ##
+##                                             2017-02-28      ##
 ##                                                             ##
 ##                                                             ##
 #################################################################
@@ -29,7 +29,7 @@
 #' 
 #' @keywords datasets
 #' @return Images in geotiff format to open using SIG
-#' @import dplyr sp raster 
+#' @import dplyr sp raster rasterVis lattice
 #' @export
 #'
 #' @examples \dontrun{
@@ -77,14 +77,14 @@ stilf_toGeoTIFF <- function(data_tb = NULL, path_raster_folder = NULL){
   indexLat <- which(colnames(mapRaster) == "latitude")
   indexLabel <- which(colnames(mapRaster) == "label")
   
-  for(x in 1:length(dates)){
+  for(i in 1:length(dates)){
     
-    map <- dplyr::filter(mapRaster, grepl(dates[x], as.character(mapRaster$end_date), fixed = TRUE))
+    map <- dplyr::filter(mapRaster, grepl(dates[i], as.character(mapRaster$end_date), fixed = TRUE))
     pts <- map[c(indexLong:indexLat,indexLabel)] # long, lat and class
     colnames(pts) <- c('x', 'y', 'z')
     
     # Convert the data frame to a SpatialPointsDataFrame
-    sp::coordinates(pts) = ~x + y
+    sp::coordinates(pts) = ~x+y
     
     # Convert system by CRS, and then spTransform to the destination
     sp::proj4string(pts) = sp::CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0") # set it to lat-long
@@ -98,21 +98,19 @@ stilf_toGeoTIFF <- function(data_tb = NULL, path_raster_folder = NULL){
     r = raster::raster(pts)
     raster::projection(r) = sp::CRS("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs")
     
-    # plot rasters
-    colors <- rainbow(length(levels(factor(map$label))), alpha = 0.7)
+    my_col = rainbow(length(levels(factor(mapRaster$label))), alpha = 0.7)
     
-    #plot without legend
-    plot(r, main = paste("Raster ", dates[x], sep = ""), col= colors, legend = FALSE, useRaster=F )
+    plot <- rasterVis::levelplot(r, col.regions = my_col, xlab=list(label="", cex=1.8), 
+                      ylab=list(label="", cex=1.8), colorkey = list(space="right"), 
+                      panel=lattice::panel.levelplot.raster, par.settings = list(axis.line = list(col = 0)), 
+                      scales = list(draw = TRUE), 
+                      main=list(paste("Raster ", dates[i], sep = ""), side=1, line=0.5),  
+                      line.col= "transparent") 
     
-    # plot only legend outside
-    plot(r, legend.only = TRUE, legend.width=1, legend.shrink=0.75,
-         axis.args=list(at=seq(levels(factor(map$label))), 
-                        labels=paste(sort(unique(as.integer(as.factor(map$label)))),". ", 
-                                     levels(factor(map$label)), sep= "")), 
-         cex.axis=0.8, col=colors)
+    print(plot)
     
    # write it as a geoTIFF file using the raster package
-   raster::writeRaster(r,paste(raster_folder,"/raster_",dates[x],".tif", sep = ""))
+   raster::writeRaster(r,paste(raster_folder,"/raster_",dates[i],".tif", sep = ""))
   }
   
   cat("\nGeoTIFF images saved successfully in directory: '", raster_folder, "'\n")

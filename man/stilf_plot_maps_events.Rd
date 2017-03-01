@@ -27,7 +27,7 @@ library(stilf)
 
 stilf_starting_point()
 
-# open a CSV file example
+# open a JSON file example
 file_json = "./inst/example_json_Sinop_part.json"
 
 # open file JSON

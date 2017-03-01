@@ -12,12 +12,15 @@ LazyData: TRUE
 Depends: R (>= 3.1.2),
         dplyr
 RoxygenNote: 6.0.1
-Imports: ggplot2,
-      tibble,
-      sp,
-      jsonlite,
+Imports: tibble,
       lubridate,
+      ggplot2,
+      jsonlite,
+      sp,
+      raster,
+      rasterVis,
+      lattice,
       readr,
-      raster
+      sits
 URL: https://github.com/ammaciel/stilf
 BugReports: https://github.com/ammaciel/stilf

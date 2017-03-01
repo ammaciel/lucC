@@ -18,11 +18,12 @@ NULL
 ## Alt (-) <- 
 ###############
 
+#####
+# Example: read a csv as STILF format
 library(stilf)
 
 stilf_starting_point()
 
-#####
 file = "./data/example_csv_file.csv"
 
 input_tb_raw_csv <- file %>% 
@@ -30,31 +31,37 @@ input_tb_raw_csv <- file %>%
   stilf_data_preparation()
 input_tb_raw_csv
 
-
 #####
+# Example: read a csv as using stilf_fromCSV from package stilf
+
+library(stilf)
+
+stilf_starting_point()
+
 file_csv = "./data/example_csv_file.csv"
 
 input_tb_csv <- file_csv %>% 
   stilf_fromCSV(separator = ",", header_file = TRUE) #%>% 
 input_tb_csv
 
-#####
+# save the input as json format
 output_file = "~/Desktop/example_json_Sinop_part.json"
 stilf_toJSON(input_tb_csv, output_file)
 
 #####
-json_file = "./inst/example_json_file.json"
+# Example: apply some operations use Allen's relations
 
-input_tb_json <- json_file %>% 
-  stilf_fromJSON()  
-input_tb_json
+library(stilf)
 
-#####
+stilf_starting_point()
+
+# define some intervals to example
 time1 <- stilf_interval("2011-09-01","2011-10-01")
 time2 <- stilf_interval("2011-09-15","2011-11-01")
 time3 <- stilf_interval("2011-10-01","2011-11-01")
 time4 <- stilf_interval("2011-10-01","2011-11-01")
 
+# verify some interval are TRUE or FALSE using Allen's relations
 stilf_relation_before(time1,time4)
 
 stilf_relation_overlaps(time1,time2)
@@ -62,12 +69,19 @@ stilf_relation_overlaps(time1,time2)
 stilf_relation_following(time1,time3)
 
 #####
-load("/home/inpe/Desktop/ESTUDO_TESE/Studies/Area_Sinop/classification_Area_1_Sinop.RData")
-a <- as_tibble(res[1:15,])
-head(a)
 
+library(stilf)
+
+stilf_starting_point()
+
+# Example: read a data from RData 
+load("/home/inpe/Desktop/ESTUDO_TESE/Studies/Area_Sinop/classification_Area_1_Sinop.RData")
+a <- tibble::as_tibble(res[1:15,])
+a
 colnames(a)
-colnames(a) <- c("longitude","latitude","label","start_date","end_date","id","twdtw_dist", "index")
+
+# change name columns to adequate to stilf format
+colnames(a) <- c("longitude","latitude","label","start_date","end_date","index","twdtw_dist", "id")
 head(a)
 
 #remove columns uneeded and pass to format
@@ -76,18 +90,23 @@ new_a <- a %>%
   stilf_data_preparation()
 new_a
 
-# test json
+# save as JSON
 output_file = "~/Desktop/example_json_file.json"
 stilf_toJSON(new_a, output_file)
 
-#############
-# open json file
+#####
+# Example: read a json file using stilf_fromJSON and 
+# perform some operations using predicates
+
+library(stilf)
+
+stilf_starting_point()
+
 json_file = "./inst/example_json_file.json"
 
-input_tb <- json_file %>% 
-  stilf_fromJSON()
-
-input_tb
+input_tb_json <- json_file %>% 
+  stilf_fromJSON()  
+input_tb_json
 
 # example of application
 time_ex1 <- stilf_interval("2001-01-01", "2003-01-01")
@@ -99,60 +118,31 @@ time_ex2
 properties <- "Soybean_Fallow"
 
 # example predicate holds
-stilf_predicate_holds(geo_objects = new_a, object_properties = "Forest", time_intervals = time_ex1)
+stilf_predicate_holds(geo_objects = input_tb_json, object_properties = "Forest", time_intervals = time_ex1)
 
-stilf_predicate_holds(geo_objects = input_tb, object_properties = properties, time_intervals = time_ex2)
-
-
-#####
-
-# open json file
-json_file = "./inst/example_json_file.json"
-
-input_tb <- json_file %>% 
-  stilf_fromJSON()
-
-input_tb
-
-# example of application
-time_ex1 <- stilf_interval("2001-01-01", "2003-01-01")
-time_ex1
-time_ex2 <- stilf_interval("2005-01-01", "2010-01-01")
-time_ex2
-
-# object_properties
-properties <- "Soybean_Fallow"
-
-# example predicate occur
-stilf_predicate_occur(geo_objects = input_tb, object_properties = "Forest", event_time_intervals = time_ex1)
-
-stilf_predicate_occur(geo_objects = input_tb, object_properties = properties, event_time_intervals = time_ex2)
+stilf_predicate_holds(geo_objects = input_tb_json, object_properties = properties, time_intervals = time_ex2)
 
 
 #####
+# Example: read a json file using stilf_fromJSON and 
+# perform some operations using predicates and plots
 
 library(stilf)
 
 stilf_starting_point()
 
 file_json = "./inst/example_json_Sinop_part.json"
-#file_json = "./data_examples/example_json_file.json"
 input_tb_raw_json <- file_json %>% 
   stilf_fromJSON() 
 input_tb_raw_json
 
-file_csv = "./data/example_csv_file.csv"
-input_tb_raw_csv <- file_csv %>% 
-  stilf_fromCSV() 
-input_tb_raw_csv 
-
 # plot maps input data
 stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE)
-stilf_plot_maps_input(input_tb_raw_csv, EPSG_WGS84 = TRUE)
 
-# using occur
+# define interval
 time_ex1 <- stilf_interval("2002-01-01", "2014-01-01")
 
+# using occur
 ts_occur1 <- stilf_predicate_occur(geo_objects = input_tb_raw_json, object_properties = "Soybean_Fallow", event_time_intervals = time_ex1)
 
 ts_occur2 <- stilf_predicate_occur(geo_objects = input_tb_raw_json, object_properties = "Forest", event_time_intervals = time_ex1)
@@ -171,21 +161,47 @@ stilf_plot_barplot_events(ts_occur2)
 
 
 #####
-
+# Example: save images as GeoTIFF file to open in GIS after
 library(stilf)
 
 stilf_starting_point()
 
 file_json = "./inst/example_json_Sinop_part.json"
-#file_json = "./data_examples/example_json_file.json"
 input_tb_raw_json <- file_json %>% 
   stilf_fromJSON() 
 input_tb_raw_json
 
-# save rasters in folder
+# save rasters in folder 
 stilf_toGeoTIFF (input_tb_raw_json, "~/Desktop/raster")
 
+# #------------------ verificar depois
+# pts <- sp::spsample(pts,type="regular",cellsize=231.6564)
+# pts1 <-  points2grid(pts, tolerance = 0.186495)
+# sp::points2grid(SpatialPoints(pts), tolerance = 0.186495)
+# sp::fullgrid(pts)=FALSE 
+# sp::gridded(pts) = TRUE
+# #------------------
 
 
-  
+#####
+# Example: test with combination of relations and predicates
+library(stilf)
+
+stilf_starting_point()
+
+file_json = "./inst/example_json_Sinop_part.json"
+input_tb_raw_json <- file_json %>% 
+  stilf_fromJSON() 
+input_tb_raw_json
+
+
+
+
+
+
+
+
+
+
+
 

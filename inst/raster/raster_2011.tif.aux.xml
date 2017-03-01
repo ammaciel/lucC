@@ -1,0 +1,16 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <CategoryNames>
+      <Category></Category>
+      <Category>Cotton_Fallow</Category>
+      <Category>Forest</Category>
+      <Category>Pasture</Category>
+      <Category>Secondary-vegetation</Category>
+      <Category>Soybean_Cotton</Category>
+      <Category>Soybean_Fallow</Category>
+      <Category>Soybean_Maize</Category>
+      <Category>Soybean_Millet</Category>
+      <Category>Soybean_Sunflower</Category>
+    </CategoryNames>
+  </PAMRasterBand>
+</PAMDataset>
