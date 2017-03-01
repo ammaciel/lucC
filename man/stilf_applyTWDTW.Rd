@@ -37,8 +37,8 @@ point_tb <- sits::sits_getdata(zip_point_tb)
 ts_data <- point_tb
 
 # read a pattern table from a JSON file
-patterns_tb <- sits_getdata("./inst/patterns/
-patterns_Damien_Ieda_Rodrigo_13classes_3bands_Sep.json")
+patterns_tb <- sits_getdata("./inst/patterns/patterns_
+Damien_Ieda_Rodrigo_14classes_3bands_Rename_Labels_Sep.json")
 
 # only this bands have in patterns
 bands <- c("ndvi", "evi", "nir")

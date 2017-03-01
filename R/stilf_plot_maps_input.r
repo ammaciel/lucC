@@ -28,7 +28,7 @@
 
 #' @keywords datasets
 #' @return Plot with input data as colored map
-#' @import dplyr sp ggplot2 
+#' @import dplyr sp ggplot2 RColorBrewer
 #' @export
 #'
 #' @examples \dontrun{
@@ -75,6 +75,13 @@ stilf_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = FALSE){
   map_input_df <- NULL
   map_input_df <- a
   
+  map_input_df <- map_input_df[order(map_input_df$w),] # order by years
+  rownames(map_input_df) <- seq(length=nrow(map_input_df)) # reset row numbers
+  
+  # more colors
+  colour_count = length(unique(map_input_df$z))
+  my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
+  
   # plot images all years
   g <- ggplot2::ggplot(map_input_df, aes(map_input_df$x, map_input_df$y)) +
         geom_raster(aes_string(fill=map_input_df$"z")) +
@@ -86,7 +93,8 @@ stilf_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = FALSE){
         theme(legend.position = "bottom", strip.text = element_text(size=10)) +
         xlab("") +
         ylab("") +
-        scale_fill_brewer(name="Legend:", palette= "Set3")
+        scale_fill_manual(name="Legend:", values = my_palette)
+        #scale_fill_brewer(name="Legend:", palette= "Set3")
 
   print(g)
   

@@ -1,4 +1,6 @@
-############## Convert RData with time series to JSON format
+####
+# Example: Convert RData with time series to JSON format
+
 library(stilf)
 stilf_starting_point()
 
@@ -45,12 +47,15 @@ ts_tibble
 stilf_toJSON(ts_tibble, path_json_file = "~/Desktop/ESTUDO_TESE/Studies/Area_Sinop/list_time_series_Area1_Sinop.json")
 
 
-####################################################
+
 ############## Classify JSON using sits
 
 # json with time series area Sinop
 # point_tb <- sits_getdata("~/Desktop/ESTUDO_TESE/Studies/Area_Sinop/list_time_series_Area1_Sinop.json")
 # point_tb
+
+# Example: read a json file using stilf_fromJSON and 
+# perform classification over area using stis, and after saved as json file
 
 library(stilf)
 
@@ -64,7 +69,8 @@ point_tb <- sits::sits_getdata(zip_point_tb)
 ts_data <- point_tb
 
 # read a pattern table from a JSON file
-patterns_tb <- sits_getdata("./inst/patterns/patterns_Damien_Ieda_Rodrigo_13classes_3bands_Sep.json")
+#patterns_tb <- sits_getdata("./inst/patterns/patterns_Damien_Ieda_Rodrigo_13classes_3bands_Sep.json")
+patterns_tb <- sits_getdata("./inst/patterns/patterns_Damien_Ieda_Rodrigo_14classes_3bands_Rename_Labels_Sep.json")
 
 # only this bands have in patterns
 bands <- c("ndvi", "evi", "nir")
@@ -87,5 +93,5 @@ res <- stilf_applyTWDTW(ts_data, patterns_tb, bands)
 
 #23016--22080
 # use stilf_toJSON despite of decimal digits
-#stilf_toJSON(res_classification, path_json_file = "~/Desktop/ESTUDO_TESE/Studies/Area_Sinop/classification_13patterns_3bands_Area1_Sinop.json")
+#stilf_toJSON(res, path_json_file = "~/Desktop/ESTUDO_TESE/Studies/Area_Sinop/classification_14patterns_3bands_Area1_Sinop.json")
 

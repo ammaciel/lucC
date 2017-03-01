@@ -51,22 +51,23 @@
 stilf_interval <- function (first_date, second_date) {
   
   if (!is.null(first_date) & !is.null(second_date) ) {
+    fir_date <- first_date
+    sec_date <- second_date
+  } else {
+    cat("\nDates must be defined! \n")
+  }
     
     # test if a valid date
     pattern = c('[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]')
     
-    if (grepl(pattern, first_date) == TRUE & grepl(pattern, second_date) == TRUE ){
+    if (!is.null(grepl(pattern, fir_date) == TRUE) & !is.null(grepl(pattern, sec_date) == TRUE)){
        
-      lubridate::interval(lubridate::ymd(first_date), lubridate::ymd(second_date))
+      lubridate::interval(lubridate::ymd(fir_date), lubridate::ymd(sec_date))
       
     } else {
-      stop("\nEnter with a date in format 'year-month-day' = '2010-01-02'\n")
+      cat("\nEnter with a date in format 'year-month-day' = '2010-01-02'\n")
     }
     
-  } else {
-    stop("\nDates must be defined! \n")
-  }
-  
 }
 
 

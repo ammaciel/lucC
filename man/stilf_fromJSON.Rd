@@ -11,7 +11,7 @@ stilf_fromJSON (path_json_file = NULL)
 \item{path_json_file}{Character. Name path and file to open JSON file data}
 }
 \value{
-JSON format to file
+Open JSON format to file
 }
 \description{
 Open the input data in JSON format in an user's directory

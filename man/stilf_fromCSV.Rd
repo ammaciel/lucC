@@ -15,7 +15,7 @@ stilf_fromCSV (path_csv_file = NULL, separator = ",", header_file = TRUE)
 \item{header_file}{Character. Header file csv, if TRUE or FALSE, but in this application is necessary have}
 }
 \value{
-JSON format to file
+Open a CSV format to file
 }
 \description{
 Open the input data in CSV format in an user's directory

@@ -21,6 +21,7 @@ Imports: tibble,
       rasterVis,
       lattice,
       readr,
+      RColorBrewer,
       sits
 URL: https://github.com/ammaciel/stilf
 BugReports: https://github.com/ammaciel/stilf

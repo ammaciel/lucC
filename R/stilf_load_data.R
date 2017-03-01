@@ -91,7 +91,7 @@ stilf_toJSON <- function (data_tb, path_json_file = NULL) {
 #' @param path_json_file Character. Name path and file to open JSON file data
 
 #' @keywords datasets
-#' @return JSON format to file
+#' @return Open JSON format to file
 #' @import jsonlite dplyr
 #' @export
 #'
@@ -122,8 +122,7 @@ stilf_fromJSON <- function (path_json_file = NULL) {
   
   data_tb <- json_file %>%
     jsonlite::fromJSON () %>% 
-    # change to stilf format
-    stilf_data_preparation()
+    tibble::as_tibble()
 
   data_tb
   
@@ -149,7 +148,7 @@ stilf_fromJSON <- function (path_json_file = NULL) {
 #' @param header_file   Character. Header file csv, if TRUE or FALSE, but in this application is necessary have
 
 #' @keywords datasets
-#' @return JSON format to file
+#' @return Open a CSV format to file
 #' @import jsonlite dplyr
 #' @export
 #'
@@ -178,8 +177,7 @@ stilf_fromCSV <- function (path_csv_file = NULL, separator = ",", header_file = 
   
   data_tb <- csv_file %>%
     read.csv (sep = separator, header = header_file, stringsAsFactors = FALSE) %>% 
-    # change to stilf format
-    stilf_data_preparation()
+    tibble::as_tibble()
   
   data_tb
   

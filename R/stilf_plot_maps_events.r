@@ -30,7 +30,7 @@
 #' 
 #' @keywords datasets
 #' @return Plot with input data as colored map
-#' @import dplyr sp ggplot2 
+#' @import dplyr sp ggplot2 RColorBrewer
 #' @export
 #'
 #' @examples \dontrun{
@@ -86,6 +86,13 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = FALSE, size_squa
   b$z <- as.factor(b$z)
   map_events_df <- b ###
   
+  map_events_df <- map_events_df[order(map_events_df$w),] # order by years
+  rownames(map_events_df) <- seq(length=nrow(map_events_df)) # reset row numbers
+  
+  # more colors
+  colour_count = length(unique(map_input_df$z))
+  my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
+  
   # plot only events
   g <- ggplot2::ggplot() +
     geom_raster(data=map_input_df, aes(map_input_df$x, map_input_df$y, fill=map_input_df$"z")) +
@@ -98,7 +105,8 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = FALSE, size_squa
     theme(legend.position = "bottom", strip.text = element_text(size=10)) +
     xlab("") +
     ylab("") +
-    scale_fill_brewer(name="Legend:", palette= "Set3")
+    scale_fill_manual(name="Legend:", values = my_palette)
+    #scale_fill_brewer(name="Legend:", palette= "Set3")
   
   print(g)
  
@@ -169,7 +177,7 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = FALSE, size_squa
 #' 
 #' @keywords datasets
 #' @return Plot sequence time series as lines
-#' @import ggplot2 
+#' @import ggplot2 RColorBrewer
 #' @export
 #'
 #' @examples \dontrun{
@@ -221,6 +229,10 @@ stilf_plot_sequence_events <- function(data_tb = NULL, start.date = "2000-01-01"
   data <- as.data.frame(mapSeq) # data from package datasets
   data$Category <- as.character(mapSeq$index) # this makes things simpler later
   
+  # more colors
+  colour_count = length(unique(map_input_df$z))
+  my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
+  
   g <- ggplot2::ggplot(data, aes(y = data$Category)) +
     labs(x = "Years", y = "Time series set") +
     theme_bw()+
@@ -234,7 +246,8 @@ stilf_plot_sequence_events <- function(data_tb = NULL, start.date = "2000-01-01"
     # define time period
     scale_x_date(limits=as.Date(c(start.date, end.date))) +
     #scale_color_discrete(name = "Legend:") +
-    scale_color_brewer(name="Legend:", palette= "Set3") +
+    #scale_color_brewer(name="Legend:", palette= "Set3") +
+    scale_fill_manual(name="Legend:", values = my_palette) +
     theme(legend.position = "bottom", 
           legend.text=element_text(size=10),
           axis.text.y=element_blank(),
@@ -260,7 +273,7 @@ stilf_plot_sequence_events <- function(data_tb = NULL, start.date = "2000-01-01"
 #' 
 #' @keywords datasets
 #' @return Plot a barplot in Y axis in (Area km^2) = (Freq*(250*250))/(1000*1000)
-#' @import ggplot2 
+#' @import ggplot2 RColorBrewer
 #' @export
 #'
 #' @examples \dontrun{
@@ -308,12 +321,17 @@ stilf_plot_barplot_events <- function(data_tb = NULL){
   #mapBar <- data.frame(table(input_data$w, input_data$z))
   mapBar <- data.frame(table(format(as.Date(input_data$end_date), format = '%Y'), input_data$label))
   
+  # more colors
+  colour_count = length(unique(map_input_df$z))
+  my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
+  
   g <- ggplot2::ggplot(mapBar,aes(x=mapBar$Var1, y=(mapBar$Freq*(250*250))/(1000*1000), fill=mapBar$Var2))+
     geom_bar(width = 0.7, stat="identity")+ #, position=position_dodge())+
     theme_bw()+
     ylab(expression("Area km"^{2}))+
     xlab("Years")+
-    scale_fill_brewer(name="Legend:", palette= "Set3") +
+    #scale_fill_brewer(name="Legend:", palette= "Set3") +
+    scale_fill_manual(name="Legend:", values = my_palette) +
     theme(legend.position = "bottom", 
           legend.text=element_text(size=10), 
           legend.key = element_blank())

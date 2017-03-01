@@ -121,7 +121,7 @@ stilf_predicate_holds <- function(geo_objects = NULL, object_properties = NULL, 
   if(nrow(aux.df) > 0){
     cat("\nHave been found ", nrow(aux.df)," properties which holds during a time interval.\n")
   } else {
-    stop("\nAny property have been founded. Alter your object_properties or time_intervals parameters.\n")
+    cat("\nAny property have been founded. Alter your object_properties or time_intervals parameters.\n")
   }
   
   return(aux.df)
@@ -232,7 +232,7 @@ stilf_predicate_occur <- function(geo_objects = NULL, object_properties = NULL, 
   if(nrow(aux.df) > 0){
     cat("\nHave been found ", nrow(aux.df)," events which happened over a time interval.\n")
   } else {
-    stop("\nAny event have been founded. Alter your object_properties or event_time_intervals parameters.\n")
+    cat("\nAny event have been founded. Alter your object_properties or event_time_intervals parameters.\n")
   }
   
   return(aux.df)
