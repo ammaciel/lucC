@@ -22,14 +22,17 @@
 #' @author Adeline M. Maciel
 #' @docType data
 #'
-#' @description Provide a predicate of Allen's which asserts that a property holds during a time interval. Return a tibble with value within interval defined
+#' @description Provide a predicate of Allen's which asserts that a property holds 
+#' during a time interval. Return a tibble with value within interval defined
 #' 
 #' @usage stilf_predicate_holds (geo_objects = NULL, object_properties = NULL, 
 #' time_intervals = stilf_interval("2000-01-01", "2004-01-01"))
 #' 
 #' @param geo_objects       Tibble. A tibble with values longitude and latitude and other values
 #' @param object_properties Character. Name of value present in a row of the tibble, such as 'Forest' or other value
-#' @param time_intervals    Interval. A interval of time to verify if object_properties is over or not in stilf_interval format. Given a tibble with values, will be asserts if that object_properties of geo_objects holds during a time interval. 
+#' @param time_intervals    Interval. A interval of time to verify if object_properties is over or 
+#' not in stilf_interval format. Given a tibble with values, will be asserts if that object_properties 
+#' of geo_objects holds during a time interval. 
 #' 
 #' @keywords datasets
 #' @return Tibble with all events hold during a time interval

@@ -13,13 +13,16 @@ time_intervals = stilf_interval("2000-01-01", "2004-01-01"))
 
 \item{object_properties}{Character. Name of value present in a row of the tibble, such as 'Forest' or other value}
 
-\item{time_intervals}{Interval. A interval of time to verify if object_properties is over or not in stilf_interval format. Given a tibble with values, will be asserts if that object_properties of geo_objects holds during a time interval.}
+\item{time_intervals}{Interval. A interval of time to verify if object_properties is over or 
+not in stilf_interval format. Given a tibble with values, will be asserts if that object_properties 
+of geo_objects holds during a time interval.}
 }
 \value{
 Tibble with all events hold during a time interval
 }
 \description{
-Provide a predicate of Allen's which asserts that a property holds during a time interval. Return a tibble with value within interval defined
+Provide a predicate of Allen's which asserts that a property holds 
+during a time interval. Return a tibble with value within interval defined
 }
 \examples{
 \dontrun{

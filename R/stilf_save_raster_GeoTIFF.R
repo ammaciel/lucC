@@ -71,8 +71,7 @@ stilf_toGeoTIFF <- function(data_tb = NULL, path_raster_folder = NULL){
   mapRaster <- data.frame(mapRaster) %>% dplyr::filter(mapRaster$label != "NA")
   mapRaster$label <- as.factor(mapRaster$label)
   
-  # start here
-  dates <- unique(format(as.Date(mapRaster$end_date), format = '%Y'))
+  dates <- unique(lubridate::year(mapRaster$end_date))
   indexLong <- which(colnames(mapRaster) == "longitude")
   indexLat <- which(colnames(mapRaster) == "latitude")
   indexLabel <- which(colnames(mapRaster) == "label")

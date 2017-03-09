@@ -108,8 +108,7 @@ stilf_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = FALSE){
   
   map_tb <- input_data 
 
-  # starts here
-  dates <- unique(format(as.Date(map_tb$end_date), format = '%Y'))
+  dates <- unique(lubridate::year(map_tb$end_date))
   indexLong <- which(colnames(map_tb) == "longitude")
   indexLat <- which(colnames(map_tb) == "latitude")
   indexLabel <- which(colnames(map_tb) == "label")

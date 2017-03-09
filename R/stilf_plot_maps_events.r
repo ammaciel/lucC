@@ -117,8 +117,7 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = FALSE, size_squa
   
   mapEvents_tb <- input_data 
  
-  # start here
-  dates <- unique(format(as.Date(mapEvents_tb$end_date), format = '%Y'))
+  dates <- unique(lubridate::year(mapEvents_tb$end_date))
   indexLong <- which(colnames(mapEvents_tb) == "longitude")
   indexLat <- which(colnames(mapEvents_tb) == "latitude")
   indexLabel <- which(colnames(mapEvents_tb) == "label")
@@ -319,7 +318,7 @@ stilf_plot_barplot_events <- function(data_tb = NULL){
   }
   
   #mapBar <- data.frame(table(input_data$w, input_data$z))
-  mapBar <- data.frame(table(format(as.Date(input_data$end_date), format = '%Y'), input_data$label))
+  mapBar <- data.frame(table(lubridate::year(input_data$end_date), input_data$label))
   
   # more colors
   colour_count = length(unique(map_input_df$z))

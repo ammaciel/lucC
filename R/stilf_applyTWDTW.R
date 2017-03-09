@@ -109,18 +109,18 @@ stilf_applyTWDTW <- function(data_tb = NULL, patterns_tb = NULL, bands = NULL){
     aux <- input_data[i,]
     
     #classify point
-    matches <- sits::sits_classify(aux, patterns_tb, bands)
-  
+    matches <- sits::sits_TWDTW(aux, patterns_tb, bands)
+    
     # plot the classification
     # print(plot(x = matches, type = "classification", overlap = 0.5))
-  
-    dates_to <- unique(format(as.Date(matches[[1]]$to), format = '%Y'))
-  
-    temp <- matches[[1]]
+    
+    dates_to <- unique(lubridate::year(matches$matches[[1]][[1]]$to)) # new structure from sits
+    
+    temp <- matches$matches[[1]][[1]]
     
     # get the  minimum distance for classification for each year
     for(x in 1:length(dates_to)){
-   
+      
       res_to <- dplyr::filter(temp, grepl(dates_to[x], as.character(temp$to), fixed = TRUE))
       
       res_dist <- res_to[which.min(res_to$distance), ]
@@ -143,8 +143,8 @@ stilf_applyTWDTW <- function(data_tb = NULL, patterns_tb = NULL, bands = NULL){
     setTxtProgressBar(progress_bar, i)
   }
   
-  close(progress_bar)
-
+  #close(progress_bar)
+  
   # remove data with 2000 in end_data
   res_classification <- dplyr::filter(res_classification, 
                                       !grepl("2000", as.character(res_classification$end_date), 
