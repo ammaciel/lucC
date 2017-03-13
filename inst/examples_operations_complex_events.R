@@ -83,7 +83,7 @@ QuestionOccurs <- function(data_tb, p, t){
   output_df <- df[FALSE,]
   
   # create progress bar
-  progress_bar <- txtProgressBar(min = 0, max = nrow(df), style = 3)###
+  progress_bar <- txtProgressBar(min = 0, max = length(coord), style = 3)###
   
   for(x in 1:length(coord)){
     # x=333

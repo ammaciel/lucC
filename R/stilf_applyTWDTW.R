@@ -80,7 +80,7 @@
 # function to classify a set of points using TWDTW from sits package
 stilf_applyTWDTW <- function(data_tb = NULL, patterns_tb = NULL, bands = NULL){
   
-  # stilf_starting_point()
+  stilf_starting_point()
   
   if (!is.null(data_tb)) {
     input_data <- data_tb

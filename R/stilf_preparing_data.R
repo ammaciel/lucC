@@ -48,15 +48,15 @@ stilf_starting_point <- function(){
   # digits: controls the number of digits to print when printing numeric values.
   options(digits=15)
   
-  cat("\nChange the global default setting successfully. Now, will not auto-convert to factors!\n")
+#  cat("\nChange the global default setting successfully. Now, will not auto-convert to factors!\n")
   
-  cat("\n  #########################################################################\n
-   A input data must to have seven columns names called:\n
-   'longitude','latitude','start_date','end_date','label','id','index'.\n 
-   The 'index' is an unique value for each set of longitude and latitude equals,\n
-   with start_date and end_date different, i.e, one pixel over time.\n
-   The 'id' is a continuos number, like a row line.\n
-  #########################################################################\n\n")
+#   cat("\n  #########################################################################\n
+#    A input data must to have seven columns names called:\n
+#    'longitude','latitude','start_date','end_date','label','id','index'.\n 
+#    The 'index' is an unique value for each set of longitude and latitude equals,\n
+#    with start_date and end_date different, i.e, one pixel over time.\n
+#    The 'id' is a continuos number, like a row line.\n
+#   #########################################################################\n\n")
 }
 
 
