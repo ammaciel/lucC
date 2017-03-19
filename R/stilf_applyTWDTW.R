@@ -82,12 +82,16 @@ stilf_applyTWDTW <- function(data_tb = NULL, patterns_tb = NULL, bands = NULL){
   
   stilf_starting_point()
   
-  if (!is.null(data_tb)) {
-    input_data <- data_tb
-  } else {
-    stop("\nFile must be defined!\n")
-  }
+  # Ensure if parameters exists
+  ensurer::ensure_that(data_tb, !is.null(data_tb), 
+                       err_desc = "data_tb tibble, must be defined!\n")
+  ensurer::ensure_that(patterns_tb, !is.null(patterns_tb), 
+                       err_desc = "Patterns file must be defined!")
+  ensurer::ensure_that(bands, !is.null(bands), 
+                       err_desc = "Bands must be defined!")
   
+  input_data <- data_tb
+
   # create a tiblle with classification result
   res_classification <- tibble::tibble(longitude  = double(), 
                                        latitude   = double(), 

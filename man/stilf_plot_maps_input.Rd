@@ -5,7 +5,7 @@
 \alias{stilf_plot_maps_input}
 \title{Plot Input Maps}
 \usage{
-stilf_plot_maps_input (data_tb = NULL, EPSG_WGS84 = FALSE)
+stilf_plot_maps_input (data_tb = NULL, EPSG_WGS84 = TRUE)
 }
 \arguments{
 \item{data_tb}{Tibble. A tibble with values longitude and latitude and other values}

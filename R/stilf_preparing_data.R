@@ -74,7 +74,7 @@ stilf_starting_point <- function(){
 #' 
 #' @keywords datasets
 #' @return Tibble with columns 'longitude', 'latitude', 'start_date', 'end_date', 'label', 'id', 'index'
-#' @import dplyr tibble 
+#' @import dplyr tibble ensurer
 #' @export
 #'
 #' @examples \dontrun{
@@ -101,12 +101,12 @@ stilf_starting_point <- function(){
 
 stilf_data_preparation <- function(data_tb = NULL){
 
-  if (!is.null(data_tb)) {
-    input_data <- data_tb
-  } else {
-    stop("\nFile must be defined!\n")
-  }
+  # Ensure if parameters exists
+  ensurer::ensure_that(data_tb, !is.null(data_tb), 
+                       err_desc = "data_tb tibble, file must be defined!")
   
+  input_data <- data_tb
+
   column_names <- c("longitude", "latitude", "start_date", "end_date", "label", "id", "index")
   
   # verifiy if columns names are equal to format columns names need
@@ -145,5 +145,5 @@ stilf_data_preparation <- function(data_tb = NULL){
 
 
 #' @import utils 
-utils::globalVariables(c("points_input_map.list", "map_input_df", "points_events_map.list"))
+utils::globalVariables(c("points_input_map.list", "map_input_df", "points_events_map.list", "properties_1", "properties_2", "properties_3", "properties_4", "properties_5"))
 

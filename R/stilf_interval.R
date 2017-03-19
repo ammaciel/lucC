@@ -29,7 +29,7 @@
 #' 
 #' @keywords datasets
 #' @return Interval value with two dates 
-#' @import lubridate dplyr
+#' @import lubridate dplyr ensurer
 #' @export
 #'
 #' @examples \dontrun{
@@ -50,23 +50,22 @@
 # Transform two dates in an interval
 stilf_interval <- function (first_date, second_date) {
   
-  if (!is.null(first_date) & !is.null(second_date) ) {
-    fir_date <- first_date
-    sec_date <- second_date
+  # Ensure if parameters exists
+  ensurer::ensure_that(first_date, !is.null(first_date), 
+                       err_desc = "Date must be defined!")
+  ensurer::ensure_that(second_date, !is.null(second_date), 
+                       err_desc = "Date must be defined!")
+
+  # test if a valid date
+  pattern = c('[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]')
+  
+  if (!is.null(grepl(pattern, first_date) == TRUE) & !is.null(grepl(pattern, second_date) == TRUE)){
+     
+    lubridate::interval(lubridate::ymd(first_date), lubridate::ymd(second_date))
+    
   } else {
-    cat("\nDates must be defined! \n")
+    cat("\nEnter with a date in format 'year-month-day' = '2010-01-02'\n")
   }
-    
-    # test if a valid date
-    pattern = c('[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]')
-    
-    if (!is.null(grepl(pattern, fir_date) == TRUE) & !is.null(grepl(pattern, sec_date) == TRUE)){
-       
-      lubridate::interval(lubridate::ymd(fir_date), lubridate::ymd(sec_date))
-      
-    } else {
-      cat("\nEnter with a date in format 'year-month-day' = '2010-01-02'\n")
-    }
     
 }
 

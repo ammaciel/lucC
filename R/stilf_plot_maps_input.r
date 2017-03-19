@@ -21,7 +21,7 @@
 #'
 #' @description Plot map ggplot2 for all input data
 #' 
-#' @usage stilf_plot_maps_input (data_tb = NULL, EPSG_WGS84 = FALSE)
+#' @usage stilf_plot_maps_input (data_tb = NULL, EPSG_WGS84 = TRUE)
 #' 
 #' @param data_tb       Tibble. A tibble with values longitude and latitude and other values
 #' @param EPSG_WGS84    Character. A reference coordinate system. If TRUE, the values of latitude and longitude alredy use this coordinate system, if FALSE, the data set need to be transformed
@@ -53,14 +53,16 @@
 #'
 
 # plot maps for input data
-stilf_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = FALSE){ 
+stilf_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE){ 
   
-  if (!is.null(data_tb)) {
-    input_data <- data_tb
-  } else {
-    stop("\nFile must be defined!\n")
-  }
-  
+  # Ensure if parameters exists
+  ensurer::ensure_that(data_tb, !is.null(data_tb), 
+                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf predicates holds or occurs.")
+  ensurer::ensure_that(EPSG_WGS84, !is.null(EPSG_WGS84), 
+                       err_desc = "EPSG_WGS84 must be defined, if exists values of longitude and latitude (TRUE ou FALSE)! Default is TRUE")
+
+  input_data <- data_tb
+ 
   # create points  
   .createPoints(input_data, EPSG_WGS84)
   

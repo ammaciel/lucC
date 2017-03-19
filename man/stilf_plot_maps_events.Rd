@@ -5,7 +5,7 @@
 \alias{stilf_plot_maps_events}
 \title{Plot Events over Maps with STILF}
 \usage{
-stilf_plot_maps_events (data_tb = NULL, EPSG_WGS84 = FALSE, size_square = 1)
+stilf_plot_maps_events (data_tb = NULL, EPSG_WGS84 = TRUE, size_square = 1)
 }
 \arguments{
 \item{data_tb}{Tibble. A tibble with values longitude and latitude and other values}

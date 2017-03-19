@@ -18,7 +18,7 @@ Depends the character calendar month.}
 }
 \value{
 Tibble containing two new columns with start_date and end_date in a 
-predefined standard range
+predefined standard range ensurer
 }
 \description{
 Create two new columns in tibble with standard date in 

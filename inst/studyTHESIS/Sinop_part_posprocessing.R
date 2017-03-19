@@ -206,315 +206,43 @@ remove(df_temp,df_first_line,df_posProc,df_pos,df_temp2,df_temp3)
 # stilf_toJSON(df_input_new, "~/Desktop/Sinop_postprocess.json") # foi salvo
 
 
-##########
+
+
+########### Novo Horizonte do Norte - MT
+
 library(stilf)
 
 stilf_starting_point()
 
-file_json = "~/Desktop/Sinop_postprocess.json"
+nhn_1.tb <- stilf_fromJSON("~/Desktop/ESTUDO_TESE/Studies/NHN_p1.json")
+nhn_1.tb
 
-input_tb <- file_json %>% 
-  stilf_fromJSON() 
+nhn_2.tb <- stilf_fromJSON("~/Desktop/ESTUDO_TESE/Studies/NHN_p2.json")
+nhn_2.tb
 
-input_tb
+nhn_3.tb <- stilf_fromJSON("~/Desktop/ESTUDO_TESE/Studies/NHN_p3.json")
+nhn_3.tb
 
-inter <- stilf_interval("2000-01-01","2016-12-31")
+nhn_4.tb <- stilf_fromJSON("~/Desktop/ESTUDO_TESE/Studies/NHN_p4.json")
+nhn_4.tb
 
-df1 <- stilf_predicate_occur(input_tb, "Soybean_NonComerc2", inter)
+nhn2_1.tb <- stilf_fromJSON("~/Desktop/ESTUDO_TESE/Studies/new_nhn2_id_row_1.json")
+nhn2_1.tb
 
-stilf_plot_maps_input(input_tb, EPSG_WGS84 = TRUE) 
+nhn2_2.tb <- stilf_fromJSON("~/Desktop/ESTUDO_TESE/Studies/new_nhn2_id_row_2.json")
+nhn2_2.tb
 
-stilf_plot_maps_events(df1, EPSG_WGS84 = TRUE) 
-
-stilf_plot_sequence_events(df1)
-stilf_plot_barplot_events(df1) 
-
-
-###############################
+nhn2_3.tb <- stilf_fromJSON("~/Desktop/ESTUDO_TESE/Studies/new_nhn2_id_row_3.json")
+nhn2_3.tb
 
 
-#+++++++++++++++++++++++++++++ Area 1 - SBSR
-## Question 3 - Which "Pasture" areas before have been replaced by soybean-millet in 2008?
-# o = geo-objects, the own df_input data.frame
-
-# Forest --> Pasture --> Cropping
-df <- input_tb
-df$"label2" <- df$label
-
-# change label for legends
-for (x in 1:nrow(df)){
-  if (df$label2[x] == "Pasture1") {
-    df$"label"[x] = "Pasture"
-  }
-  else if (df$label2[x] == "Pasture2") {
-    df$"label"[x] = "Pasture"
-  }
-  else if (df$label2[x] == "Soybean_Fallow1") {
-    df$"label"[x] = "Cropping"
-  }
-  else if (df$label2[x] == "Soybean_Fallow2") {
-    df$"label"[x] = "Cropping"
-  }
-  else if (df$label2[x] == "Soybean_NonComerc1") {
-    df$"label"[x] = "Cropping"
-  }
-  else if (df$label2[x] == "Soybean_NonComerc2") {
-    df$"label"[x] = "Cropping"
-  }
-  else if (df$label2[x] == "Soybean_Comerc1") {
-    df$"label"[x] = "Cropping"
-  }
-  else if (df$label2[x] == "Soybean_Comerc2") {
-    df$"label"[x] = "Cropping"
-  }
-  else if (df$label2[x] == "Soybean_Pasture") {
-    df$"label"[x] = "Cropping"
-  }
-  else if (df$label2[x] == "NonComerc_Cotton") {
-    df$"label"[x] = "Cropping"
-  }
-  else if (df$label2[x] == "Fallow_Cotton") {
-    df$"label"[x] = "Cropping"
-  }
-  else if (df$label2[x] == "Soybean_Cotton") {
-    df$"label"[x] = "Cropping"
-  }
-}
-
-# p = properties of objects : 
-p1 <- "Forest"
-
-p2 <- "Pasture"
-p3 <- "Cropping" 
-
-# t = interval:
-t1 <- stilf_interval("2000-08-15","2016-08-15")
-#t2 <- stilf_interval("2011-08-15","2015-08-15")
-
-# Test occur for many time series in a dataframe
-#QuestionOccurs <- function(data_tb, p, t){
-  
-  #df <- data_tb <- input_tb
-
-  
-  coord <- unique(df$index)
-  output_df <- df[FALSE,]
-  
-  # create progress bar
-  #progress_bar <- txtProgressBar(min = 0, max = length(coord), style = 3)###
-  
-#  for(x in 1:length(coord)){
-    x=18
-    #Sys.sleep(0.0)###
-    
-    temp <- df[which(as.character(df$index) == coord[x]),]
-    
-    for (i in 1:nrow(temp)) {
-      i=1
-        if (nrow(ev1 <- stilf_predicate_occur_BigData(temp[i,], p1, t1)) >= 1 &
-            (
-            nrow(ev2 <- stilf_predicate_occur_BigData(temp[i,], p2, t1)) >= 1 |
-            nrow(ev3 <- stilf_predicate_occur_BigData(temp, p3, t1)) >= 1
-            ) &
-            nrow(ev4 <- stilf_predicate_occur_BigData(temp, p4, t1)) >= 1
-            & 
-            (
-            isTRUE(stilf_relation_meets(stilf_interval(head(ev1$start_date,1),tail(ev1$end_date,1)),
-                                        stilf_interval(head(ev2$start_date,1),tail(ev2$end_date,1)))) |
-            isTRUE(stilf_relation_meets(stilf_interval(head(ev1$start_date,1),tail(ev1$end_date,1)),
-                                        stilf_interval(head(ev3$start_date,1),tail(ev3$end_date,1)))) 
-            ) & 
-            (
-            isTRUE(stilf_relation_meets(stilf_interval(head(ev2$start_date,1),tail(ev2$end_date,1)),
-                                        stilf_interval(head(ev4$start_date,1),tail(ev4$end_date,1)))) |
-            isTRUE(stilf_relation_meets(stilf_interval(head(ev3$start_date,1),tail(ev3$end_date,1)),
-                                        stilf_interval(head(ev4$start_date,1),tail(ev4$end_date,1))))
-            )
-        ){
-          temp0 <- rbind(ev1, ev2, ev3, ev4)
-        } else {
-          temp0 <- NULL
-        }
-       # output_df <- dplyr::bind_rows(output_df,temp0)
-  }
- # return(output_df)
-#}
-
-# verify using function
-pasture_soybean <- QuestionOccurs(input_tb, p = c(p9,p10), t = c(t1))
-
-rm(list = ls(pattern="^p[0-9]")) # remove classes
-remove(t1) # remove intervals
-
+nhn_entire <- dplyr::bind_rows(nhn_1.tb, nhn_2.tb, nhn_3.tb, nhn_4.tb, nhn2_1.tb, nhn2_2.tb, nhn2_3.tb)
+nhn_entire
+# 18625 - 1631 = 16994
 # remove duplicated rows
-length(which(duplicated(pasture_soybean)))
-#pasture_soybean <- pasture_soybean[!duplicated(pasture_soybean),]
+length(which(duplicated(nhn_entire$time_series)))
+nhn_entire <- nhn_entire[!duplicated(nhn_entire$time_series),]
 
-stilf_plot_maps_input(input_tb, EPSG_WGS84 = TRUE) 
-stilf_plot_maps_events(pasture_soybean, EPSG_WGS84 = TRUE) 
-
-#############################
-
-aux <- df[which(df$index == 18),]
-
-# verify if patterns exxist
-grepl(transiction, aux$label)
-
-"Forest --> Pasture --> Cropping" 
-coord <- unique(df$index)
-output_df <- aux <- df[FALSE,]
-
-# create progress bar
-#progress_bar <- txtProgressBar(min = 0, max = length(coord), style = 3)###
-
-#  for(x in 1:length(coord)){
-x=18
-#Sys.sleep(0.0)###
-
-sentenca <- df[which(as.character(df$index) == coord[x]),]
-
-# 
-iniciar <- function(){
-  cont<-1
-  q0(cont)
-}
-
-q0 <- function(cont){
-  if(cont <= nrow(sentenca)){
-    if(sentenca$label[cont] == 'Forest' && cont != nrow(sentenca)){
-      cont<-cont+1
-      aux <- rbind(aux, sentenca[count,])
-      q1(cont)
-    } else if(sentenca$label[cont] == 'Forest' && cont == nrow(sentenca)){
-      break;
-      qerror()
-    } else if(sentenca$label[cont] == 'Pature' && cont != nrow(sentenca)){
-      cont<-cont+1
-      q3(cont)
-    } else if(sentenca$label[cont] == 'Pature' && cont == nrow(sentenca)){
-      break
-      qerror()    
-    } else if(sentenca$label[cont] == 'Cropping' && cont != nrow(sentenca)){
-      cont<-cont+1
-      q3(cont)
-    } else if(sentenca$label[cont] == 'Cropping' && cont == nrow(sentenca)){
-      qf()    
-    } else
-      qerro()
-  } else 
-    qerro()
-}
-
-q1 <- function(cont){
-  if(cont <= nrow(sentenca)){
-    if(palavra[cont]=='Forest' && cont != nrow(sentenca)){
-      cont<-cont+1
-      q0(cont)
-    } else if(palavra[cont] == 'Forest' && cont == nrow(sentenca)){
-      qf()
-    } else if(palavra[cont] == 'Cropping' && cont != nrow(sentenca)){
-      cont<-cont+1
-      q4(cont)
-    } else if(palavra[cont] == 'Cropping' && cont == nrow(sentenca)){
-      qf()    
-    } else if(palavra[cont] == 's' && cont != nrow(sentenca)){
-      cont<-cont+1
-      q4(cont)
-    } else if(palavra[cont] == 's' && cont == nrow(sentenca)){
-      qf()    
-    } else
-      qerro()
-  } else 
-    qerro()
-}
-
-q2 <- function(cont){
-  if(cont <= nrow(sentenca)){
-    if(palavra[cont]=='Pature' && cont != nrow(sentenca)){
-      cont<-cont+1
-      q1(cont)
-    } else if(palavra[cont] == 'Pature' && cont == nrow(sentenca)){
-      qf()
-    } else if(palavra[cont] == 'Cropping' && cont != nrow(sentenca)){
-      cont<-cont+1
-      q4(cont)
-    } else if(palavra[cont] == 'Cropping' && cont == nrow(sentenca)){
-      qf()    
-    } else if(palavra[cont] == 's' && cont != nrow(sentenca)){
-      cont<-cont+1
-      q4(cont)
-    } else if(palavra[cont] == 's' && cont == nrow(sentenca)){
-      qf()    
-    } else
-      qerro()
-  } else 
-    qerro()
-}
-
-q3 <- function(cont){
-  if(cont <= nrow(sentenca)){
-    if(palavra[cont]=='Pature' && cont != nrow(sentenca)){
-      cont<-cont+1
-      q3(cont)
-    } else if(palavra[cont] == 'Pature' && cont == nrow(sentenca)){
-      qf()  
-    } else if(palavra[cont] == 'Cropping' && cont != nrow(sentenca)){
-      cont<-cont+1
-      q4(cont)
-    } else if(palavra[cont] == 'Cropping' && cont == nrow(sentenca)){
-      qf()
-    } else if(palavra[cont] == 's' && cont != nrow(sentenca)){
-      cont<-cont+1
-      q4(cont)
-    } else if(palavra[cont] == 's' && cont == nrow(sentenca)){
-      qf()
-    } else 
-      qerro()
-  } else 
-    qerro()
-}
-
-qf <- function(){
-  print('Transiction OK!!!')
-}
-
-qerro <- function(){
-  print('Transiction ERROR!!!')
-}
-
-# sentenca <- "ffffff"
-# palavra <- strsplit(sentenca, "")[[1]]
-sentenca <- aux$label
-palavra <- sentenca
-
-cont <- 0
-iniciar()  
-
-
-
-
-
-library(sits)
-
-tes <- sits_getdata("~/Dropbox/TWDTWAmazoniaCerrado/Amostras/samples_Damien_Ieda_11classes_6bands.json")
-tes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+plot(nhn_entire$longitude, nhn_entire$latitude)
 
 

@@ -33,7 +33,7 @@
 #' 
 #' @keywords datasets
 #' @return Tibble containing two new columns with start_date and end_date in a 
-#' predefined standard range
+#' predefined standard range ensurer
 #' 
 #' @import tibble 
 #' @export
@@ -66,12 +66,16 @@
 
 stilf_standard_date_events <- function(data_tb = NULL, month_year = "08", day_month = "15"){
   
-  if (!is.null(data_tb)) {
-    input_data <- data_tb %>% 
-      stilf_data_preparation()
-  } else {
-    stop("\nFile must be defined!\n")
-  }
+  # Ensure if parameters exists
+  ensurer::ensure_that(data_tb, !is.null(data_tb), 
+                       err_desc = "data_tb tibble, file must be defined!")
+  ensurer::ensure_that(month_year, !is.null(month_year), 
+                       err_desc = "month_year must be defined! Default is '08', August.")
+  ensurer::ensure_that(day_month, !is.null(day_month), 
+                       err_desc = "day_month date must be defined! Default is day '15'.")
+  
+  input_data <- data_tb %>% 
+  stilf_data_preparation()
   
   # create new columns with an uniform date
   input_data$"start_date2" <- format(as.Date(input_data$start_date), 

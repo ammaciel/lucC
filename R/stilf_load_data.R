@@ -28,7 +28,7 @@
 
 #' @keywords datasets
 #' @return JSON format to file stored
-#' @import jsonlite dplyr readr
+#' @import jsonlite dplyr readr ensurer
 #' @export
 #'
 #' @examples \dontrun{
@@ -54,27 +54,21 @@
 
 stilf_toJSON <- function (data_tb, path_json_file = NULL) {
   
-  if (!is.null(data_tb)) {
-    input_data <- data_tb
-  } else {
-    stop("\nFile must be defined!\n")
-  }
-
-  if (!is.null(path_json_file)) {
-    json_file <- path_json_file
-  } else {
-    stop("\nEnter a path to SAVE your data!\n")
-  }
+  # Ensure if parameters exists
+  ensurer::ensure_that(data_tb, !is.null(data_tb), 
+                       err_desc = "data_tb tibble, must be defined!\n")
+  ensurer::ensure_that(path_json_file, !is.null(path_json_file), 
+                       err_desc = "Enter a path to SAVE your data!")
   
-  input_data <- as.data.frame(input_data)
+  input_data <- as.data.frame(data_tb)
   
   input_data %>%
     jsonlite::toJSON (pretty = TRUE, digits=15) %>%
-    readr::write_lines (json_file)
+    readr::write_lines (path_json_file)
   
   cat("\nFile CSV format saved successfully!\n")
   
-  return (json_file)
+  return (path_json_file)
   
 }
 
@@ -92,7 +86,7 @@ stilf_toJSON <- function (data_tb, path_json_file = NULL) {
 
 #' @keywords datasets
 #' @return Open JSON format to file
-#' @import jsonlite dplyr
+#' @import jsonlite dplyr ensurer
 #' @export
 #'
 #'
@@ -114,13 +108,11 @@ stilf_toJSON <- function (data_tb, path_json_file = NULL) {
 
 stilf_fromJSON <- function (path_json_file = NULL) {
   
-  if (!is.null(path_json_file)) {
-    json_file <- path_json_file
-  } else {
-    stop("\nEnter with a path to OPEN your data!\n")
-  }
+  # Ensure if parameters exists
+  ensurer::ensure_that(path_json_file, !is.null(path_json_file), 
+                       err_desc = "Enter with a path to OPEN your data!")
   
-  data_tb <- json_file %>%
+  data_tb <- path_json_file %>%
     jsonlite::fromJSON () %>% 
     tibble::as_tibble()
 
@@ -149,7 +141,7 @@ stilf_fromJSON <- function (path_json_file = NULL) {
 
 #' @keywords datasets
 #' @return Open a CSV format to file
-#' @import jsonlite dplyr
+#' @import jsonlite dplyr ensurer
 #' @export
 #'
 #' @examples \dontrun{
@@ -169,13 +161,15 @@ stilf_fromJSON <- function (path_json_file = NULL) {
 
 stilf_fromCSV <- function (path_csv_file = NULL, separator = ",", header_file = TRUE) {
   
-  if (!is.null(path_csv_file)) {
-    csv_file <- path_csv_file
-  } else {
-    stop("\nEnter with a path to OPEN your data!\n")
-  }
+  # Ensure if parameters exists
+  ensurer::ensure_that(path_csv_file, !is.null(path_csv_file), 
+                       err_desc = "Enter with a path to OPEN your data!")
+  ensurer::ensure_that(separator, !is.null(separator), 
+                       err_desc = "Define type of separator from CSV file! Default id ','")
+  ensurer::ensure_that(header_file, !is.null(header_file), 
+                       err_desc = "Define if file has or not a header! Default is TRUE")
   
-  data_tb <- csv_file %>%
+  data_tb <- path_csv_file %>%
     read.csv (sep = separator, header = header_file, stringsAsFactors = FALSE) %>% 
     tibble::as_tibble()
   

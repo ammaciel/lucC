@@ -22,7 +22,7 @@
 #'
 #' @description Plot map ggplot2 for all events discovered in input data
 #' 
-#' @usage stilf_plot_maps_events (data_tb = NULL, EPSG_WGS84 = FALSE, size_square = 1)
+#' @usage stilf_plot_maps_events (data_tb = NULL, EPSG_WGS84 = TRUE, size_square = 1)
 #' 
 #' @param data_tb       Tibble. A tibble with values longitude and latitude and other values
 #' @param EPSG_WGS84    Character. A reference coordinate system. If TRUE, the values of latitude and longitude alredy use this coordinate system, if FALSE, the data set need to be transformed
@@ -30,7 +30,7 @@
 #' 
 #' @keywords datasets
 #' @return Plot with input data as colored map
-#' @import dplyr sp ggplot2 RColorBrewer
+#' @import dplyr sp ggplot2 RColorBrewer ensurer
 #' @export
 #'
 #' @examples \dontrun{
@@ -64,13 +64,17 @@
 #'
 
 # plot maps with events
-stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = FALSE, size_square=1){ 
+stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, size_square=1){ 
+ 
+  # Ensure if parameters exists
+  ensurer::ensure_that(data_tb, !is.null(data_tb), 
+                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf predicates holds or occurs.")
+  ensurer::ensure_that(EPSG_WGS84, !is.null(EPSG_WGS84), 
+                       err_desc = "EPSG_WGS84 must be defined, if exists values of longitude and latitude (TRUE ou FALSE)! Default is TRUE")
+  ensurer::ensure_that(size_square, !is.null(size_square), 
+                       err_desc = "Whats size of swquare of events over map!")
   
-  if (!is.null(data_tb)) {
-    input_data <- data_tb
-  } else {
-    stop("\nFile must be defined!\nThis data can be obtained using stilf predicates holds or occurs\n")
-  }
+  input_data <- data_tb
   
   # create points  
   .createPointsEvents(input_data, EPSG_WGS84)
@@ -176,7 +180,7 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = FALSE, size_squa
 #' 
 #' @keywords datasets
 #' @return Plot sequence time series as lines
-#' @import ggplot2 RColorBrewer
+#' @import ggplot2 RColorBrewer ensurer
 #' @export
 #'
 #' @examples \dontrun{
@@ -216,11 +220,15 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = FALSE, size_squa
 
 stilf_plot_sequence_events <- function(data_tb = NULL, start.date = "2000-01-01", end.date = "2016-12-31"){ 
   
-  if (!is.null(data_tb)) {
-    mapSeq <- data_tb
-  } else {
-    stop("\nFile must be defined!\nThis data can be obtained using stilf_plot_maps_events()\n")
-  }
+  # Ensure if parameters exists
+  ensurer::ensure_that(data_tb, !is.null(data_tb), 
+                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf_plot_maps_events().")
+  ensurer::ensure_that(start.date, !is.null(start.date), 
+                       err_desc = "Start date must be defined! Default is '2000-01-01'")
+  ensurer::ensure_that(end.date, !is.null(end.date), 
+                       err_desc = "End date must be defined! Default is '2016-12-31'!")
+  
+  mapSeq <- data_tb
   
   mapSeq$start_date <- as.Date(mapSeq$start_date, format = '%Y-%m-%d')
   mapSeq$end_date <- as.Date(mapSeq$end_date, format = '%Y-%m-%d')
@@ -272,7 +280,7 @@ stilf_plot_sequence_events <- function(data_tb = NULL, start.date = "2000-01-01"
 #' 
 #' @keywords datasets
 #' @return Plot a barplot in Y axis in (Area km^2) = (Freq*(250*250))/(1000*1000)
-#' @import ggplot2 RColorBrewer
+#' @import ggplot2 RColorBrewer ensurer
 #' @export
 #'
 #' @examples \dontrun{
@@ -311,12 +319,12 @@ stilf_plot_sequence_events <- function(data_tb = NULL, start.date = "2000-01-01"
 
 stilf_plot_barplot_events <- function(data_tb = NULL){ 
   
-  if (!is.null(data_tb)) {
-    input_data <- data_tb
-  } else {
-    stop("\nFile must be defined!\nThis data can be obtained using stilf_plot_maps_events()\n")
-  }
-  
+  # Ensure if parameters exists
+  ensurer::ensure_that(data_tb, !is.null(data_tb), 
+                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf_plot_maps_events().")
+
+  input_data <- data_tb
+ 
   #mapBar <- data.frame(table(input_data$w, input_data$z))
   mapBar <- data.frame(table(lubridate::year(input_data$end_date), input_data$label))
   

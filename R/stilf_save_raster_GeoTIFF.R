@@ -29,8 +29,8 @@
 #' 
 #' @keywords datasets
 #' @return Images in geotiff format to open using SIG
-#' @import dplyr sp raster rasterVis lattice
-#' @export
+#' @import dplyr sp raster rasterVis lattice ensurer
+#' @export 
 #'
 #' @examples \dontrun{
 #' 
@@ -55,17 +55,14 @@
 # plot maps with events
 stilf_toGeoTIFF <- function(data_tb = NULL, path_raster_folder = NULL){ 
   
-  if (!is.null(data_tb)) {
-    mapRaster <- data_tb
-  } else {
-    stop("\nFile must be defined!\nThis data can be obtained using stilf predicates holds or occurs\n")
-  }
+  # Ensure if parameters exists
+  ensurer::ensure_that(data_tb, !is.null(data_tb), 
+                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf predicates holds or occurs.")
+  ensurer::ensure_that(path_raster_folder, !is.null(path_raster_folder), 
+                       err_desc = "path_raster_folder must be defined! Enter a path to SAVE your GeoTIFF images!")
   
-  if (!is.null(path_raster_folder)) {
-    raster_folder <- path_raster_folder
-  } else {
-    stop("\nEnter a path to SAVE your GeoTIFF images!\n")
-  }
+  mapRaster <- data_tb
+  raster_folder <- path_raster_folder
   
   rownames(mapRaster) <- NULL
   mapRaster <- data.frame(mapRaster) %>% dplyr::filter(mapRaster$label != "NA")
