@@ -1,0 +1,21 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <CategoryNames>
+      <Category></Category>
+      <Category>Fallow_Cotton</Category>
+      <Category>Forest</Category>
+      <Category>NonComerc_Cotton</Category>
+      <Category>Pasture1</Category>
+      <Category>Pasture2</Category>
+      <Category>Savanna</Category>
+      <Category>Soybean_Comerc1</Category>
+      <Category>Soybean_Comerc2</Category>
+      <Category>Soybean_Cotton</Category>
+      <Category>Soybean_Fallow1</Category>
+      <Category>Soybean_Fallow2</Category>
+      <Category>Soybean_NonComerc1</Category>
+      <Category>Soybean_NonComerc2</Category>
+      <Category>Soybean_Pasture</Category>
+    </CategoryNames>
+  </PAMRasterBand>
+</PAMDataset>

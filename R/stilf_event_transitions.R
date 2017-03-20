@@ -96,7 +96,8 @@ stilf_event_transitions <- function(data_tb = NULL, properties = NULL){
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
                        err_desc = "data_tb tibble, must be defined!\n")
-  ensurer::ensure_that(properties, !is.null(properties) & (length(properties)>=2 & length(properties)<=5) & is.character(properties), 
+  ensurer::ensure_that(properties, !is.null(properties) & (length(properties)>=2 & length(properties)<=5) & 
+                         is.character(properties), 
                        err_desc = "Properties must be character type and have at least two strings and maximum five.")
   
   # create a set of variables with each string from vector stored 
