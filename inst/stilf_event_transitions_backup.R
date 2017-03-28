@@ -19,10 +19,10 @@
 #' @aliases stilf_event_transitions
 #' @author Adeline M. Maciel
 #' @docType data
-#'
+#' 
 #' @description Provide a stilf_event_transitions, a set of event transitions. 
 #' And return a tibble with events discovered
-#'
+#' 
 #' @usage stilf_event_transitions(data_tb , properties)
 #' 
 #' @param data_tb        Tibble. A data frame with input values.
@@ -32,8 +32,8 @@
 #' @keywords datasets
 #' @return Tibble with event transition 
 #' @import dplyr ensurer
-#' @export
-#'
+#' # @export
+#' 
 #' @examples \dontrun{
 #' 
 #' library(stilf)
@@ -87,8 +87,8 @@
 #' stilf_plot_maps_events(output.tb, EPSG_WGS84 = TRUE)
 #' stilf_plot_sequence_events(output.tb)
 #' 
-#'
-#'
+#' 
+
 
 # function to apply event transtion
 stilf_event_transitions <- function(data_tb = NULL, properties = NULL){
@@ -233,25 +233,21 @@ stilf_event_transitions <- function(data_tb = NULL, properties = NULL){
   interval <- stilf_interval(head(data_tb$start_date,1),tail(data_tb$end_date,1))
   
   logical <- NULL
+  
   # verify if all properties are TRUE
   if(nrow(aux.tb)>= 1) { # if tibble have more than one row
     
-    # convert column with label to a unique string
-    str <-  aux.tb$label %>%
-      paste( ., sep = "", collapse = " ")
-    
-    if(length(properties) == 2 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, ""), str)))!= 0){
-      logical <- cbind(logical,"TRUE")
-    } else if (length(properties) == 3 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, ".+", properties_3, ""), str)))!= 0){
-      logical <- cbind(logical,"TRUE")
-    } else if (length(properties) == 4 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, ".+", properties_3, ".+", properties_4, ""), str)))!= 0){
-      logical <- cbind(logical,"TRUE")
-    } else if (length(properties) == 5 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, ".+", properties_3, ".+", properties_4, ".+", properties_5, ""), str)))!= 0){  
-      logical <- cbind(logical,"TRUE")
-    } else{
-      logical <- cbind(logical,"FALSE")
+    # verify if the tibble created by event transition has all properties defined (between 2 and 5 strings) 
+    for(i in 1:length(properties)){
+      if(nrow(stilf_predicate_occur_BigData(aux.tb, mget(paste0("properties_", i)), interval))>=1){
+        logical <- cbind(logical,"TRUE")
+      } else{
+        logical <- cbind(logical,"FALSE")
+      }
     }
-
+    
+    # ensure that tibble output will contain only transtions with strings of input
+    # if all events that occur are TRUE, the tibble output will receive the tibble aux.tb
     if(all(logical == TRUE)) 
       output.tb <- dplyr::bind_rows(output.tb, aux.tb)
     else {
