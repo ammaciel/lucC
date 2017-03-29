@@ -97,6 +97,7 @@ stilf_predicate_holds <- function(geo_objects = NULL, object_properties = NULL, 
   intEnd <- format(lubridate::int_end(t), format = '%Y-%m-%d')
 
   df <- o
+  df <- df[order(df$end_date),] # order by end_date
   p <- as.character(p)
   aux.df = df[FALSE,]
 
@@ -208,6 +209,7 @@ stilf_predicate_occur <- function(geo_objects = NULL, object_properties = NULL, 
   intEnd <- format(lubridate::int_end(te), format = '%Y-%m-%d')
 
   df <- o
+  df <- df[order(df$end_date),] # order by end_date
   p <- as.character(p)
   aux.df = df[FALSE,]
 

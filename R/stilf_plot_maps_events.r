@@ -171,12 +171,13 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, size_squar
 #' 
 #' @description Plot time series as sequence of lines over time 
 #' 
-#' @usage stilf_plot_sequence_events (data_tb = NULL, 
-#' start.date = "2000-01-01", end.date = "2016-12-31")
+#' @usage stilf_plot_sequence_events (data_tb = NULL, show_y_index = TRUE, 
+#' start_date = "2000-01-01", end_date = "2016-12-31")
 #' 
-#' @param data_tb     Tibble. A tibble with values longitude and latitude and other values
-#' @param start.date  Date. A start date to plot in sequence in format (ymd), '2011-01-01'
-#' @param end.date    Date. A end date to plot in sequence in format (ymd), '2013-01-01'
+#' @param data_tb       Tibble. A tibble with values longitude and latitude and other values
+#' @param show_y_index  Boolean. TRUE/FALSE to show the index values in the axis y of the graphic
+#' @param start_date    Date. A start date to plot in sequence in format (ymd), '2011-01-01'
+#' @param end_date      Date. A end date to plot in sequence in format (ymd), '2013-01-01'
 #' 
 #' @keywords datasets
 #' @return Plot sequence time series as lines
@@ -211,24 +212,27 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, size_squar
 #' stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, size_square = 1)
 #' 
 #' # plot sequence of events
-#' stilf_plot_sequence_events(ts_occur1, start.date = "2000-01-01", 
-#' end.date = "2016-12-31")
+#' stilf_plot_sequence_events(ts_occur1, show_y_index = TRUE, 
+#' start_date = "2000-01-01",  end_date = "2016-12-31")
 #' 
 #'   
 #'}
 #'
 
-stilf_plot_sequence_events <- function(data_tb = NULL, start.date = "2000-01-01", end.date = "2016-12-31"){ 
+stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, start_date = "2000-01-01", end_date = "2016-12-31"){ 
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
                        err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf_plot_maps_events().")
-  ensurer::ensure_that(start.date, !is.null(start.date), 
+  ensurer::ensure_that(show_y_index, !is.null(show_y_index), 
+                       err_desc = "Show y index label must be defined! Default is 'TRUE'")
+  ensurer::ensure_that(start_date, !is.null(start_date), 
                        err_desc = "Start date must be defined! Default is '2000-01-01'")
-  ensurer::ensure_that(end.date, !is.null(end.date), 
+  ensurer::ensure_that(end_date, !is.null(end_date), 
                        err_desc = "End date must be defined! Default is '2016-12-31'!")
   
   mapSeq <- data_tb
+  mapSeq <- mapSeq[order(mapSeq$index),] # order by index
   
   mapSeq$start_date <- as.Date(mapSeq$start_date, format = '%Y-%m-%d')
   mapSeq$end_date <- as.Date(mapSeq$end_date, format = '%Y-%m-%d')
@@ -251,14 +255,21 @@ stilf_plot_sequence_events <- function(data_tb = NULL, start.date = "2000-01-01"
     geom_point(aes(x = data$"end_date", color = data$"label"), size = 3, shape = 19) +
     
     # define time period
-    scale_x_date(limits=as.Date(c(start.date, end.date))) +
-    #scale_color_discrete(name = "Legend:") +
-    #scale_color_brewer(name="Legend:", palette= "Set3") +
-    scale_fill_manual(name="Legend:", values = my_palette) +
-    theme(legend.position = "bottom", 
-          legend.text=element_text(size=10),
-          axis.text.y=element_blank(),
-          legend.key = element_blank())
+    scale_x_date(limits=as.Date(c(start_date, end_date))) +
+    labs(colour = "Legend:") +
+    scale_fill_manual(values = my_palette)
+    
+  # shows axis y label with index values from tibble
+  if(show_y_index == TRUE){
+    g <- g + theme(legend.position = "bottom", 
+             legend.text=element_text(size=10),
+             legend.key = element_blank())  
+  } else {
+    g <- g + theme(legend.position = "bottom", 
+             legend.text=element_text(size=10),
+             axis.text.y=element_blank(),
+             legend.key = element_blank())  
+  } 
   
   print(g)
  
@@ -324,7 +335,8 @@ stilf_plot_barplot_events <- function(data_tb = NULL){
                        err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf_plot_maps_events().")
 
   input_data <- data_tb
- 
+  input_data <- input_data[order(input_data$index),] # order by index
+  
   #mapBar <- data.frame(table(input_data$w, input_data$z))
   mapBar <- data.frame(table(lubridate::year(input_data$end_date), input_data$label))
   

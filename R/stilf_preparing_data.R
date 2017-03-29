@@ -145,5 +145,5 @@ stilf_data_preparation <- function(data_tb = NULL){
 
 
 #' @import utils 
-utils::globalVariables(c("points_input_map.list", "map_input_df", "points_events_map.list", "properties_1", "properties_2", "properties_3", "properties_4", "properties_5"))
+utils::globalVariables(c("points_input_map.list", "map_input_df", "points_events_map.list", "properties_1", "properties_2", "properties_3", "properties_4", "properties_5", "properties_6", "properties_7", "properties_8", "properties_9", "properties_10"))
 

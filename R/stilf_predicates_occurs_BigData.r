@@ -96,6 +96,7 @@ stilf_predicate_occur_BigData <- function(geo_objects = NULL, object_properties 
   intEnd <- format(lubridate::int_end(te), format = '%Y-%m-%d')
   
   df <- o
+  df <- df[order(df$end_date),] # order by end_date
   p <- as.character(p)
   aux.df = df[FALSE,]
   

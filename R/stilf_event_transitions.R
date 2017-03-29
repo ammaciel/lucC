@@ -26,8 +26,9 @@
 #' @usage stilf_event_transitions(data_tb , properties)
 #' 
 #' @param data_tb        Tibble. A data frame with input values.
-#' @param properties     Character. A vector with ate least two strings, 
-#' for example, c("Forest","Cropping").
+#' @param properties     Character. A vector with at least 2 strings,
+#'                       and maximum 10 combination of transitions, 
+#'                       for example, c("Forest","Cropping").
 #' 
 #' @keywords datasets
 #' @return Tibble with event transition 
@@ -96,9 +97,9 @@ stilf_event_transitions <- function(data_tb = NULL, properties = NULL){
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
                        err_desc = "data_tb tibble, must be defined!\n")
-  ensurer::ensure_that(properties, !is.null(properties) & (length(properties)>=2 & length(properties)<=5) & 
+  ensurer::ensure_that(properties, !is.null(properties) & (length(properties)>=2 & length(properties)<=10) & 
                          is.character(properties), 
-                       err_desc = "Properties must be character type and have at least two strings and maximum five.")
+                       err_desc = "Properties must be character type and have at least 2 strings and maximum 10.")
   
   # create a set of variables with each string from vector stored 
   for(i in 1:length(properties)){
@@ -208,6 +209,96 @@ stilf_event_transitions <- function(data_tb = NULL, properties = NULL){
         aux.tb <- rbind(aux.tb, interval.tb[count,])
         count <- count+1
         aux.tb <- state_5(count, interval.tb, aux.tb)
+      } else if (all(exists("properties_6") == TRUE && interval.tb$label[count] == properties_6 && count <= nrow(interval.tb)) == TRUE){
+        aux.tb <- state_6(count, interval.tb, aux.tb)
+      } else
+        aux.tb <- state_error(aux.tb)
+      
+    } else 
+      aux.tb <- state_error(aux.tb)
+    
+    aux.tb
+  }
+  
+  # stage 6, is applied if the sixth string exist
+  state_6 <- function(count, interval.tb, aux.tb){
+    if(count <= nrow(interval.tb)){
+      if(interval.tb$label[count] == properties_6 && count <= nrow(interval.tb)){
+        aux.tb <- rbind(aux.tb, interval.tb[count,])
+        count <- count+1
+        aux.tb <- state_6(count, interval.tb, aux.tb)
+      } else if (all(exists("properties_7") == TRUE && interval.tb$label[count] == properties_7 && count <= nrow(interval.tb)) == TRUE){
+        aux.tb <- state_7(count, interval.tb, aux.tb)
+      } else
+        aux.tb <- state_error(aux.tb)
+      
+    } else 
+      aux.tb <- state_error(aux.tb)
+    
+    aux.tb
+  }
+  
+  # stage 7, is applied if the seventh string exist
+  state_7 <- function(count, interval.tb, aux.tb){
+    if(count <= nrow(interval.tb)){
+      if(interval.tb$label[count] == properties_7 && count <= nrow(interval.tb)){
+        aux.tb <- rbind(aux.tb, interval.tb[count,])
+        count <- count+1
+        aux.tb <- state_7(count, interval.tb, aux.tb)
+      } else if (all(exists("properties_8") == TRUE && interval.tb$label[count] == properties_8 && count <= nrow(interval.tb)) == TRUE){
+        aux.tb <- state_8(count, interval.tb, aux.tb)
+      } else
+        aux.tb <- state_error(aux.tb)
+      
+    } else 
+      aux.tb <- state_error(aux.tb)
+    
+    aux.tb
+  }
+  
+  # stage 8, is applied if the eighth string exist
+  state_8 <- function(count, interval.tb, aux.tb){
+    if(count <= nrow(interval.tb)){
+      if(interval.tb$label[count] == properties_8 && count <= nrow(interval.tb)){
+        aux.tb <- rbind(aux.tb, interval.tb[count,])
+        count <- count+1
+        aux.tb <- state_8(count, interval.tb, aux.tb)
+      } else if (all(exists("properties_9") == TRUE && interval.tb$label[count] == properties_9 && count <= nrow(interval.tb)) == TRUE){
+        aux.tb <- state_9(count, interval.tb, aux.tb)
+      } else
+        aux.tb <- state_error(aux.tb)
+      
+    } else 
+      aux.tb <- state_error(aux.tb)
+    
+    aux.tb
+  }
+  
+  # stage 9, is applied if the ninth string exist
+  state_9 <- function(count, interval.tb, aux.tb){
+    if(count <= nrow(interval.tb)){
+      if(interval.tb$label[count] == properties_9 && count <= nrow(interval.tb)){
+        aux.tb <- rbind(aux.tb, interval.tb[count,])
+        count <- count+1
+        aux.tb <- state_9(count, interval.tb, aux.tb)
+      } else if (all(exists("properties_10") == TRUE && interval.tb$label[count] == properties_10 && count <= nrow(interval.tb)) == TRUE){
+        aux.tb <- state_10(count, interval.tb, aux.tb)
+      } else
+        aux.tb <- state_error(aux.tb)
+      
+    } else 
+      aux.tb <- state_error(aux.tb)
+    
+    aux.tb
+  }
+  
+  # stage 10, is applied if the tenth string exist
+  state_10 <- function(count, interval.tb, aux.tb){
+    if(count <= nrow(interval.tb)){
+      if(interval.tb$label[count] == properties_10 && count <= nrow(interval.tb)){
+        aux.tb <- rbind(aux.tb, interval.tb[count,])
+        count <- count+1
+        aux.tb <- state_10(count, interval.tb, aux.tb)
       } else
         aux.tb <- state_error(aux.tb)
     } else 
@@ -216,7 +307,7 @@ stilf_event_transitions <- function(data_tb = NULL, properties = NULL){
     aux.tb
   }
   
-  # case transition don't exists, compute the tibble auxiliar
+  # case transition doesn't exists, compute the tibble auxiliar
   state_error <- function(aux.tb){
     aux.tb
   }
@@ -237,16 +328,46 @@ stilf_event_transitions <- function(data_tb = NULL, properties = NULL){
   if(nrow(aux.tb)>= 1) { # if tibble have more than one row
     
     # convert column with label to a unique string
-    str <-  aux.tb$label %>%
-      paste( ., sep = "", collapse = " ")
+    str <- paste(aux.tb$label, sep = "", collapse = " ")
     
+    # verify if exist label in the same order of input: "Pasture -> Cropping -> Pasture -> Cropping"
     if(length(properties) == 2 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, ""), str)))!= 0){
       logical <- cbind(logical,"TRUE")
-    } else if (length(properties) == 3 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, ".+", properties_3, ""), str)))!= 0){
+    } else if (length(properties) == 3 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, 
+                                                                                ".+", properties_3, ""), str)))!= 0){
       logical <- cbind(logical,"TRUE")
-    } else if (length(properties) == 4 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, ".+", properties_3, ".+", properties_4, ""), str)))!= 0){
+    } else if (length(properties) == 4 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, 
+                                                                                ".+", properties_3, ".+", properties_4, ""), str)))!= 0){
       logical <- cbind(logical,"TRUE")
-    } else if (length(properties) == 5 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, ".+", properties_3, ".+", properties_4, ".+", properties_5, ""), str)))!= 0){  
+    } else if (length(properties) == 5 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, 
+                                                                                ".+", properties_3, ".+", properties_4, 
+                                                                                ".+", properties_5, ""), str)))!= 0){  
+      logical <- cbind(logical,"TRUE")
+    } else if (length(properties) == 6 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, 
+                                                                                ".+", properties_3, ".+", properties_4, 
+                                                                                ".+", properties_5, ".+", properties_6, ""), str)))!= 0){  
+      logical <- cbind(logical,"TRUE")
+    } else if (length(properties) == 7 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, 
+                                                                                ".+", properties_3, ".+", properties_4, 
+                                                                                ".+", properties_5, ".+", properties_6, 
+                                                                                ".+", properties_7, ""), str)))!= 0){  
+      logical <- cbind(logical,"TRUE")
+    } else if (length(properties) == 8 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, 
+                                                                                ".+", properties_3, ".+", properties_4, 
+                                                                                ".+", properties_5, ".+", properties_6, 
+                                                                                ".+", properties_7, ".+", properties_8, ""), str)))!= 0){  
+      logical <- cbind(logical,"TRUE")
+    } else if (length(properties) == 9 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, 
+                                                                                ".+", properties_3, ".+", properties_4, 
+                                                                                ".+", properties_5, ".+", properties_6, 
+                                                                                ".+", properties_7, ".+", properties_8, 
+                                                                                ".+", properties_9, ""), str)))!= 0){  
+      logical <- cbind(logical,"TRUE")
+    } else if (length(properties) == 10 && length(regmatches(str, regexpr(paste0("+", properties_1, ".+", properties_2, 
+                                                                                 ".+", properties_3, ".+", properties_4, 
+                                                                                 ".+", properties_5, ".+", properties_6, 
+                                                                                 ".+", properties_7, ".+", properties_8, 
+                                                                                 ".+", properties_9, ".+", properties_10, ""), str)))!= 0){  
       logical <- cbind(logical,"TRUE")
     } else{
       logical <- cbind(logical,"FALSE")
@@ -262,6 +383,8 @@ stilf_event_transitions <- function(data_tb = NULL, properties = NULL){
     aux.tb <- NULL
     output.tb <- dplyr::bind_rows(output.tb, aux.tb)
   }
+  
+  output.tb <- output.tb[order(output.tb$index),] # order by index
   
   output.tb
   

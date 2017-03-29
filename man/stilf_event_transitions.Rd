@@ -10,7 +10,8 @@ stilf_event_transitions(data_tb , properties)
 \arguments{
 \item{data_tb}{Tibble. A data frame with input values.}
 
-\item{properties}{Character. A vector with ate least two strings, 
+\item{properties}{Character. A vector with at least 2 strings,
+and maximum 10 combination of transitions, 
 for example, c("Forest","Cropping").}
 }
 \value{

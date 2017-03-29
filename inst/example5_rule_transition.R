@@ -80,13 +80,15 @@ for (x in 1:nrow(df)){
 
 df
 
-# create a tibble with the same column names 
-output.tb <- df[FALSE,]
-coord <- unique(df$index)
 
 # Forest --> Pasture --> Cropping - Type of transition
-#transition_string <- c("Forest", "Pasture", "Cropping")
-transition_string <- c("Pasture", "Cropping", "Pasture")
+transition_string <- c("Pasture","Cropping","Pasture","Cropping","Pasture","Cropping","Pasture","Cropping","Pasture","Cropping")
+#transition_string <- c("Forest", "Cerrado", "Secondary_vegetation", "Cropping", "Pasture")
+#transition_string <- c("Pasture", "Cropping", "Pasture", "Cropping")
+
+# create a tibble with the same column names 
+output.tb <- df[FALSE,] # Always run this 
+coord <- unique(df$index)
 
 # Apply over all input data
 for(x in 1:length(coord)){
@@ -99,10 +101,9 @@ output.tb
 # plot transitions discovered
 stilf_plot_maps_input(df, EPSG_WGS84 = TRUE)
 stilf_plot_maps_events(output.tb, EPSG_WGS84 = TRUE)
-stilf_plot_sequence_events(output.tb)
+stilf_plot_sequence_events(output.tb, show_y_index = TRUE)
 
 stilf_plot_barplot_events(data_tb = output.tb)
-
 
 temp_final.tb <- stilf_event_transitions(df, properties = c("Forest", "Pasture"))
 temp_final.tb
@@ -113,10 +114,10 @@ temp_final.tb
 # Test with one point
 data_tb <- df[which(df$index == 798),]# 1134),]#1003),] #18
 data_tb <- df[which(df$index == 1134),]#1003),] #18
-data_tb <- df[which(df$index == 1003),] #18
+data_tb <- df[which(df$index == 10),] #18
 data_tb
 
-temp_final.tb <- stilf_event_transitions(data_tb, properties = c("Cropping", "Pasture", "Cropping"))
+temp_final.tb <- stilf_event_transitions(data_tb, properties = c("Pasture", "Cropping", "Pasture", "Cropping"))
 temp_final.tb
 
 temp_final2.tb <- stilf_event_transitions2(data_tb, properties = c("Cropping", "Pasture", "Cropping"))

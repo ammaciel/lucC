@@ -5,15 +5,17 @@
 \alias{stilf_plot_sequence_events}
 \title{Plot Sequence Maps with STILF Events}
 \usage{
-stilf_plot_sequence_events (data_tb = NULL, 
-start.date = "2000-01-01", end.date = "2016-12-31")
+stilf_plot_sequence_events (data_tb = NULL, show_y_index = TRUE, 
+start_date = "2000-01-01", end_date = "2016-12-31")
 }
 \arguments{
 \item{data_tb}{Tibble. A tibble with values longitude and latitude and other values}
 
-\item{start.date}{Date. A start date to plot in sequence in format (ymd), '2011-01-01'}
+\item{show_y_index}{Boolean. TRUE/FALSE to show the index values in the axis y of the graphic}
 
-\item{end.date}{Date. A end date to plot in sequence in format (ymd), '2013-01-01'}
+\item{start_date}{Date. A start date to plot in sequence in format (ymd), '2011-01-01'}
+
+\item{end_date}{Date. A end date to plot in sequence in format (ymd), '2013-01-01'}
 }
 \value{
 Plot sequence time series as lines
@@ -50,8 +52,8 @@ object_properties = "Forest", event_time_intervals = time_ex1)
 stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, size_square = 1)
 
 # plot sequence of events
-stilf_plot_sequence_events(ts_occur1, start.date = "2000-01-01", 
-end.date = "2016-12-31")
+stilf_plot_sequence_events(ts_occur1, show_y_index = TRUE, 
+start_date = "2000-01-01",  end_date = "2016-12-31")
 
   
 }
