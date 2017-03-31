@@ -8,7 +8,7 @@
 ##                                                             ##
 ##   R script to plot input data                               ##
 ##                                                             ##  
-##                                             2017-02-26      ##
+##                                             2017-03-31      ##
 ##                                                             ##
 ##                                                             ##
 #################################################################
@@ -21,10 +21,13 @@
 #'
 #' @description Plot map ggplot2 for all input data
 #' 
-#' @usage stilf_plot_maps_input (data_tb = NULL, EPSG_WGS84 = TRUE)
+#' @usage stilf_plot_maps_input (data_tb = NULL, EPSG_WGS84 = TRUE, 
+#' custom_palette = FALSE, RGB_color = NULL)
 #' 
-#' @param data_tb       Tibble. A tibble with values longitude and latitude and other values
-#' @param EPSG_WGS84    Character. A reference coordinate system. If TRUE, the values of latitude and longitude alredy use this coordinate system, if FALSE, the data set need to be transformed
+#' @param data_tb         Tibble. A tibble with values longitude and latitude and other values
+#' @param EPSG_WGS84      Character. A reference coordinate system. If TRUE, the values of latitude and longitude alredy use this coordinate system, if FALSE, the data set need to be transformed
+#' @param custom_palette  Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE
+#' @param RGB_color       Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'
 
 #' @keywords datasets
 #' @return Plot with input data as colored map
@@ -46,20 +49,26 @@
 #' input_tb_raw_json
 #' 
 #' # plot maps input data
-#' stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE)
+#' stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE, 
+#' custom_palette = FALSE)
 #' 
 #' 
 #'}
 #'
 
 # plot maps for input data
-stilf_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE){ 
+stilf_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL) { 
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
                        err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf predicates holds or occurs.")
   ensurer::ensure_that(EPSG_WGS84, !is.null(EPSG_WGS84), 
                        err_desc = "EPSG_WGS84 must be defined, if exists values of longitude and latitude (TRUE ou FALSE)! Default is TRUE")
+  ensurer::ensure_that(custom_palette, !is.null(custom_palette), 
+                       err_desc = "custom_palette must be defined, if wants use its own color palette setting! Default is FALSE")
+  #ensurer::ensure_that(RGB_color, custom_palette == TRUE & is.character(RGB_color), 
+  #                    err_desc = "RGB_color must be defined, if custom_palette equals TRUE, then provide a list of colors with the same length its number of legend! Default is the color brewer 'Paired'")
+                      # & (length(RGB_color) == length(unique(data_tb$label)))
 
   input_data <- data_tb
  
@@ -80,9 +89,19 @@ stilf_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE){
   map_input_df <- map_input_df[order(map_input_df$w),] # order by years
   rownames(map_input_df) <- seq(length=nrow(map_input_df)) # reset row numbers
   
-  # more colors
-  colour_count = length(unique(map_input_df$z))
-  my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
+  # insert own colors palette
+  if(custom_palette == TRUE){
+    if(is.null(RGB_color) | length(RGB_color) != length(unique(data_tb$label))){
+      cat("\nIf custom_palette = TRUE, a RGB_color vector with colors must be defined!")
+      cat("\nProvide a list of colors with the same length of the number of legend!\n") 
+    } else {
+      my_palette = RGB_color  
+    }
+  } else {
+    # more colors
+    colour_count = length(unique(map_input_df$z))
+    my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
+  } 
   
   # plot images all years
   g <- ggplot2::ggplot(map_input_df, aes(map_input_df$x, map_input_df$y)) +

@@ -5,10 +5,15 @@
 \alias{stilf_plot_barplot_events}
 \title{Plot Barplot Maps with STILF Events}
 \usage{
-stilf_plot_barplot_events (data_tb = NULL)
+stilf_plot_barplot_events (data_tb = NULL, 
+custom_palette = FALSE, RGB_color = NULL)
 }
 \arguments{
 \item{data_tb}{Tibble. A tibble with values longitude and latitude and other values}
+
+\item{custom_palette}{Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE}
+
+\item{RGB_color}{Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'}
 }
 \value{
 Plot a barplot in Y axis in (Area km^2) = (Freq*(250*250))/(1000*1000)
@@ -42,10 +47,11 @@ ts_occur1 <- stilf_predicate_occur(geo_objects = input_tb_raw_json,
 object_properties = "Forest", event_time_intervals = time_ex1)
 
 # events over input map
-stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, size_square = 1)
+stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
+custom_palette = FALSE, size_square = 1)
 
 # plot barplot of events
-stilf_plot_barplot_events(ts_occur1)
+stilf_plot_barplot_events(ts_occur1, custom_palette = FALSE)
 
 
 }

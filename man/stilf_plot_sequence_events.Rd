@@ -5,13 +5,18 @@
 \alias{stilf_plot_sequence_events}
 \title{Plot Sequence Maps with STILF Events}
 \usage{
-stilf_plot_sequence_events (data_tb = NULL, show_y_index = TRUE, 
+stilf_plot_sequence_events (data_tb = NULL, show_y_index = TRUE,
+custom_palette = FALSE, RGB_color = NULL, 
 start_date = "2000-01-01", end_date = "2016-12-31")
 }
 \arguments{
 \item{data_tb}{Tibble. A tibble with values longitude and latitude and other values}
 
 \item{show_y_index}{Boolean. TRUE/FALSE to show the index values in the axis y of the graphic}
+
+\item{custom_palette}{Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE}
+
+\item{RGB_color}{Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'}
 
 \item{start_date}{Date. A start date to plot in sequence in format (ymd), '2011-01-01'}
 
@@ -49,11 +54,13 @@ ts_occur1 <- stilf_predicate_occur(geo_objects = input_tb_raw_json,
 object_properties = "Forest", event_time_intervals = time_ex1)
 
 # events over input map
-stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, size_square = 1)
+stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
+custom_palette = FALSE, size_square = 1)
 
 # plot sequence of events
-stilf_plot_sequence_events(ts_occur1, show_y_index = TRUE, 
-start_date = "2000-01-01",  end_date = "2016-12-31")
+stilf_plot_sequence_events(ts_occur1, show_y_index = TRUE,
+custom_palette = FALSE, start_date = "2000-01-01", 
+end_date = "2016-12-31")
 
   
 }

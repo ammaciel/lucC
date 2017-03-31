@@ -101,12 +101,12 @@ stilf_predicate_holds <- function(geo_objects = NULL, object_properties = NULL, 
   p <- as.character(p)
   aux.df = df[FALSE,]
 
-  # create progress bar
-  progress_bar <- txtProgressBar(min = 0, max = nrow(df), style = 3)
+  ## create progress bar
+  #progress_bar <- txtProgressBar(min = 0, max = nrow(df), style = 3)
   
   for (i in 1:nrow(df)) {
     
-    Sys.sleep(0.0)
+   # Sys.sleep(0.0)
     
     if ((df$label[i] == p) & ((df$start_date[i] > intStart) & (df$end_date[i] < intEnd))) {
       aux.df <- dplyr::bind_rows(aux.df,df[i,])
@@ -115,12 +115,12 @@ stilf_predicate_holds <- function(geo_objects = NULL, object_properties = NULL, 
       # cat(sprintf("time: %d in interval: %s -- %s = FALSE \n", i, df$start_date[i], df$start_date[i]))
     }
     
-    # update progress bar
-    setTxtProgressBar(progress_bar, i)
+    ## update progress bar
+    #setTxtProgressBar(progress_bar, i)
     
   }
   
-  close(progress_bar)
+  #close(progress_bar)
   
   if(nrow(aux.df) > 0){
     cat("\nHave been found ", nrow(aux.df)," properties which holds during a time interval.\n")
@@ -213,12 +213,12 @@ stilf_predicate_occur <- function(geo_objects = NULL, object_properties = NULL, 
   p <- as.character(p)
   aux.df = df[FALSE,]
 
-  # create progress bar
-  progress_bar <- txtProgressBar(min = 0, max = nrow(df), style = 3)
+  ## create progress bar
+  #progress_bar <- txtProgressBar(min = 0, max = nrow(df), style = 3)
   
   for (i in 1:nrow(df)) {
     
-    Sys.sleep(0.0)
+    #Sys.sleep(0.0)
     
     if ((df$label[i] == p) & ((df$start_date[i] >= intStart) & (df$end_date[i] <= intEnd))) {
       aux.df <- dplyr::bind_rows(aux.df,df[i,])
@@ -227,19 +227,19 @@ stilf_predicate_occur <- function(geo_objects = NULL, object_properties = NULL, 
       # cat(sprintf("time: %d in interval: %s -- %s = FALSE \n", i, df$start_date[i], df$start_date[i]))
     }
     
-    # update progress bar
-    setTxtProgressBar(progress_bar, i)
+    ## update progress bar
+    #setTxtProgressBar(progress_bar, i)
     
   }
   
-  close(progress_bar)
+  #close(progress_bar)
   
-  if(nrow(aux.df) > 0){
-    cat("\nHave been found ", nrow(aux.df)," events which happened over a time interval.\n")
-  } else {
-    cat("\nAny event have been founded. Alter your object_properties or event_time_intervals parameters.\n")
-  }
-  
+#   if(nrow(aux.df) > 0){
+#     cat("\nHave been found ", nrow(aux.df)," events which happened over a time interval.\n")
+#   } else {
+#     cat("\nAny event have been founded. Alter your object_properties or event_time_intervals parameters.\n")
+#   }
+   
   return(aux.df)
 }
 

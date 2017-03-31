@@ -22,11 +22,14 @@
 #'
 #' @description Plot map ggplot2 for all events discovered in input data
 #' 
-#' @usage stilf_plot_maps_events (data_tb = NULL, EPSG_WGS84 = TRUE, size_square = 1)
+#' @usage stilf_plot_maps_events (data_tb = NULL, EPSG_WGS84 = TRUE, 
+#' custom_palette = FALSE, RGB_color = NULL, size_square = 1)
 #' 
-#' @param data_tb       Tibble. A tibble with values longitude and latitude and other values
-#' @param EPSG_WGS84    Character. A reference coordinate system. If TRUE, the values of latitude and longitude alredy use this coordinate system, if FALSE, the data set need to be transformed
-#' @param size_square   Numeric. Is a size of the square around pixels in plot. Default is 1
+#' @param data_tb         Tibble. A tibble with values longitude and latitude and other values
+#' @param EPSG_WGS84      Character. A reference coordinate system. If TRUE, the values of latitude and longitude alredy use this coordinate system, if FALSE, the data set need to be transformed
+#' @param custom_palette  Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE
+#' @param RGB_color       Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'
+#' @param size_square     Numeric. Is a size of the square around pixels in plot. Default is 1
 #' 
 #' @keywords datasets
 #' @return Plot with input data as colored map
@@ -58,19 +61,22 @@
 #' object_properties = "Forest", event_time_intervals = time_ex1)
 #' 
 #' # events over input map
-#' stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, size_square = 1)
+#' stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
+#' custom_palette = FALSE, size_square = 1)
 #' 
 #'}
 #'
 
 # plot maps with events
-stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, size_square=1){ 
+stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL, size_square=1){ 
  
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
                        err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf predicates holds or occurs.")
   ensurer::ensure_that(EPSG_WGS84, !is.null(EPSG_WGS84), 
                        err_desc = "EPSG_WGS84 must be defined, if exists values of longitude and latitude (TRUE ou FALSE)! Default is TRUE")
+  ensurer::ensure_that(custom_palette, !is.null(custom_palette), 
+                       err_desc = "custom_palette must be defined, if wants use its own color palette setting! Default is FALSE")
   ensurer::ensure_that(size_square, !is.null(size_square), 
                        err_desc = "Whats size of swquare of events over map!")
   
@@ -93,9 +99,18 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, size_squar
   map_events_df <- map_events_df[order(map_events_df$w),] # order by years
   rownames(map_events_df) <- seq(length=nrow(map_events_df)) # reset row numbers
   
-  # more colors
-  colour_count = length(unique(map_input_df$z))
-  my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
+  # insert own colors palette
+  if(custom_palette == TRUE){
+    if(is.null(RGB_color) | length(RGB_color) != length(unique(map_input_df$z))){
+      cat("\nIf custom_palette = TRUE, a RGB_color vector with colors must be defined!\n")
+    } else {
+      my_palette = RGB_color  
+    }
+  } else {
+    # more colors
+    colour_count = length(unique(map_input_df$z))
+    my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
+  } 
   
   # plot only events
   g <- ggplot2::ggplot() +
@@ -171,13 +186,16 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, size_squar
 #' 
 #' @description Plot time series as sequence of lines over time 
 #' 
-#' @usage stilf_plot_sequence_events (data_tb = NULL, show_y_index = TRUE, 
+#' @usage stilf_plot_sequence_events (data_tb = NULL, show_y_index = TRUE,
+#' custom_palette = FALSE, RGB_color = NULL, 
 #' start_date = "2000-01-01", end_date = "2016-12-31")
 #' 
-#' @param data_tb       Tibble. A tibble with values longitude and latitude and other values
-#' @param show_y_index  Boolean. TRUE/FALSE to show the index values in the axis y of the graphic
-#' @param start_date    Date. A start date to plot in sequence in format (ymd), '2011-01-01'
-#' @param end_date      Date. A end date to plot in sequence in format (ymd), '2013-01-01'
+#' @param data_tb        Tibble. A tibble with values longitude and latitude and other values
+#' @param show_y_index   Boolean. TRUE/FALSE to show the index values in the axis y of the graphic
+#' @param custom_palette Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE
+#' @param RGB_color      Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'
+#' @param start_date     Date. A start date to plot in sequence in format (ymd), '2011-01-01'
+#' @param end_date       Date. A end date to plot in sequence in format (ymd), '2013-01-01'
 #' 
 #' @keywords datasets
 #' @return Plot sequence time series as lines
@@ -209,23 +227,27 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, size_squar
 #' object_properties = "Forest", event_time_intervals = time_ex1)
 #' 
 #' # events over input map
-#' stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, size_square = 1)
+#' stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
+#' custom_palette = FALSE, size_square = 1)
 #' 
 #' # plot sequence of events
-#' stilf_plot_sequence_events(ts_occur1, show_y_index = TRUE, 
-#' start_date = "2000-01-01",  end_date = "2016-12-31")
+#' stilf_plot_sequence_events(ts_occur1, show_y_index = TRUE,
+#' custom_palette = FALSE, start_date = "2000-01-01", 
+#' end_date = "2016-12-31")
 #' 
 #'   
 #'}
 #'
 
-stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, start_date = "2000-01-01", end_date = "2016-12-31"){ 
+stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, custom_palette = FALSE, RGB_color = NULL, start_date = "2000-01-01", end_date = "2016-12-31"){ 
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
                        err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf_plot_maps_events().")
   ensurer::ensure_that(show_y_index, !is.null(show_y_index), 
                        err_desc = "Show y index label must be defined! Default is 'TRUE'")
+  ensurer::ensure_that(custom_palette, !is.null(custom_palette), 
+                       err_desc = "custom_palette must be defined, if wants use its own color palette setting! Default is FALSE")
   ensurer::ensure_that(start_date, !is.null(start_date), 
                        err_desc = "Start date must be defined! Default is '2000-01-01'")
   ensurer::ensure_that(end_date, !is.null(end_date), 
@@ -240,9 +262,18 @@ stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, star
   data <- as.data.frame(mapSeq) # data from package datasets
   data$Category <- as.character(mapSeq$index) # this makes things simpler later
   
-  # more colors
-  colour_count = length(unique(map_input_df$z))
-  my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
+  # insert own colors palette
+  if(custom_palette == TRUE){
+    if(is.null(RGB_color)){
+      cat("\nIf custom_palette = TRUE, a RGB_color vector with colors must be defined!\n")
+    } else {
+      my_palette = RGB_color  
+    }
+  } else {
+    # more colors
+    colour_count = length(unique(map_input_df$z))
+    my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
+  } 
   
   g <- ggplot2::ggplot(data, aes(y = data$Category)) +
     labs(x = "Years", y = "Time series set") +
@@ -285,9 +316,12 @@ stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, star
 #' 
 #' @description Plot barplot over time 
 #' 
-#' @usage stilf_plot_barplot_events (data_tb = NULL)
+#' @usage stilf_plot_barplot_events (data_tb = NULL, 
+#' custom_palette = FALSE, RGB_color = NULL)
 #' 
-#' @param data_tb     Tibble. A tibble with values longitude and latitude and other values
+#' @param data_tb        Tibble. A tibble with values longitude and latitude and other values
+#' @param custom_palette Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE
+#' @param RGB_color      Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'
 #' 
 #' @keywords datasets
 #' @return Plot a barplot in Y axis in (Area km^2) = (Freq*(250*250))/(1000*1000)
@@ -319,20 +353,23 @@ stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, star
 #' object_properties = "Forest", event_time_intervals = time_ex1)
 #' 
 #' # events over input map
-#' stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, size_square = 1)
+#' stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
+#' custom_palette = FALSE, size_square = 1)
 #' 
 #' # plot barplot of events
-#' stilf_plot_barplot_events(ts_occur1)
+#' stilf_plot_barplot_events(ts_occur1, custom_palette = FALSE)
 #' 
 #' 
 #'}
 #'
 
-stilf_plot_barplot_events <- function(data_tb = NULL){ 
+stilf_plot_barplot_events <- function(data_tb = NULL, custom_palette = FALSE, RGB_color = NULL){ 
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
                        err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf_plot_maps_events().")
+  ensurer::ensure_that(custom_palette, !is.null(custom_palette), 
+                       err_desc = "custom_palette must be defined, if wants use its own color palette setting! Default is FALSE")
 
   input_data <- data_tb
   input_data <- input_data[order(input_data$index),] # order by index
@@ -340,9 +377,19 @@ stilf_plot_barplot_events <- function(data_tb = NULL){
   #mapBar <- data.frame(table(input_data$w, input_data$z))
   mapBar <- data.frame(table(lubridate::year(input_data$end_date), input_data$label))
   
-  # more colors
-  colour_count = length(unique(map_input_df$z))
-  my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
+  # insert own colors palette
+  if(custom_palette == TRUE){
+    if(is.null(RGB_color) | length(RGB_color) != length(unique(map_input_df$z))){
+      cat("\nIf custom_palette = TRUE, a RGB_color vector with colors must be defined!")
+      cat("\nProvide a list of colors with the same length of the number of legend!\n") 
+    } else {
+      my_palette = RGB_color  
+    }
+  } else {
+    # more colors
+    colour_count = length(unique(map_input_df$z))
+    my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
+  } 
   
   g <- ggplot2::ggplot(mapBar,aes(x=mapBar$Var1, y=(mapBar$Freq*(250*250))/(1000*1000), fill=mapBar$Var2))+
     geom_bar(width = 0.7, stat="identity")+ #, position=position_dodge())+

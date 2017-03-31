@@ -90,40 +90,40 @@ QuestionOccurs <- function(data_tb, p, t){
     
     temp <- df[which(as.character(df$index) == coord[x]),]
     
-    if ((nrow(ev1.in1 <- stilf_predicate_occur_BigData(temp, p1, t1)) >= 1 | #forest in first interval
+    if ((nrow(ev1.in1 <- stilf_predicate_occur(temp, p1, t1)) >= 1 | #forest in first interval
          
-         nrow(ev2.in1 <- stilf_predicate_occur_BigData(temp, p2, t1)) >= 1 | # other classes in first interval
-         nrow(ev3.in1 <- stilf_predicate_occur_BigData(temp, p3, t1)) >= 1 |
-         nrow(ev4.in1 <- stilf_predicate_occur_BigData(temp, p4, t1)) >= 1 |
-         nrow(ev5.in1 <- stilf_predicate_occur_BigData(temp, p5, t1)) >= 1 |
-         nrow(ev6.in1 <- stilf_predicate_occur_BigData(temp, p6, t1)) >= 1 |
-         nrow(ev7.in1 <- stilf_predicate_occur_BigData(temp, p7, t1)) >= 1 |
-         nrow(ev8.in1 <- stilf_predicate_occur_BigData(temp, p8, t1)) >= 1 |
-         nrow(ev9.in1 <- stilf_predicate_occur_BigData(temp, p9, t1)) >= 1 |
-         nrow(ev10.in1 <- stilf_predicate_occur_BigData(temp, p10, t1)) >= 1 |
-         nrow(ev11.in1 <- stilf_predicate_occur_BigData(temp, p11, t1)) >= 1 |
-         nrow(ev12.in1 <- stilf_predicate_occur_BigData(temp, p12, t1)) >= 1 |
-         nrow(ev13.in1 <- stilf_predicate_occur_BigData(temp, p13, t1)) >= 1 |
-         nrow(ev14.in1 <- stilf_predicate_occur_BigData(temp, p14, t1)) >= 1 
+         nrow(ev2.in1 <- stilf_predicate_occur(temp, p2, t1)) >= 1 | # other classes in first interval
+         nrow(ev3.in1 <- stilf_predicate_occur(temp, p3, t1)) >= 1 |
+         nrow(ev4.in1 <- stilf_predicate_occur(temp, p4, t1)) >= 1 |
+         nrow(ev5.in1 <- stilf_predicate_occur(temp, p5, t1)) >= 1 |
+         nrow(ev6.in1 <- stilf_predicate_occur(temp, p6, t1)) >= 1 |
+         nrow(ev7.in1 <- stilf_predicate_occur(temp, p7, t1)) >= 1 |
+         nrow(ev8.in1 <- stilf_predicate_occur(temp, p8, t1)) >= 1 |
+         nrow(ev9.in1 <- stilf_predicate_occur(temp, p9, t1)) >= 1 |
+         nrow(ev10.in1 <- stilf_predicate_occur(temp, p10, t1)) >= 1 |
+         nrow(ev11.in1 <- stilf_predicate_occur(temp, p11, t1)) >= 1 |
+         nrow(ev12.in1 <- stilf_predicate_occur(temp, p12, t1)) >= 1 |
+         nrow(ev13.in1 <- stilf_predicate_occur(temp, p13, t1)) >= 1 |
+         nrow(ev14.in1 <- stilf_predicate_occur(temp, p14, t1)) >= 1 
          
     ) 
     &
-    (	  nrow(ev2.in2 <- stilf_predicate_occur_BigData(temp, p2, t2)) >= 1 | # other classes in second interval
-        nrow(ev3.in2 <- stilf_predicate_occur_BigData(temp, p3, t2)) >= 1 |
-        nrow(ev4.in2 <- stilf_predicate_occur_BigData(temp, p4, t2)) >= 1 |
-        nrow(ev5.in2 <- stilf_predicate_occur_BigData(temp, p5, t2)) >= 1 |
-        nrow(ev6.in2 <- stilf_predicate_occur_BigData(temp, p6, t2)) >= 1 |
-        nrow(ev7.in2 <- stilf_predicate_occur_BigData(temp, p7, t2)) >= 1 |
-        nrow(ev8.in2 <- stilf_predicate_occur_BigData(temp, p8, t2)) >= 1 |
-        nrow(ev9.in2 <- stilf_predicate_occur_BigData(temp, p9, t2)) >= 1 |
-        nrow(ev10.in2 <- stilf_predicate_occur_BigData(temp, p10, t2)) >= 1 |
-        nrow(ev11.in2 <- stilf_predicate_occur_BigData(temp, p11, t2)) >= 1 |
-        nrow(ev12.in2 <- stilf_predicate_occur_BigData(temp, p12, t2)) >= 1 |
-        nrow(ev13.in2 <- stilf_predicate_occur_BigData(temp, p13, t2)) >= 1 |
-        nrow(ev14.in2 <- stilf_predicate_occur_BigData(temp, p14, t2)) >= 1 
+    (	  nrow(ev2.in2 <- stilf_predicate_occur(temp, p2, t2)) >= 1 | # other classes in second interval
+        nrow(ev3.in2 <- stilf_predicate_occur(temp, p3, t2)) >= 1 |
+        nrow(ev4.in2 <- stilf_predicate_occur(temp, p4, t2)) >= 1 |
+        nrow(ev5.in2 <- stilf_predicate_occur(temp, p5, t2)) >= 1 |
+        nrow(ev6.in2 <- stilf_predicate_occur(temp, p6, t2)) >= 1 |
+        nrow(ev7.in2 <- stilf_predicate_occur(temp, p7, t2)) >= 1 |
+        nrow(ev8.in2 <- stilf_predicate_occur(temp, p8, t2)) >= 1 |
+        nrow(ev9.in2 <- stilf_predicate_occur(temp, p9, t2)) >= 1 |
+        nrow(ev10.in2 <- stilf_predicate_occur(temp, p10, t2)) >= 1 |
+        nrow(ev11.in2 <- stilf_predicate_occur(temp, p11, t2)) >= 1 |
+        nrow(ev12.in2 <- stilf_predicate_occur(temp, p12, t2)) >= 1 |
+        nrow(ev13.in2 <- stilf_predicate_occur(temp, p13, t2)) >= 1 |
+        nrow(ev14.in2 <- stilf_predicate_occur(temp, p14, t2)) >= 1 
     ) 
     &
-    nrow(ev1.in2 <- stilf_predicate_occur_BigData(temp, p1, t2)) >= 1 # if occur forest in second interval 
+    nrow(ev1.in2 <- stilf_predicate_occur(temp, p1, t2)) >= 1 # if occur forest in second interval 
     & 
     # verify if forest discovered in interval 2 occur after start_date other classes. Or f is different from first year 
     # If TRUE, this forest is a secondary_vegetation  
@@ -291,8 +291,8 @@ QuestionOccurs <- function(data_tb, p, t){
     
     temp <- df[which(as.character(df$index) == coord[x]),]
     
-    if (nrow(event1 <- stilf_predicate_occur_BigData(temp, p10, t1)) >= 1 &
-         nrow(event2 <- stilf_predicate_occur_BigData(temp, p9, t2)) >= 1  
+    if (nrow(event1 <- stilf_predicate_occur(temp, p10, t1)) >= 1 &
+         nrow(event2 <- stilf_predicate_occur(temp, p9, t2)) >= 1  
           #&
 #         
 #         isTRUE(stilf_relation_following(stilf_interval(head(event2$start_date,1),tail(event2$end_date,1)),

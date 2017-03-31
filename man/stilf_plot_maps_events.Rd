@@ -5,12 +5,17 @@
 \alias{stilf_plot_maps_events}
 \title{Plot Events over Maps with STILF}
 \usage{
-stilf_plot_maps_events (data_tb = NULL, EPSG_WGS84 = TRUE, size_square = 1)
+stilf_plot_maps_events (data_tb = NULL, EPSG_WGS84 = TRUE, 
+custom_palette = FALSE, RGB_color = NULL, size_square = 1)
 }
 \arguments{
 \item{data_tb}{Tibble. A tibble with values longitude and latitude and other values}
 
 \item{EPSG_WGS84}{Character. A reference coordinate system. If TRUE, the values of latitude and longitude alredy use this coordinate system, if FALSE, the data set need to be transformed}
+
+\item{custom_palette}{Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE}
+
+\item{RGB_color}{Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'}
 
 \item{size_square}{Numeric. Is a size of the square around pixels in plot. Default is 1}
 }
@@ -46,7 +51,8 @@ ts_occur1 <- stilf_predicate_occur(geo_objects = input_tb_raw_json,
 object_properties = "Forest", event_time_intervals = time_ex1)
 
 # events over input map
-stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, size_square = 1)
+stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
+custom_palette = FALSE, size_square = 1)
 
 }
 

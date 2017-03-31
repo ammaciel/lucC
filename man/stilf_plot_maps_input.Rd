@@ -5,12 +5,17 @@
 \alias{stilf_plot_maps_input}
 \title{Plot Input Maps}
 \usage{
-stilf_plot_maps_input (data_tb = NULL, EPSG_WGS84 = TRUE)
+stilf_plot_maps_input (data_tb = NULL, EPSG_WGS84 = TRUE, 
+custom_palette = FALSE, RGB_color = NULL)
 }
 \arguments{
 \item{data_tb}{Tibble. A tibble with values longitude and latitude and other values}
 
 \item{EPSG_WGS84}{Character. A reference coordinate system. If TRUE, the values of latitude and longitude alredy use this coordinate system, if FALSE, the data set need to be transformed}
+
+\item{custom_palette}{Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE}
+
+\item{RGB_color}{Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'}
 }
 \value{
 Plot with input data as colored map
@@ -34,7 +39,8 @@ input_tb_raw_json <- file_json \%>\%
 input_tb_raw_json
 
 # plot maps input data
-stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE)
+stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE, 
+custom_palette = FALSE)
 
 
 }
