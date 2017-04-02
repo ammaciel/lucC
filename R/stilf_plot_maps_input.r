@@ -115,7 +115,7 @@ stilf_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pale
         xlab("") +
         ylab("") +
         scale_fill_manual(name="Legend:", values = my_palette)
-        #scale_fill_brewer(name="Legend:", palette= "Set3")
+        #scale_fill_brewer(name="Legend:", palette= "Paired")
 
   print(g)
   

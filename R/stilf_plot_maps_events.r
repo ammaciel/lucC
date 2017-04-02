@@ -125,7 +125,7 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pal
     xlab("") +
     ylab("") +
     scale_fill_manual(name="Legend:", values = my_palette)
-    #scale_fill_brewer(name="Legend:", palette= "Set3")
+    #scale_fill_brewer(name="Legend:", palette= "Paired")
   
   print(g)
  
@@ -187,13 +187,10 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pal
 #' @description Plot time series as sequence of lines over time 
 #' 
 #' @usage stilf_plot_sequence_events (data_tb = NULL, show_y_index = TRUE,
-#' custom_palette = FALSE, RGB_color = NULL, 
 #' start_date = "2000-01-01", end_date = "2016-12-31")
 #' 
 #' @param data_tb        Tibble. A tibble with values longitude and latitude and other values
 #' @param show_y_index   Boolean. TRUE/FALSE to show the index values in the axis y of the graphic
-#' @param custom_palette Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE
-#' @param RGB_color      Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'
 #' @param start_date     Date. A start date to plot in sequence in format (ymd), '2011-01-01'
 #' @param end_date       Date. A end date to plot in sequence in format (ymd), '2013-01-01'
 #' 
@@ -232,22 +229,19 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pal
 #' 
 #' # plot sequence of events
 #' stilf_plot_sequence_events(ts_occur1, show_y_index = TRUE,
-#' custom_palette = FALSE, start_date = "2000-01-01", 
-#' end_date = "2016-12-31")
+#' start_date = "2000-01-01", end_date = "2016-12-31")
 #' 
 #'   
 #'}
 #'
 
-stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, custom_palette = FALSE, RGB_color = NULL, start_date = "2000-01-01", end_date = "2016-12-31"){ 
+stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, start_date = "2000-01-01", end_date = "2016-12-31"){ 
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
                        err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf_plot_maps_events().")
   ensurer::ensure_that(show_y_index, !is.null(show_y_index), 
                        err_desc = "Show y index label must be defined! Default is 'TRUE'")
-  ensurer::ensure_that(custom_palette, !is.null(custom_palette), 
-                       err_desc = "custom_palette must be defined, if wants use its own color palette setting! Default is FALSE")
   ensurer::ensure_that(start_date, !is.null(start_date), 
                        err_desc = "Start date must be defined! Default is '2000-01-01'")
   ensurer::ensure_that(end_date, !is.null(end_date), 
@@ -262,19 +256,6 @@ stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, cust
   data <- as.data.frame(mapSeq) # data from package datasets
   data$Category <- as.character(mapSeq$index) # this makes things simpler later
   
-  # insert own colors palette
-  if(custom_palette == TRUE){
-    if(is.null(RGB_color)){
-      cat("\nIf custom_palette = TRUE, a RGB_color vector with colors must be defined!\n")
-    } else {
-      my_palette = RGB_color  
-    }
-  } else {
-    # more colors
-    colour_count = length(unique(map_input_df$z))
-    my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
-  } 
-  
   g <- ggplot2::ggplot(data, aes(y = data$Category)) +
     labs(x = "Years", y = "Time series set") +
     theme_bw()+
@@ -287,9 +268,8 @@ stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, cust
     
     # define time period
     scale_x_date(limits=as.Date(c(start_date, end_date))) +
-    labs(colour = "Legend:") +
-    scale_fill_manual(values = my_palette)
-    
+    labs(colour = "Legend:")
+  
   # shows axis y label with index values from tibble
   if(show_y_index == TRUE){
     g <- g + theme(legend.position = "bottom", 
@@ -325,7 +305,7 @@ stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, cust
 #' 
 #' @keywords datasets
 #' @return Plot a barplot in Y axis in (Area km^2) = (Freq*(250*250))/(1000*1000)
-#' @import ggplot2 RColorBrewer ensurer
+#' @import ggplot2 RColorBrewer ensurer scales
 #' @export
 #'
 #' @examples \dontrun{
@@ -379,7 +359,7 @@ stilf_plot_barplot_events <- function(data_tb = NULL, custom_palette = FALSE, RG
   
   # insert own colors palette
   if(custom_palette == TRUE){
-    if(is.null(RGB_color) | length(RGB_color) != length(unique(map_input_df$z))){
+    if(is.null(RGB_color) | length(RGB_color) != length(unique(mapBar$Var2))){
       cat("\nIf custom_palette = TRUE, a RGB_color vector with colors must be defined!")
       cat("\nProvide a list of colors with the same length of the number of legend!\n") 
     } else {
@@ -387,8 +367,8 @@ stilf_plot_barplot_events <- function(data_tb = NULL, custom_palette = FALSE, RG
     }
   } else {
     # more colors
-    colour_count = length(unique(map_input_df$z))
-    my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
+    colour_count = length(unique(mapBar$Var2))
+    my_palette = scales::hue_pal()(colour_count)
   } 
   
   g <- ggplot2::ggplot(mapBar,aes(x=mapBar$Var1, y=(mapBar$Freq*(250*250))/(1000*1000), fill=mapBar$Var2))+
@@ -396,7 +376,7 @@ stilf_plot_barplot_events <- function(data_tb = NULL, custom_palette = FALSE, RG
     theme_bw()+
     ylab(expression("Area km"^{2}))+
     xlab("Years")+
-    #scale_fill_brewer(name="Legend:", palette= "Set3") +
+    #scale_fill_brewer(name="Legend:", palette= "Paired") +
     scale_fill_manual(name="Legend:", values = my_palette) +
     theme(legend.position = "bottom", 
           legend.text=element_text(size=10), 

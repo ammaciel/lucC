@@ -83,8 +83,8 @@ stilf_plot_maps_input(df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = 
 stilf_plot_maps_input(df, EPSG_WGS84 = TRUE, custom_palette = FALSE) 
 
 stilf_plot_maps_events(output_df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("blue", "red", "green", "yellow", "pink")) 
-stilf_plot_barplot_events(output_df, custom_palette = TRUE, RGB_color = c("blue")) 
-stilf_plot_sequence_events(output_df, show_y_index = FALSE, custom_palette = TRUE, RGB_color = c("pink"), end_date = "2017-03-01" ) 
+stilf_plot_barplot_events(output_df, custom_palette = FALSE, RGB_color = c("green")) 
+stilf_plot_sequence_events(output_df, show_y_index = FALSE, end_date = "2017-03-01" ) 
 
 #stilf_plot_barplot_events(df_input_new[which(df_input_new$label == "Forest"),]) 
 
