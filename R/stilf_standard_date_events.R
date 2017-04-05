@@ -77,14 +77,14 @@ stilf_standard_date_events <- function(data_tb = NULL, month_year = "08", day_mo
   input_data <- data_tb %>% 
   stilf_data_preparation()
   
-  # create new columns with an uniform date
-  input_data$"start_date2" <- format(as.Date(input_data$start_date), 
-                                     format = paste('%Y-', month_year,'-', day_month,'',sep = ""))  
-  input_data$"start_date2" <- format(as.Date(input_data$start_date2), format = '%Y-%m-%d')
+  #input_data <- tibble::add_column(input_data, "start_date2" = as.Date(paste(lubridate::year(input_data$start_date), month_year, day_month, sep = "")), format = '%Y-%m-%d')
   
-  input_data$"end_date2" <- format(as.Date(input_data$end_date), 
-                                   format = paste('%Y-', month_year,'-', day_month,'',sep = ""))
-  input_data$"end_date2" <- format(as.Date(input_data$end_date2), format = '%Y-%m-%d')
+  # create new columns with an uniform date
+  input_data$"start_date2" <- input_data$start_date   
+  input_data$start_date <- format(as.Date(input_data$start_date2), format = '%Y-%m-%d')
+  
+  input_data$"end_date2" <- paste(lubridate::year(input_data$end_date), month_year, day_month, sep = "-")
+  #input_data$"end_date2" <- format(as.Date(input_data$end_date2), format = '%Y-%m-%d')
   
   # rename columns
   colnames(input_data) <- c("longitude","latitude","start_date2","end_date2","label", "id", "index","start_date","end_date")

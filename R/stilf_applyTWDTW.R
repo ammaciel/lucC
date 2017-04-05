@@ -95,12 +95,12 @@ stilf_applyTWDTW <- function(data_tb = NULL, patterns_tb = NULL, bands = NULL){
   # create a tiblle with classification result
   res_classification <- tibble::tibble(longitude  = double(), 
                                        latitude   = double(), 
-                                       start_date = character(), 
-                                       end_date   = character(), 
+                                       start_date = as.Date(as.character()), 
+                                       end_date   = as.Date(as.character()), 
                                        label      = character(),
                                        id         = numeric(),
-                                       index      = numeric(),
-                                       twdtw_dist = double())
+                                       index      = numeric())#,
+                                       #twdtw_dist = double())
   
   # create progress bar
   progress_bar <- txtProgressBar(min = 0, max = nrow(input_data), style = 3)
@@ -133,12 +133,12 @@ stilf_applyTWDTW <- function(data_tb = NULL, patterns_tb = NULL, bands = NULL){
       res_classification <- tibble::add_row(res_classification, 
                                             longitude  = aux$longitude, 
                                             latitude   = aux$latitude, 
-                                            start_date = res_dist$from, 
-                                            end_date   = res_dist$to, 
+                                            start_date = as.Date(res_dist$from), 
+                                            end_date   = as.Date(res_dist$to), 
                                             label      = res_dist$label,
                                             id         = 0,
-                                            index      = i,
-                                            twdtw_dist = res_dist$distance) 
+                                            index      = i) #,
+                                            #twdtw_dist = res_dist$distance) 
       res_classification
       
     }
@@ -152,6 +152,11 @@ stilf_applyTWDTW <- function(data_tb = NULL, patterns_tb = NULL, bands = NULL){
   # remove data with 2000 in end_data
   res_classification <- dplyr::filter(res_classification, 
                                       !grepl("2000", as.character(res_classification$end_date), 
+                                             fixed = TRUE))
+  
+  # remove data with 2017 in end_data
+  res_classification <- dplyr::filter(res_classification, 
+                                      !grepl("2017", as.character(res_classification$end_date), 
                                              fixed = TRUE))
   
   # order id by number rows
