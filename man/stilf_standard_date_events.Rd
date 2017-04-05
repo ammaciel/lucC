@@ -6,7 +6,7 @@
 \title{Stilf Apply TWDTW from SITS Format}
 \usage{
 stilf_standard_date_events(data_tb = NULL, 
-month_year = "08", day_month = "15")
+month_year = "09", day_month = "01")
 }
 \arguments{
 \item{data_tb}{Tibble. A tibble with values in sits format}
@@ -44,7 +44,7 @@ new_area_Sinop <- input_tb_area_Sinop \%>\%
 
 new_area_Sinop
 
-stilf_standard_date_events(data_tb = df, month_year = "09", day_month = "15")
+stilf_standard_date_events(data_tb = df, month_year = "09", day_month = "01")
 
 }
 

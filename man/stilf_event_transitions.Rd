@@ -5,7 +5,8 @@
 \alias{stilf_event_transitions}
 \title{STILF Event Transitions}
 \usage{
-stilf_event_transitions(data_tb , properties)
+stilf_event_transitions(data_tb = NULL, properties = NULL, 
+time_intervals = stilf_interval("2000-01-01", "2016-12-31"))
 }
 \arguments{
 \item{data_tb}{Tibble. A data frame with input values.}
@@ -13,6 +14,9 @@ stilf_event_transitions(data_tb , properties)
 \item{properties}{Character. A vector with at least 2 strings,
 and maximum 10 combination of transitions, 
 for example, c("Forest","Cropping").}
+
+\item{time_intervals}{Interval. A interval of time to verify if 
+properties is over or not in stilf_interval format.}
 }
 \value{
 Tibble with event transition

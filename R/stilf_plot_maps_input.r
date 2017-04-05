@@ -100,7 +100,7 @@ stilf_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pale
   } else {
     # more colors
     colour_count = length(unique(map_input_df$z))
-    my_palette = colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
+    my_palette = grDevices::colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
   } 
   
   # plot images all years

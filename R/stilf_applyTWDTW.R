@@ -103,7 +103,7 @@ stilf_applyTWDTW <- function(data_tb = NULL, patterns_tb = NULL, bands = NULL){
                                        #twdtw_dist = double())
   
   # create progress bar
-  progress_bar <- txtProgressBar(min = 0, max = nrow(input_data), style = 3)
+  progress_bar <- utils::txtProgressBar(min = 0, max = nrow(input_data), style = 3)
   
   # classify input data using TWDTW from sits
   for(i in 1:nrow(input_data)){
@@ -144,7 +144,7 @@ stilf_applyTWDTW <- function(data_tb = NULL, patterns_tb = NULL, bands = NULL){
     }
     
     # update progress bar
-    setTxtProgressBar(progress_bar, i)
+    utils::setTxtProgressBar(progress_bar, i)
   }
   
   #close(progress_bar)

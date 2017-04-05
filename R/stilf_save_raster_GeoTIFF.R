@@ -94,7 +94,7 @@ stilf_toGeoTIFF <- function(data_tb = NULL, path_raster_folder = NULL){
     r = raster::raster(pts)
     raster::projection(r) = sp::CRS("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs")
     
-    my_col = rainbow(length(levels(factor(mapRaster$label))), alpha = 0.7)
+    my_col = grDevices::rainbow(length(levels(factor(mapRaster$label))), alpha = 0.7)
     
     plot <- rasterVis::levelplot(r, col.regions = my_col, xlab=list(label="", cex=1.8), 
                       ylab=list(label="", cex=1.8), colorkey = list(space="right"), 

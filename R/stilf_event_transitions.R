@@ -23,12 +23,15 @@
 #' @description Provide a stilf_event_transitions, a set of event transitions. 
 #' And return a tibble with events discovered
 #'
-#' @usage stilf_event_transitions(data_tb , properties)
+#' @usage stilf_event_transitions(data_tb = NULL, properties = NULL, 
+#' time_intervals = stilf_interval("2000-01-01", "2016-12-31"))
 #' 
-#' @param data_tb        Tibble. A data frame with input values.
-#' @param properties     Character. A vector with at least 2 strings,
-#'                       and maximum 10 combination of transitions, 
-#'                       for example, c("Forest","Cropping").
+#' @param data_tb          Tibble. A data frame with input values.
+#' @param properties       Character. A vector with at least 2 strings,
+#'                         and maximum 10 combination of transitions, 
+#'                         for example, c("Forest","Cropping").
+#' @param time_intervals   Interval. A interval of time to verify if 
+#' properties is over or not in stilf_interval format. 
 #' 
 #' @keywords datasets
 #' @return Tibble with event transition 
@@ -78,7 +81,8 @@
 #' # Apply over all input data
 #' for(x in 1:length(coord)){
 #'   temp.tb <- df[which(as.character(df$index) == coord[x]),]
-#'   temp_final.tb <- stilf_event_transitions(temp.tb, properties = transition_string)
+#'   temp_final.tb <- stilf_event_transitions(temp.tb, properties = transition_string,
+#'   time_intervals = stilf_interval("2000-07-01", "2016-12-01"))
 #'   output.tb <- bind_rows(output.tb, temp_final.tb)
 #' }
 #' output.tb
@@ -92,7 +96,7 @@
 #'
 
 # function to apply event transtion
-stilf_event_transitions <- function(data_tb = NULL, properties = NULL){
+stilf_event_transitions <- function(data_tb = NULL, properties = NULL, time_intervals = stilf_interval("2000-01-01","2016-12-31")){
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
@@ -100,6 +104,20 @@ stilf_event_transitions <- function(data_tb = NULL, properties = NULL){
   ensurer::ensure_that(properties, !is.null(properties) & (length(properties)>=2 & length(properties)<=10) & 
                          is.character(properties), 
                        err_desc = "Properties must be character type and have at least 2 strings and maximum 10.")
+  
+  if (!is.null(time_intervals)) {
+    t <- lubridate::int_standardize(time_intervals)
+  } else {
+    cat("\ntime_intervals (stilf_interval('2000-01-01', '2004-01-01')),\n 
+         must be defined!\n")
+  }
+  
+  interval_start <- format(lubridate::int_start(t), format = '%Y-%m-%d')
+  interval_end <- format(lubridate::int_end(t), format = '%Y-%m-%d')
+  
+  # limit time to tibble data_tb
+  data_tb <- data_tb[which(data_tb$start_date >= interval_start & data_tb$end_date <= interval_end),]
+  
   
   # create a set of variables with each string from vector stored 
   for(i in 1:length(properties)){
@@ -321,7 +339,7 @@ stilf_event_transitions <- function(data_tb = NULL, properties = NULL){
   aux.tb <- start_transition(count, interval.tb, aux.tb)
   
   # create a stilf interval with information from start and end date from input tibble
-  interval <- stilf_interval(head(data_tb$start_date,1),tail(data_tb$end_date,1))
+  interval <- stilf_interval(utils::head(data_tb$start_date,1),utils::tail(data_tb$end_date,1))
   
   logical <- NULL
   # verify if all properties are TRUE

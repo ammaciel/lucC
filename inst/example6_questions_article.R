@@ -6,9 +6,9 @@ library(stilf)
 
 stilf_starting_point()
 
-#--------------
+#*********************************
 # Classification time series using a set of temporal patterns
-#--------------
+#*********************************
 
 # ita.tb <- get(load("~/Desktop/ESTUDO_TESE/Studies/Itanhanga/itanhanga_TWDTW_stilf.tb.RData"))
 # ita.tb
@@ -51,22 +51,22 @@ stilf_plot_maps_input(santa_carmem_TWDTW.tb, EPSG_WGS84 = TRUE, custom_palette =
 
 
 
-#--------------
+#*********************************
 # Rename for new labels before make questions
-#--------------
+#*********************************
 
-santa_carmem_TWDTW.tb <- get(load("~/Desktop/ESTUDO_TESE/Studies/SantaCarmem/SantaCarmem_part_TWDTW_stilf.tb.RData"))
+#santa_carmem_TWDTW.tb <- get(load("~/Desktop/ESTUDO_TESE/Studies/SantaCarmem/SantaCarmem_part_TWDTW_stilf.tb.RData"))
+santa_carmem_TWDTW.tb <- get(load("~/Desktop/SantaCarmem/SantaCarmem_part_TWDTW_stilf.tb.RData"))
 santa_carmem_TWDTW.tb
 
 # alter start_date and end_date to a especific range in order to extract events
-Santa_Carmem_TWDTW_renamed.tb <- stilf_standard_date_events(data_tb = santa_carmem_TWDTW.tb, month_year = "09", day_month = "01")
+Santa_Carmem_TWDTW_new_date.tb <- stilf_standard_date_events(data_tb = santa_carmem_TWDTW.tb, month_year = "09", day_month = "01")
 
-Santa_Carmem_TWDTW_renamed.tb <- stilf_standard_date_events(data_tb = santa_carmem_TWDTW.tb, month_year = "09", day_month = "01")
-
+Santa_Carmem_TWDTW_new_date.tb
 
 
 # Forest --> Pasture --> Cropping
-df <- Santa_Carmem_TWDTW_renamed.tb
+df <- Santa_Carmem_TWDTW_new_date.tb
 
 # amount of data for class
 data.frame(table(df$label))
@@ -103,16 +103,17 @@ data.frame(table(df$label))
 
 # see maps
 stilf_plot_maps_input(df, EPSG_WGS84 = TRUE, custom_palette = FALSE) 
+stilf_plot_maps_input(Santa_Carmem_TWDTW_new_date.tb, EPSG_WGS84 = TRUE, custom_palette = FALSE) 
+
 stilf_plot_maps_input(df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#f5e7a1")) # , "#66CC00" secondary_vegetation
 
 
 
-##########
-########################################
-#+++++++++++++++++++++++++++++
+#*********************************
 # Secondary_vegetation
-#+++++++++++++++++++++++++++++ 
-# AREA "Part_Sinop" - IJGIS - pattern_classification_14patterns_3bands_Area1_Sinop
+#*********************************
+
+# AREA "Santa Carmem" - IJGIS - pattern_classification_14patterns_3bands_Area1_Sinop
 ## Question - Which "Forest" areas have been turned in secondary-vegetation after anyclass? 
 # o = geo-objects, the own df_input data.frame
 
@@ -128,7 +129,6 @@ p5 <- "Double_cropping"
 t1 <- stilf_interval("2000-09-01","2001-09-01")
 t2 <- stilf_interval("2001-09-01","2016-09-01")
 
-##Luiz, quando você puder  poderia compartilhar a pasta TWDTWAmazoniaCerrado com Rodrigo, o e-mail dele é esse: rodrigo_anz@yahoo.com.br
 
 # Test occur for many time series in a dataframe
 QuestionOccurs <- function(data_tb, p, t){
@@ -191,18 +191,79 @@ QuestionOccurs <- function(data_tb, p, t){
 }
 
 # verify using function
-data_sec_veg_occurs <- QuestionOccurs(area_tb, p = c(p1,p2,p3,p4,p5), t = c(t1,t2))
+data_sec_veg_occurs <- QuestionOccurs(df, p = c(p1,p2,p3,p4,p5), t = c(t1,t2))
 
 rm(list = ls(pattern="^p[0-9]")) # remove classes
 remove(t1,t2) # remove intervals
-##########
 
 
+# remove duplicated rows
+length(which(duplicated(data_sec_veg_occurs)))
+#data_sec_veg_occurs <- data_sec_veg_occurs[!duplicated(data_sec_veg_occurs),]
 
-###########################
-#### Question to journal
-## Question 1 - Which "Forest" areas haven't been replaced by other croppings?
+stilf_plot_maps_input(df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#f5e7a1")) # , "#66CC00" secondary_vegetation
+stilf_plot_maps_events(data_sec_veg_occurs, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#f5e7a1")) 
+
+stilf_plot_maps_input(df_new, EPSG_WGS84 = TRUE) 
+stilf_plot_barplot_events(df_new[which(df_new$label == "Forest"),]) 
+
+
+#*********************************
+# Rules to change Forest to Secondary_vegetation
+#*********************************
+
+df_input <- df
+
+df_temp <- data_sec_veg_occurs
+
+# remove first line of data.frame that contain the from == "2000-08-15" and change by other label
+df_first_line <- df_temp[which(df_temp$start_date == "2000-09-01"),]
+df_posProc <- df_temp[which(df_temp$start_date != "2000-09-01"),]
+
+# replace Forest to Secondary-vegetation
+df_posProc$label <- as.character(df_posProc$label)
+df_posProc$label[df_posProc$label == "Forest"] <- "Secondary_vegetation"
+
+# merge first line dataframe with pos-processing dataframe
+df_pos <- dplyr::bind_rows(df_first_line,df_posProc)
+
+# original data
+df_temp2 <- df_input 
+
+# temp3 dataframe with only id lines not in pos dataframe
+df_temp3 <- df_temp2[!(df_temp2$id %in% df_pos$id),]
+
+# merge df_input without id with renamed with lines without changes
+df_new <- bind_rows(df_pos,df_temp3)
+df_new <- data.frame(df_new[order(df_new$id),]) # order
+#rownames(df_new) <- 1:nrow(df_new)
+
+# return as tibble 
+df_new <- tibble::as_tibble(df_new)
+
+head(df_new)
+# remove other
+remove(df_temp,df_first_line,df_posProc,df_pos,df_temp2,df_temp3)
+
+#save(df_new, file = "~/Downloads/Santa_Carmem_part_postprocess.RData")
+
+# plot with new type of vegetation
+stilf_plot_maps_input(df_new, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1")) # secondary_vegetation
+
+stilf_plot_barplot_events(df_new[which(df_new$label == "Forest"),]) 
+
+# to know the amount of data per year and classe type
+data.frame(table(df_new$end_date, df_new$label))
+
+
+#*********************************
+# Question to journal
+#*********************************
+
+#---------------------------------
+# Question 1 - Which "Forest" areas haven't been replaced by other croppings?
 # o = geo-objects, the own df_input data.frame
+#---------------------------------
 
 # p = properties of objects :
 p1 <- "Forest"
@@ -233,36 +294,38 @@ QuestionOccurs <- function(data_tb, p, t){
   return(output_df)
 }
 
-output_df <- QuestionOccurs(df, p = p1, t = t1)
+output_df <- QuestionOccurs(df_new, p = p1, t = t1)
 remove(t1)
 remove(p1)
 
 
 # remove duplicated rows
 length(which(duplicated(output_df)))
-#output_df <- output_df[!duplicated(output_df),]
+# output_df <- output_df[!duplicated(output_df),]
 
-stilf_plot_maps_input(df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#CCCC00", "#FFB266", "#009900", "#FFFFCC", "#66CC00")) 
-stilf_plot_maps_input(df, EPSG_WGS84 = TRUE, custom_palette = FALSE) 
+stilf_plot_maps_input(df_new, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1")) # secondary_vegetation
 
-stilf_plot_maps_events(output_df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("blue", "red", "green", "yellow", "pink")) 
-stilf_plot_barplot_events(output_df, custom_palette = FALSE, RGB_color = c("green")) 
-stilf_plot_sequence_events(output_df, show_y_index = FALSE, end_date = "2017-03-01" ) 
+stilf_plot_maps_events(output_df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1")) 
 
-#stilf_plot_barplot_events(df_input_new[which(df_input_new$label == "Forest"),]) 
+stilf_plot_barplot_events(output_df, custom_palette = TRUE, RGB_color = "#1b791f") 
+
+stilf_plot_sequence_events(output_df, show_y_index = FALSE, end_date = "2017-03-01") 
+
+#stilf_plot_barplot_events(df_new[which(df_new$label == "Forest"),]) 
 
 
-
-###########################
-#### Question to journal
-## Question 2 - Which "Forest" areas haven't been replaced by other croppings?
+#---------------------------------
+# Question 2 - Which "Forest" areas have been replaced by Pasture after 2001?
 # o = geo-objects, the own df_input data.frame
+#---------------------------------
 
 # p = properties of objects :
 p1 <- "Forest"
+p2 <- "Pasture"
 
 # t = interval:
-t1 <- stilf_interval("2000-09-01","2017-03-01")
+t1 <- stilf_interval("2000-09-01","2001-03-01")
+t2 <- stilf_interval("2001-09-01","2017-03-01")
 
 # Test occur for many time series in a dataframe
 QuestionOccurs <- function(data_tb, p, t){
@@ -275,7 +338,11 @@ QuestionOccurs <- function(data_tb, p, t){
     #x=1
     temp <- df[which(as.character(df$index) == coord[x]),]
     
-    if (nrow(event2 <- stilf_predicate_occur(temp, p1, t1)) >= 1
+    if (nrow(ev1 <- stilf_predicate_occur(temp, p1, t1)) >= 1 &
+        nrow(ev2 <- stilf_predicate_occur(temp, p2, t2)) >= 1 &
+        
+        isTRUE(stilf_relation_following(tail(stilf_interval(ev1$start_date, ev1$end_date)),
+                                        head(stilf_interval(ev2$start_date, ev2$end_date))))
         
     ){
       temp0 <- rbind(event2)
@@ -287,22 +354,55 @@ QuestionOccurs <- function(data_tb, p, t){
   return(output_df)
 }
 
-output_df <- QuestionOccurs(df, p = p1, t = t1)
-remove(t1)
-remove(p1)
+output_df2 <- QuestionOccurs(df_new, p = c(p1, p2), t = c(t1,t2))
+remove(t1, t2)
+remove(p1, p2)
 
 
 # remove duplicated rows
-length(which(duplicated(output_df)))
-#output_df <- output_df[!duplicated(output_df),]
+length(which(duplicated(output_df2)))
+#output_df2 <- output_df2[!duplicated(output_df2),]
 
-stilf_plot_maps_input(df, EPSG_WGS84 = TRUE) 
-stilf_plot_maps_events(output_df, EPSG_WGS84 = TRUE) 
-stilf_plot_barplot_events(output_df) 
-stilf_plot_sequence_events(output_df, show_y_index = FALSE,end_date = "2017-03-01" ) 
+stilf_plot_maps_input(df_new, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1")) # secondary_vegetation
 
-#stilf_plot_barplot_events(df_input_new[which(df_input_new$label == "Forest"),]) 
+stilf_plot_maps_events(output_df2, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1")) 
 
+stilf_plot_barplot_events(output_df2, custom_palette = TRUE, RGB_color = "#1b791f") 
+
+stilf_plot_sequence_events(output_df2, show_y_index = FALSE, end_date = "2017-03-01") 
+
+
+#stilf_plot_barplot_events(output_df2[which(output_df2$label == "Forest"),]) 
+
+#---------------------------------
+# Question 3 - Which "Forest" areas have been replaced by Pasture after in some time interval?
+# o = geo-objects, the own df_input data.frame
+#---------------------------------
+# Forest --> Pasture --> Cropping - Type of transition
+#transition_string <- c("Pasture","Cropping","Pasture","Cropping","Pasture","Cropping","Pasture","Cropping","Pasture","Cropping")
+#transition_string <- c("Forest", "Cerrado", "Secondary_vegetation", "Cropping", "Pasture")
+transition_string <- c("Forest", "Pasture")
+
+# create a tibble with the same column names 
+output.tb3 <- df_new[FALSE,] # Always run this 
+coord <- unique(df_new$index)
+
+# Apply over all input data
+for(x in 1:length(coord)){
+  temp.tb <- df_new[which(as.character(df_new$index) == coord[x]),]
+  temp_final.tb <- stilf_event_transitions(temp.tb, properties = transition_string, time_intervals = stilf_interval("2000-09-01","2012-09-12"))
+  output.tb3 <- bind_rows(output.tb3, temp_final.tb)
+}
+output.tb3
+
+# plots
+stilf_plot_maps_input(df_new, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1")) # secondary_vegetation
+
+stilf_plot_maps_events(output.tb3, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1")) 
+
+stilf_plot_barplot_events(output.tb3, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e")) 
+
+stilf_plot_sequence_events(output.tb3, show_y_index = FALSE, end_date = "2017-03-01") 
 
 
 

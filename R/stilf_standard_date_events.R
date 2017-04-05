@@ -24,7 +24,7 @@
 #' order to extract events
 #' 
 #' @usage stilf_standard_date_events(data_tb = NULL, 
-#' month_year = "08", day_month = "15")
+#' month_year = "09", day_month = "01")
 #' 
 #' @param data_tb      Tibble. A tibble with values in sits format
 #' @param month_year   Character. A month of the year in two digits (01 to 12)
@@ -59,12 +59,12 @@
 #' 
 #' new_area_Sinop
 #' 
-#' stilf_standard_date_events(data_tb = df, month_year = "09", day_month = "15")
+#' stilf_standard_date_events(data_tb = df, month_year = "09", day_month = "01")
 #' 
 #'}
 #'
 
-stilf_standard_date_events <- function(data_tb = NULL, month_year = "08", day_month = "15"){
+stilf_standard_date_events <- function(data_tb = NULL, month_year = "09", day_month = "01"){
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
@@ -74,20 +74,14 @@ stilf_standard_date_events <- function(data_tb = NULL, month_year = "08", day_mo
   ensurer::ensure_that(day_month, !is.null(day_month), 
                        err_desc = "day_month date must be defined! Default is day '15'.")
   
-  input_data <- data_tb %>% 
-  stilf_data_preparation()
-  
-  #input_data <- tibble::add_column(input_data, "start_date2" = as.Date(paste(lubridate::year(input_data$start_date), month_year, day_month, sep = "")), format = '%Y-%m-%d')
+  input_data <- data_tb 
   
   # create new columns with an uniform date
-  input_data$"start_date2" <- input_data$start_date   
-  input_data$start_date <- format(as.Date(input_data$start_date2), format = '%Y-%m-%d')
+  input_data$"start_date2" <- as.Date(input_data$start_date, format = '%Y-%m-%d')   
+  input_data$start_date <- as.Date(paste0(lubridate::year(input_data$start_date),"-", month_year,"-", day_month, sep = ""), format = '%Y-%m-%d') 
   
-  input_data$"end_date2" <- paste(lubridate::year(input_data$end_date), month_year, day_month, sep = "-")
-  #input_data$"end_date2" <- format(as.Date(input_data$end_date2), format = '%Y-%m-%d')
-  
-  # rename columns
-  colnames(input_data) <- c("longitude","latitude","start_date2","end_date2","label", "id", "index","start_date","end_date")
+  input_data$"end_date2" <- as.Date(input_data$end_date, format = '%Y-%m-%d')
+  input_data$end_date <- as.Date(paste0(lubridate::year(input_data$end_date),"-", month_year,"-", day_month, sep = ""), format = '%Y-%m-%d') 
   
   return(input_data)
   

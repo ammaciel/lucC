@@ -170,7 +170,7 @@ stilf_fromCSV <- function (path_csv_file = NULL, separator = ",", header_file = 
                        err_desc = "Define if file has or not a header! Default is TRUE")
   
   data_tb <- path_csv_file %>%
-    read.csv (sep = separator, header = header_file, stringsAsFactors = FALSE) %>% 
+    utils::read.csv (sep = separator, header = header_file, stringsAsFactors = FALSE) %>% 
     tibble::as_tibble()
   
   data_tb
