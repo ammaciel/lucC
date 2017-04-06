@@ -29,7 +29,15 @@
 #' 
 #' @keywords datasets
 #' @return Images in geotiff format to open using SIG
-#' @import dplyr sp raster rasterVis lattice ensurer
+#' @import magrittr 
+#' @importFrom ensurer ensure_that 
+#' @importFrom dplyr filter
+#' @importFrom lubridate year
+#' @importFrom sp proj4string CRS spTransform coordinates gridded
+#' @importFrom raster raster projection writeRaster
+#' @importFrom grDevices rainbow 
+#' @importFrom rasterVis levelplot 
+#' @importFrom lattice panel.levelplot.raster 
 #' @export 
 #'
 #' @examples \dontrun{
@@ -87,7 +95,7 @@ stilf_toGeoTIFF <- function(data_tb = NULL, path_raster_folder = NULL){
     pts = sp::spTransform(pts,sp::CRS("+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +a=6371007.181 +b=6371007.181 +units=m +no_defs")) # sinusoidal
     
     # Tell R that gridded
-    sp::gridded(pts) = TRUE
+    sp::gridded(pts) = TRUE 
     
     # Raster package to convert to a raster and set its CRS
     # All data SciDB is a sinusoidal projection

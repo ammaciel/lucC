@@ -36,7 +36,8 @@
 #' 
 #' @keywords datasets
 #' @return Tibble with all events hold during a time interval
-#' @import dplyr lubridate
+#' @importFrom lubridate int_standardize int_start int_end
+#' @importFrom dplyr bind_rows
 #' @export
 #'
 #' @examples \dontrun{
@@ -95,7 +96,7 @@ stilf_predicate_holds <- function(geo_objects = NULL, object_properties = NULL, 
   
   intStart <- format(lubridate::int_start(t), format = '%Y-%m-%d')
   intEnd <- format(lubridate::int_end(t), format = '%Y-%m-%d')
-
+  
   df <- o
   df <- df[order(df$end_date),] # order by end_date
   p <- as.character(p)
@@ -149,7 +150,9 @@ stilf_predicate_holds <- function(geo_objects = NULL, object_properties = NULL, 
 #' 
 #' @keywords datasets
 #' @return Tibble with all events happened over a time interval
-#' @import dplyr lubridate
+#' @importFrom lubridate int_standardize int_start int_end
+#' @importFrom dplyr bind_rows
+
 #' @export
 #'
 #' @examples \dontrun{

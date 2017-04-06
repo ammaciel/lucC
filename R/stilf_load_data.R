@@ -28,7 +28,10 @@
 
 #' @keywords datasets
 #' @return JSON format to file stored
-#' @import jsonlite dplyr readr ensurer
+#' @import magrittr  
+#' @importFrom ensurer ensure_that 
+#' @importFrom jsonlite toJSON 
+#' @importFrom readr write_lines
 #' @export
 #'
 #' @examples \dontrun{
@@ -86,7 +89,9 @@ stilf_toJSON <- function (data_tb, path_json_file = NULL) {
 
 #' @keywords datasets
 #' @return Open JSON format to file
-#' @import jsonlite dplyr ensurer
+#' @import magrittr tibble 
+#' @importFrom ensurer ensure_that 
+#' @importFrom jsonlite fromJSON 
 #' @export
 #'
 #'
@@ -141,7 +146,9 @@ stilf_fromJSON <- function (path_json_file = NULL) {
 
 #' @keywords datasets
 #' @return Open a CSV format to file
-#' @import jsonlite dplyr ensurer
+#' @import magrittr tibble 
+#' @importFrom ensurer ensure_that 
+#' @importFrom utils read.csv 
 #' @export
 #'
 #' @examples \dontrun{

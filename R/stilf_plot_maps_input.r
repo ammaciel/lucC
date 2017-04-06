@@ -31,7 +31,13 @@
 
 #' @keywords datasets
 #' @return Plot with input data as colored map
-#' @import dplyr sp ggplot2 RColorBrewer
+#' @import ggplot2 magrittr
+#' @importFrom ensurer ensure_that 
+#' @importFrom grDevices colorRampPalette
+#' @importFrom RColorBrewer brewer.pal
+#' @importFrom dplyr filter
+#' @importFrom lubridate year 
+#' @importFrom sp proj4string CRS spTransform coordinates
 #' @export
 #'
 #' @examples \dontrun{

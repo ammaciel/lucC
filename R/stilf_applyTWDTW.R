@@ -34,7 +34,11 @@
 #' 
 #' @keywords datasets
 #' @return Tibble with set of points  classified by TWDTW method
-#' @import dplyr sits tibble 
+#' @import tibble 
+#' @importFrom dplyr filter  
+#' @importFrom utils txtProgressBar setTxtProgressBar
+#' @importFrom lubridate year
+#' @importFrom sits sits_TWDTW
 #' @export
 #'
 #' @examples \dontrun{
