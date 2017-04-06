@@ -31,11 +31,14 @@
 #'                         and maximum 10 combination of transitions, 
 #'                         for example, c("Forest","Cropping").
 #' @param time_intervals   Interval. A interval of time to verify if 
-#' properties is over or not in stilf_interval format. 
+#'                         properties is into of stilf_interval format. 
 #' 
 #' @keywords datasets
 #' @return Tibble with event transition 
-#' @import dplyr ensurer
+#' @importFrom ensurer ensure_that 
+#' @importFrom utils head tail 
+#' @importFrom lubridate int_standardize int_end int_start
+#' @importFrom dplyr bind_rows
 #' @export
 #'
 #' @examples \dontrun{
@@ -48,7 +51,7 @@
 #' input_tb <- "./inst/postprocess_Sinop.json" %>% 
 #'   stilf_fromJSON() 
 #' 
-#' # if necessary, create a new column to rpeserve the old label
+#' # if necessary, create a new column to preserve the old label
 #' df <- input_tb
 #' df$"label2" <- df$label
 #' 
@@ -56,19 +59,16 @@
 #' for (x in 1:nrow(df)){
 #'   if (df$label2[x] == "Savanna") {
 #'     df$"label"[x] = "Cerrado"
-#'   }
-#'   else if (df$label2[x] %in% c("Pasture1","Pasture2")) {
-#'     df$"label"[x] = "Pasture"
-#'   }
-#'   else if (df$label2[x] %in% c("Soybean_Fallow1", "Soybean_Fallow2", 
+#'   } else if (df$label2[x] %in% c("Pasture1","Pasture2"))  {
+#'      df$"label"[x] = "Pasture"
+#'   } else if (df$label2[x] %in% c("Soybean_Fallow1", "Soybean_Fallow2", 
 #'                                "Soybean_NonComerc1", "Soybean_NonComerc2", 
 #'                                "Soybean_Comerc1", "Soybean_Comerc2", 
 #'                                "Soybean_Pasture", "NonComerc_Cotton", 
 #'                                "Fallow_Cotton", "Soybean_Cotton")) {
-#'     df$"label"[x] = "Cropping"
+#'      df$"label"[x] = "Cropping"
 #'   }
 #' }
-#' 
 #' df
 #' 
 #' # create a tibble with the same column names 
@@ -81,19 +81,22 @@
 #' # Apply over all input data
 #' for(x in 1:length(coord)){
 #'   temp.tb <- df[which(as.character(df$index) == coord[x]),]
-#'   temp_final.tb <- stilf_event_transitions(temp.tb, properties = transition_string,
+#'   temp_final.tb <- stilf_event_transitions(temp.tb, 
+#'   properties = transition_string,
 #'   time_intervals = stilf_interval("2000-07-01", "2016-12-01"))
 #'   output.tb <- bind_rows(output.tb, temp_final.tb)
 #' }
 #' output.tb
 #' 
 #' # plot transitions discovered
-#' stilf_plot_maps_input(df, EPSG_WGS84 = TRUE)
-#' stilf_plot_maps_events(output.tb, EPSG_WGS84 = TRUE)
+#' stilf_plot_maps_input(df, EPSG_WGS84 = TRUE, 
+#' custom_palette = FALSE)
+#' stilf_plot_maps_events(output.tb, EPSG_WGS84 = TRUE, 
+#' custom_palette = FALSE)
 #' stilf_plot_sequence_events(output.tb)
 #' 
 #'
-#'
+#' }
 
 # function to apply event transtion
 stilf_event_transitions <- function(data_tb = NULL, properties = NULL, time_intervals = stilf_interval("2000-01-01","2016-12-31")){
@@ -108,7 +111,7 @@ stilf_event_transitions <- function(data_tb = NULL, properties = NULL, time_inte
   if (!is.null(time_intervals)) {
     t <- lubridate::int_standardize(time_intervals)
   } else {
-    cat("\ntime_intervals (stilf_interval('2000-01-01', '2004-01-01')),\n 
+    cat("time_intervals (stilf_interval(\"2000-01-01\", \"2004-01-01\")),\n 
          must be defined!\n")
   }
   

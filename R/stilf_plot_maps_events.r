@@ -33,7 +33,14 @@
 #' 
 #' @keywords datasets
 #' @return Plot with input data as colored map
-#' @import dplyr sp ggplot2 RColorBrewer ensurer
+#' @import ggplot2 magrittr
+#' @importFrom ensurer ensure_that 
+#' @importFrom grDevices colorRampPalette
+#' @importFrom RColorBrewer brewer.pal
+#' @importFrom dplyr filter
+#' @importFrom lubridate year 
+#' @importFrom sp proj4string CRS spTransform coordinates
+#'  
 #' @export
 #'
 #' @examples \dontrun{
@@ -196,7 +203,8 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pal
 #' 
 #' @keywords datasets
 #' @return Plot sequence time series as lines
-#' @import ggplot2 RColorBrewer ensurer
+#' @import ggplot2
+#' @importFrom ensurer ensure_that 
 #' @export
 #'
 #' @examples \dontrun{
@@ -305,7 +313,10 @@ stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, star
 #' 
 #' @keywords datasets
 #' @return Plot a barplot in Y axis in (Area km^2) = (Freq*(250*250))/(1000*1000)
-#' @import ggplot2 RColorBrewer ensurer scales
+#' @import ggplot2
+#' @importFrom ensurer ensure_that 
+#' @importFrom lubridate year 
+#' @importFrom scales hue_pal
 #' @export
 #'
 #' @examples \dontrun{

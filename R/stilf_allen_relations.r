@@ -55,7 +55,7 @@
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize int_end int_start
 #' @export
 #'
 #' @examples \dontrun{
@@ -114,7 +114,7 @@ stilf_relation_before <- function (first_interval, second_interval) {
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize int_end int_start
 #' @export
 #'
 #' @examples \dontrun{
@@ -164,7 +164,7 @@ stilf_relation_after <- function (first_interval, second_interval) {
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize int_end int_start
 #' @export
 #'
 #' @examples \dontrun{
@@ -211,7 +211,7 @@ stilf_relation_meets <- function (first_interval, second_interval) {
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize int_end int_start
 #' @export
 #'
 #' @examples \dontrun{
@@ -259,7 +259,7 @@ stilf_relation_met_by <- function (first_interval, second_interval) {
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize int_end int_start
 #' @export
 #'
 #' @examples \dontrun{
@@ -308,7 +308,7 @@ stilf_relation_overlaps <- function (first_interval, second_interval) {
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize int_end int_start
 #' @export
 #'
 #' @examples \dontrun{
@@ -357,7 +357,7 @@ stilf_relation_overlapped_by <- function (first_interval, second_interval) {
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize int_end int_start
 #' @export
 #'
 #' @examples \dontrun{
@@ -405,7 +405,7 @@ stilf_relation_starts <- function (first_interval, second_interval) {
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize int_end int_start
 #' @export
 #'
 #' @examples \dontrun{
@@ -455,7 +455,7 @@ stilf_relation_started_by <- function (first_interval, second_interval) {
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize int_end int_start
 #' @export
 #'
 #' @examples \dontrun{
@@ -503,7 +503,7 @@ stilf_relation_during <- function (first_interval, second_interval) {
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize int_end int_start
 #' @export
 #'
 #' @examples \dontrun{
@@ -551,7 +551,7 @@ stilf_relation_contains <- function (first_interval, second_interval) {
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize int_end int_start
 #' @export
 #'
 #' @examples \dontrun{
@@ -599,7 +599,7 @@ stilf_relation_finishes <- function (first_interval, second_interval) {
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize int_end int_start
 #' @export
 #'
 #' @examples \dontrun{
@@ -647,7 +647,7 @@ stilf_relation_finished_by <- function (first_interval, second_interval) {
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize int_end int_start
 #' @export
 #'
 #' @examples \dontrun{

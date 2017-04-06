@@ -2,7 +2,7 @@ Package: stilf
 Type: Package
 Title: Spatial-temporal Interval Logic Formalism
 Version: 0.1
-Date: 2017-02-28
+Date: 2017-04-05
 Authors@R: person("Adeline", "Maciel", role = c("aut", "cre"), email = "adelsud6@gmail.com")
 Author: Adeline Maciel [aut, cre]
 Maintainer: Adeline Maciel <adelsud6@gmail.com>
@@ -10,20 +10,24 @@ Description: Spatial-temporal Interval Logic Formalism (STILF) search for events
 License: file LICENSE
 LazyData: TRUE
 Depends: R (>= 3.1.2),
-        dplyr
+        magrittr
 RoxygenNote: 6.0.1
-Imports: tibble,
-      lubridate,
-      ggplot2,
-      jsonlite,
-      sp,
+Imports: dplyr,
       ensurer,
+      ggplot2,
+      grDevices,
+      jsonlite,
+      lattice,
+      lubridate,
       raster,
       rasterVis,
-      scales,
-      lattice,
-      readr,
       RColorBrewer,
-      sits
+      readr,
+      scales,
+      sits,
+      sp,
+      tibble,
+      utils
+Remotes: git::https://github.com/gilbertocamara/sits.git
 URL: https://github.com/ammaciel/stilf
 BugReports: https://github.com/ammaciel/stilf

@@ -29,7 +29,8 @@
 #' 
 #' @keywords datasets
 #' @return Interval value with two dates 
-#' @import lubridate dplyr ensurer
+#' @importFrom ensurer ensure_that 
+#' @importFrom lubridate interval ymd
 #' @export
 #'
 #' @examples \dontrun{
