@@ -16,7 +16,7 @@ and maximum 10 combination of transitions,
 for example, c("Forest","Cropping").}
 
 \item{time_intervals}{Interval. A interval of time to verify if 
-properties is over or not in stilf_interval format.}
+properties is into of stilf_interval format.}
 }
 \value{
 Tibble with event transition
@@ -24,6 +24,64 @@ Tibble with event transition
 \description{
 Provide a stilf_event_transitions, a set of event transitions. 
 And return a tibble with events discovered
+}
+\examples{
+\dontrun{
+
+library(stilf)
+
+stilf_starting_point()
+
+# open a JSON file with data classified
+input_tb <- "./inst/postprocess_Sinop.json" \%>\% 
+  stilf_fromJSON() 
+
+# if necessary, create a new column to preserve the old label
+df <- input_tb
+df$"label2" <- df$label
+
+# change label for 
+for (x in 1:nrow(df)){
+  if (df$label2[x] == "Savanna") {
+    df$"label"[x] = "Cerrado"
+  } else if (df$label2[x] \%in\% c("Pasture1","Pasture2"))  {
+     df$"label"[x] = "Pasture"
+  } else if (df$label2[x] \%in\% c("Soybean_Fallow1", "Soybean_Fallow2", 
+                               "Soybean_NonComerc1", "Soybean_NonComerc2", 
+                               "Soybean_Comerc1", "Soybean_Comerc2", 
+                               "Soybean_Pasture", "NonComerc_Cotton", 
+                               "Fallow_Cotton", "Soybean_Cotton")) {
+     df$"label"[x] = "Cropping"
+  }
+}
+df
+
+# create a tibble with the same column names 
+output.tb <- df[FALSE,]
+coord <- unique(df$index)
+
+# Forest --> Pasture --> Cropping - Type of transition
+transition_string <- c("Forest", "Pasture", "Cropping")
+
+# Apply over all input data
+for(x in 1:length(coord)){
+  temp.tb <- df[which(as.character(df$index) == coord[x]),]
+  temp_final.tb <- stilf_event_transitions(temp.tb, 
+  properties = transition_string,
+  time_intervals = stilf_interval("2000-07-01", "2016-12-01"))
+  output.tb <- bind_rows(output.tb, temp_final.tb)
+}
+output.tb
+
+# plot transitions discovered
+stilf_plot_maps_input(df, EPSG_WGS84 = TRUE, 
+custom_palette = FALSE)
+stilf_plot_maps_events(output.tb, EPSG_WGS84 = TRUE, 
+custom_palette = FALSE)
+stilf_plot_sequence_events(output.tb)
+
+
+}
 }
 \author{
 Adeline M. Maciel

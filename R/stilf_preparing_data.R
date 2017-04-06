@@ -26,7 +26,6 @@
 #' 
 #' @keywords datasets
 #' @return Change the global default setting
-#' @import dplyr tibble 
 #' @export
 #'
 #' @examples \dontrun{
@@ -74,7 +73,8 @@ stilf_starting_point <- function(){
 #' 
 #' @keywords datasets
 #' @return Tibble with columns 'longitude', 'latitude', 'start_date', 'end_date', 'label', 'id', 'index'
-#' @import dplyr tibble ensurer
+#' @import magrittr tibble
+#' @importFrom ensurer ensure_that
 #' @export
 #'
 #' @examples \dontrun{
@@ -144,6 +144,6 @@ stilf_data_preparation <- function(data_tb = NULL){
 }
 
 
-#' @import utils 
+#' @importFrom utils globalVariables
 utils::globalVariables(c("points_input_map.list", "map_input_df", "points_events_map.list", "properties_1", "properties_2", "properties_3", "properties_4", "properties_5", "properties_6", "properties_7", "properties_8", "properties_9", "properties_10"))
 

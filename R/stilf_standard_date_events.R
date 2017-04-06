@@ -34,8 +34,8 @@
 #' @keywords datasets
 #' @return Tibble containing two new columns with start_date and end_date in a 
 #' predefined standard range ensurer
-#' 
-#' @import tibble 
+#' @importFrom ensurer ensure_that
+#' @importFrom lubridate year
 #' @export
 #'
 #' @examples \dontrun{
@@ -43,9 +43,9 @@
 #' library(stilf)
 #' 
 #' stilf_starting_point()
-
+#' 
 #' file_json_zip = "./inst/areaSinop/classification_14patterns_3bands_Area1_Sinop.zip"
-
+#' 
 #' input_tb_area_Sinop <- file_json_zip %>% 
 #'   unzip() %>% 
 #'   stilf_fromJSON() 
@@ -59,7 +59,8 @@
 #' 
 #' new_area_Sinop
 #' 
-#' stilf_standard_date_events(data_tb = df, month_year = "09", day_month = "01")
+#' stilf_standard_date_events(data_tb = df, month_year = "09", 
+#' day_month = "01")
 #' 
 #'}
 #'

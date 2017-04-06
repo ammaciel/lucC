@@ -56,7 +56,7 @@
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize
 #' @export
 #'
 #' @examples \dontrun{
@@ -117,7 +117,7 @@ stilf_relation_in <- function(first_interval, second_interval){
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize
 #' @export
 #'
 #' @examples \dontrun{
@@ -166,7 +166,7 @@ stilf_relation_following <- function(first_interval, second_interval){
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
-#' @import lubridate
+#' @importFrom lubridate is.interval int_standardize
 #' @export
 #'
 #' @examples \dontrun{
