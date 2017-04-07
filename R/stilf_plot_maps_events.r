@@ -75,7 +75,7 @@
 #'
 
 # plot maps with events
-stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL, size_square=1){ 
+stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL, size_square= 1 ){ 
  
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
@@ -122,7 +122,7 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pal
   # plot only events
   g <- ggplot2::ggplot() +
     geom_raster(data=map_input_df, aes(map_input_df$x, map_input_df$y, fill=map_input_df$"z")) +
-    geom_point(data=map_events_df, aes(x=map_events_df$x, y=map_events_df$y), shape=0, colour = "black" ) + #, size=sizeSquare) + #  size=1.4
+    geom_point(data=map_events_df, aes(x=map_events_df$x, y=map_events_df$y), shape=0, colour = "black", size = size_square) + #  size=1.4
     scale_y_continuous(expand = c(0, 0), breaks = NULL) +
     scale_x_continuous(expand = c(0, 0), breaks = NULL) +
     facet_wrap("w") +
