@@ -28,6 +28,7 @@ Imports: dplyr,
       sp,
       tibble,
       utils
-Remotes: git::https://github.com/gilbertocamara/sits.git
+Remotes: 
+      gilbertocamara/sits
 URL: https://github.com/ammaciel/stilf
 BugReports: https://github.com/ammaciel/stilf
