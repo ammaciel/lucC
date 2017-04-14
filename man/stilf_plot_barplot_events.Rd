@@ -6,7 +6,7 @@
 \title{Plot Barplot Maps with STILF Events}
 \usage{
 stilf_plot_barplot_events (data_tb = NULL, 
-custom_palette = FALSE, RGB_color = NULL)
+custom_palette = FALSE, RGB_color = NULL, pixel_resolution = 250)
 }
 \arguments{
 \item{data_tb}{Tibble. A tibble with values longitude and latitude and other values}
@@ -14,9 +14,11 @@ custom_palette = FALSE, RGB_color = NULL)
 \item{custom_palette}{Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE}
 
 \item{RGB_color}{Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'}
+
+\item{pixel_resolution}{Numeric. Is a spatial resolution of the pixel. Default is 250 meters considering MODIS 250 m. See more at \url{https://modis.gsfc.nasa.gov/about/specifications.php}.}
 }
 \value{
-Plot a barplot in Y axis in (Area km^2) = (Freq*(250*250))/(1000*1000)
+Plot a barplot in Y axis in square kilometers (Area km^2) = (Number of pixel *(pixel_resolution*pixel_resolution))/(1000*1000)
 }
 \description{
 Plot barplot over time

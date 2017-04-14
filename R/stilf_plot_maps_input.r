@@ -116,12 +116,12 @@ stilf_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pale
         scale_x_continuous(expand = c(0, 0), breaks = NULL) +
         facet_wrap("w") +
         coord_fixed(ratio = 1) + 
-        #coord_fixed(ratio = 1/cos(mean(x)*pi/180)) +
-        theme(legend.position = "bottom", strip.text = element_text(size=10)) +
+        # coord_fixed(ratio = 1/cos(mean(map_input_df$x)*pi/180)) +
+        theme(legend.position = "bottom") +#, strip.text = element_text(size=10)) +
         xlab("") +
         ylab("") +
         scale_fill_manual(name="Legend:", values = my_palette)
-        #scale_fill_brewer(name="Legend:", palette= "Paired")
+        # scale_fill_brewer(name="Legend:", palette= "Paired")
 
   print(g)
   

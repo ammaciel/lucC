@@ -23,13 +23,16 @@
 #' @description Plot map ggplot2 for all events discovered in input data
 #' 
 #' @usage stilf_plot_maps_events (data_tb = NULL, EPSG_WGS84 = TRUE, 
-#' custom_palette = FALSE, RGB_color = NULL, size_square = 1)
+#' custom_palette = FALSE, RGB_color = NULL, shape_point = 0, 
+#' colour_point = "black" , size_point= 1)
 #' 
 #' @param data_tb         Tibble. A tibble with values longitude and latitude and other values
 #' @param EPSG_WGS84      Character. A reference coordinate system. If TRUE, the values of latitude and longitude alredy use this coordinate system, if FALSE, the data set need to be transformed
 #' @param custom_palette  Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE
 #' @param RGB_color       Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'
-#' @param size_square     Numeric. Is a size of the square around pixels in plot. Default is 1
+#' @param shape_point     Numeric or Character. Is a shape point for events highlighted over map. Default is 0.  This includes different points symbols commonly used in R as "pch", such as numeric values like 0 to square, 1 to circle and 4 to cross shape. And also other characters can be used including ".", "+", "*", "-", "#".    
+#' @param colour_point    Numeric. Is a colour for the shape point for events highlighted over map. Default is black
+#' @param size_point      Numeric. Is a size of the shape point around pixels in plot. Default is 1
 #' 
 #' @keywords datasets
 #' @return Plot with input data as colored map
@@ -69,13 +72,13 @@
 #' 
 #' # events over input map
 #' stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
-#' custom_palette = FALSE, size_square = 1)
+#' custom_palette = FALSE, size_point = 1)
 #' 
 #'}
 #'
 
 # plot maps with events
-stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL, size_square= 1 ){ 
+stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL, shape_point = 0, colour_point = "black" , size_point= 1){ 
  
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
@@ -84,8 +87,12 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pal
                        err_desc = "EPSG_WGS84 must be defined, if exists values of longitude and latitude (TRUE ou FALSE)! Default is TRUE")
   ensurer::ensure_that(custom_palette, !is.null(custom_palette), 
                        err_desc = "custom_palette must be defined, if wants use its own color palette setting! Default is FALSE")
-  ensurer::ensure_that(size_square, !is.null(size_square), 
-                       err_desc = "Whats size of swquare of events over map!")
+  ensurer::ensure_that(shape_point, !is.null(shape_point), 
+                       err_desc = "Define the shape point for events highlighted over map! Default is 0.")
+  ensurer::ensure_that(colour_point, !is.null(colour_point), 
+                       err_desc = "Define the colour point for events highlighted over map! Default is black.")  
+  ensurer::ensure_that(size_point, !is.null(size_point), 
+                       err_desc = "Define the size point for events highlighted over map! Default is 1.")
   
   input_data <- data_tb
   
@@ -122,13 +129,13 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pal
   # plot only events
   g <- ggplot2::ggplot() +
     geom_raster(data=map_input_df, aes(map_input_df$x, map_input_df$y, fill=map_input_df$"z")) +
-    geom_point(data=map_events_df, aes(x=map_events_df$x, y=map_events_df$y), shape=0, colour = "black", size = size_square) + #  size=1.4
+    geom_point(data=map_events_df, aes(x=map_events_df$x, y=map_events_df$y), shape=shape_point, colour = colour_point, size = size_point) + #  size=1.4
     scale_y_continuous(expand = c(0, 0), breaks = NULL) +
     scale_x_continuous(expand = c(0, 0), breaks = NULL) +
     facet_wrap("w") +
     coord_fixed(ratio = 1) + 
     #coord_fixed(ratio = 1/cos(mean(x)*pi/180)) +
-    theme(legend.position = "bottom", strip.text = element_text(size=10)) +
+    theme(legend.position = "bottom") +#, strip.text = element_text(size=10)) +
     xlab("") +
     ylab("") +
     scale_fill_manual(name="Legend:", values = my_palette)
@@ -281,11 +288,11 @@ stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, star
   # shows axis y label with index values from tibble
   if(show_y_index == TRUE){
     g <- g + theme(legend.position = "bottom", 
-             legend.text=element_text(size=10),
+             #legend.text=element_text(size=10),
              legend.key = element_blank())  
   } else {
     g <- g + theme(legend.position = "bottom", 
-             legend.text=element_text(size=10),
+             #legend.text=element_text(size=10),
              axis.text.y=element_blank(),
              legend.key = element_blank())  
   } 
@@ -305,14 +312,15 @@ stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, star
 #' @description Plot barplot over time 
 #' 
 #' @usage stilf_plot_barplot_events (data_tb = NULL, 
-#' custom_palette = FALSE, RGB_color = NULL)
+#' custom_palette = FALSE, RGB_color = NULL, pixel_resolution = 250)
 #' 
-#' @param data_tb        Tibble. A tibble with values longitude and latitude and other values
-#' @param custom_palette Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE
-#' @param RGB_color      Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'
+#' @param data_tb          Tibble. A tibble with values longitude and latitude and other values
+#' @param custom_palette   Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE
+#' @param RGB_color        Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'
+#' @param pixel_resolution Numeric. Is a spatial resolution of the pixel. Default is 250 meters considering MODIS 250 m. See more at \url{https://modis.gsfc.nasa.gov/about/specifications.php}.
 #' 
 #' @keywords datasets
-#' @return Plot a barplot in Y axis in (Area km^2) = (Freq*(250*250))/(1000*1000)
+#' @return Plot a barplot in Y axis in square kilometers (Area km^2) = (Number of pixel *(pixel_resolution*pixel_resolution))/(1000*1000)
 #' @import ggplot2
 #' @importFrom ensurer ensure_that 
 #' @importFrom lubridate year 
@@ -354,13 +362,15 @@ stilf_plot_sequence_events <- function(data_tb = NULL, show_y_index = TRUE, star
 #'}
 #'
 
-stilf_plot_barplot_events <- function(data_tb = NULL, custom_palette = FALSE, RGB_color = NULL){ 
+stilf_plot_barplot_events <- function(data_tb = NULL, custom_palette = FALSE, RGB_color = NULL, pixel_resolution = 250){ 
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
                        err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf_plot_maps_events().")
   ensurer::ensure_that(custom_palette, !is.null(custom_palette), 
                        err_desc = "custom_palette must be defined, if wants use its own color palette setting! Default is FALSE")
+  ensurer::ensure_that(pixel_resolution, !is.null(pixel_resolution), 
+                       err_desc = "pixel_resolution must be defined! Default is 250 meters on basis of MODIS image")  
 
   input_data <- data_tb
   input_data <- input_data[order(input_data$index),] # order by index
@@ -382,15 +392,15 @@ stilf_plot_barplot_events <- function(data_tb = NULL, custom_palette = FALSE, RG
     my_palette = scales::hue_pal()(colour_count)
   } 
   
-  g <- ggplot2::ggplot(mapBar,aes(x=mapBar$Var1, y=(mapBar$Freq*(250*250))/(1000*1000), fill=mapBar$Var2))+
+  g <- ggplot2::ggplot(mapBar,aes(x=mapBar$Var1, y=(mapBar$Freq*(pixel_resolution*pixel_resolution))/(1000*1000), fill=mapBar$Var2))+
     geom_bar(width = 0.7, stat="identity")+ #, position=position_dodge())+
     theme_bw()+
-    ylab(expression("Area km"^{2}))+
+    ylab(expression(paste("Area ",km^{2}," = ((pixels number x pixel ", resolution^{2},")/",1000^{2},")")))+
     xlab("Years")+
     #scale_fill_brewer(name="Legend:", palette= "Paired") +
     scale_fill_manual(name="Legend:", values = my_palette) +
     theme(legend.position = "bottom", 
-          legend.text=element_text(size=10), 
+          #legend.text=element_text(size=10), 
           legend.key = element_blank())
   
   print(g)

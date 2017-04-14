@@ -6,7 +6,8 @@
 \title{Plot Events over Maps with STILF}
 \usage{
 stilf_plot_maps_events (data_tb = NULL, EPSG_WGS84 = TRUE, 
-custom_palette = FALSE, RGB_color = NULL, size_square = 1)
+custom_palette = FALSE, RGB_color = NULL, shape_point = 0, 
+colour_point = "black" , size_point= 1)
 }
 \arguments{
 \item{data_tb}{Tibble. A tibble with values longitude and latitude and other values}
@@ -17,7 +18,11 @@ custom_palette = FALSE, RGB_color = NULL, size_square = 1)
 
 \item{RGB_color}{Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'}
 
-\item{size_square}{Numeric. Is a size of the square around pixels in plot. Default is 1}
+\item{shape_point}{Numeric or Character. Is a shape point for events highlighted over map. Default is 0.  This includes different points symbols commonly used in R as "pch", such as numeric values like 0 to square, 1 to circle and 4 to cross shape. And also other characters can be used including ".", "+", "*", "-", "#".}
+
+\item{colour_point}{Numeric. Is a colour for the shape point for events highlighted over map. Default is black}
+
+\item{size_point}{Numeric. Is a size of the shape point around pixels in plot. Default is 1}
 }
 \value{
 Plot with input data as colored map
@@ -52,7 +57,7 @@ object_properties = "Forest", event_time_intervals = time_ex1)
 
 # events over input map
 stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
-custom_palette = FALSE, size_square = 1)
+custom_palette = FALSE, size_point = 1)
 
 }
 
