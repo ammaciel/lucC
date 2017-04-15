@@ -92,7 +92,6 @@ progress_bar <- txtProgressBar(min = 0, max = nrow(df), style = 3)
 
 # change label for 
 for (x in 1:nrow(df)){
-  Sys.sleep(0.0)
   
   if (df$label2[x] == "Savanna") {
     df$"label"[x] = "Cerrado"
@@ -164,8 +163,6 @@ QuestionOccurs <- function(data_tb, p, t){
   
   for(x in 1:length(coord)){
     # x=1
-    Sys.sleep(0.0)###
-    
     temp <- df[which(as.character(df$index) == coord[x]),]
     
     if ((nrow(ev1.in1 <- stilf_predicate_occur(temp, p1, t1)) >= 1 | #forest in first interval
@@ -286,9 +283,9 @@ data.frame(table(df_new$end_date, df_new$label))
 stilf_plot_maps_input(df_new, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1", "#FFB266")) #  secondary_vegetation
 
 
-#*********************************
+#******************************************************************
 # Question to journal
-#*********************************
+#******************************************************************
 
 # open dataset with 5 labels
 df_label <- get(load("~/Desktop/ESTUDO_TESE/Studies/Itanhanga/itanhanga_TWDTW_new_label.tb.RData"))
@@ -310,6 +307,8 @@ data.frame(table(df_new$label))
 #png(filename = "~/Desktop/fig2_secondary.png", width = 2573, height = 2098, res = 300)
 stilf_plot_maps_input(df_new, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#f5e7a1", "#66CC00")) 
 #dev.off()
+
+
 
 #---------------------------------
 # Question 1 - Which "Forest" areas haven't been replaced by other croppings?
@@ -345,31 +344,33 @@ QuestionOccurs <- function(data_tb, p, t){
   return(output_df)
 }
 
-output_df <- QuestionOccurs(df_new, p = p1, t = t1)
+output.tb1 <- QuestionOccurs(df_new, p = p1, t = t1)
 remove(t1)
 remove(p1)
 
 # remove duplicated rows
-length(which(duplicated(output_df)))
-# output_df <- output_df[!duplicated(output_df),]
+length(which(duplicated(output.tb1)))
+# output.tb1 <- output.tb1[!duplicated(output.tb1),]
 
-save(output_df, file = "~/Desktop/fig3_only_forest_ita.RData")
+#----------
+#save(output.tb1, file = "~/Desktop/fig3_only_forest_ita.RData")
+output.tb1 <- get(load("~/Desktop/ESTUDO_TESE/Studies/Itanhanga/fig3_only_forest_ita.RData"))
 
 stilf_plot_maps_input(df_new, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#f5e7a1", "#66CC00")) # secondary_vegetation
 
-png(filename = "~/Desktop/fig3_forest.png", width = 2573, height = 2098, res = 300)
-stilf_plot_maps_events(output_df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#f5e7a1", "#66CC00"), shape_point = ".", colour_point = "black", size_point = 0.0000000000001) 
+#png(filename = "~/Desktop/fig3_forest.png", width = 2573, height = 2098, res = 300)
+stilf_plot_maps_events(output.tb1, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#f5e7a1", "#66CC00"), shape_point = ".", colour_point = "black", size_point = 0.0000000000001) 
+#dev.off()
+
+stilf_plot_maps_events(output.tb1, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#f5e7a1", "#66CC00"), shape_point = 21, colour_point = "blue", size_point = 1) 
+
+png(filename = "~/Desktop/fig3_barplot_forest1.png", width = 7, height = 5, units = 'in', res = 300)
+stilf_plot_barplot_events(output.tb1, custom_palette = TRUE, RGB_color = "#1b791f", pixel_resolution = 231.6564) 
 dev.off()
 
-stilf_plot_maps_events(output_df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#f5e7a1", "#66CC00"), shape_point = 21, colour_point = "blue", size_point = 1) 
+stilf_plot_sequence_events(output.tb1, show_y_index = FALSE, end_date = "2017-03-01") 
 
-png(filename = "~/Desktop/fig3_barplot_forest1.png", width = 8, height = 6, units = 'in', res = 300)
-stilf_plot_barplot_events(output_df, custom_palette = TRUE, RGB_color = "#1b791f", pixel_resolution = 231.6564) 
-dev.off()
-
-stilf_plot_sequence_events(output_df, show_y_index = FALSE, end_date = "2017-03-01") 
-
-#stilf_plot_barplot_events(df_new[which(df_new$label == "Forest"),]) 
+#stilf_plot_barplot_events(df_new[which(output.tb1$label == "Forest"),]) 
 
 
 #---------------------------------
@@ -495,7 +496,7 @@ png(filename = "~/Desktop/fig4_forest_to_others.png", width = 8, height = 8, uni
 stilf_plot_maps_events(output_df2, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#FFB266", "#1b791f", "#929e6e", "#f5e7a1", "#66CC00")) 
 dev.off()
 
-png(filename = "~/Desktop/fig4_barplot_forest_others.png", width = 8, height = 6, units = 'in', res = 300)
+png(filename = "~/Desktop/fig4_barplot_forest_others.png", width = 7, height = 5, units = 'in', res = 300)
 stilf_plot_barplot_events(output_df2, custom_palette = TRUE, RGB_color = c( "#FFB266", "#1b791f", "#929e6e", "#f5e7a1")) 
 dev.off()
 
@@ -517,32 +518,48 @@ stilf_plot_sequence_events(output_df2, show_y_index = FALSE, end_date = "2017-03
 #transition_string <- c("Forest", "Cerrado", "Secondary_vegetation", "Cropping", "Pasture")
 transition_string <- c("Pasture", "Single_cropping", "Double_cropping")
 
+#df <- df_new
+df <- df_new_2
 # create a tibble with the same column names 
-output.tb3 <- df_new[FALSE,] # Always run this 
-coord <- unique(df_new$index)
+output.tb3 <- df[FALSE,] # Always run this 
+coord <- unique(df$index)
+
+# create progress bar
+progress_bar <- txtProgressBar(min = 0, max = length(coord), style = 3)###
 
 # Apply over all input data
 for(x in 1:length(coord)){
-  temp.tb <- df_new[which(as.character(df_new$index) == coord[x]),]
+  
+  temp.tb <- df[which(as.character(df$index) == coord[x]),]
   temp_final.tb <- stilf_event_transitions(temp.tb, properties = transition_string, time_intervals = stilf_interval("2000-08-01","2017-09-12"))
   output.tb3 <- dplyr::bind_rows(output.tb3, temp_final.tb)
+  
+  # update progress bar
+  setTxtProgressBar(progress_bar, x)#
+  
 }
 output.tb3
+close(progress_bar)#
 
+data.frame(table(output.tb3$end_date,output.tb3$label))
+data.frame(table(lubridate::year(output.tb3$end_date), output.tb3$label))
+
+# entire data
+#save(output.tb3, file = "~/Desktop/transition_FPScDc.RData")
 # plots
-stilf_plot_maps_input(df_new, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1", "#FFB266")) # secondary_vegetation
+stilf_plot_maps_input(df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1", "#FFB266")) # secondary_vegetation
 
-png(filename = "~/Desktop/fig_5_area_sequence.png", width = 7, height = 7, units = 'in', res = 300)
-stilf_plot_maps_events(output.tb3, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1", "#FFB266"), size_square = 1.5) 
-dev.off()
+#png(filename = "~/Desktop/fig_5_area_sequence.png", width = 7, height = 7, units = 'in', res = 300)
+stilf_plot_maps_events(output.tb3, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1", "#FFB266"), shape_point = 4 ,colour_point = "blue", size_point = 1.5) 
+#dev.off()
 
-png(filename = "~/Desktop/fig_6_sequence.png", width = 8, height = 6, units = 'in', res = 300)
-stilf_plot_sequence_events(output.tb3, show_y_index = FALSE, end_date = "2017-03-01") 
-dev.off()
+#png(filename = "~/Desktop/fig_6_sequence.png", width = 7, height = 5, units = 'in', res = 300)
+stilf_plot_sequence_events(output.tb3, show_y_index = FALSE, end_date = "2017-03-01", custom_palette = TRUE, RGB_color = c("#FFB266", "#929e6e", "#f5e7a1")) # "#FFB266", "#1b791f", "#929e6e", "#f5e7a1"
+#dev.off()
 
-png(filename = "~/Desktop/fig_7_barplot.png", width = 8, height = 6, units = 'in', res = 300)
-stilf_plot_barplot_events(output.tb3, custom_palette = FALSE) 
-dev.off()
+#png(filename = "~/Desktop/fig_7_barplot.png", width = 7, height = 5, units = 'in', res = 300)
+stilf_plot_barplot_events(output.tb3, custom_palette = TRUE, RGB_color = c("#FFB266", "#929e6e", "#f5e7a1"), pixel_resolution = 231.6564) 
+#dev.off()
 
 
 
@@ -563,7 +580,6 @@ df_new_2
 data.frame(table(df_new_2$label))
 
 
-
 #png(filename = "~/Desktop/fig2_secondary_vegetation.png", width = 7, height = 7, units = 'in', res = 300)
 stilf_plot_maps_input(df_new_2, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#1b791f", "#929e6e", "#66CC00","#f5e7a1", "#FFB266")) # , "#66CC00" secondary_vegetation
 #dev.off()
@@ -571,3 +587,20 @@ stilf_plot_maps_input(df_new_2, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_co
 png(filename = "~/Desktop/fig2_secondary_vegetation_events.png", width = 7, height = 7, units = 'in', res = 300)
 stilf_plot_maps_events(output_df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#1b791f", "#929e6e", "#66CC00","#f5e7a1", "#FFB266"), size_square =1.5) 
 dev.off()
+
+
+###########################
+
+library(sits)
+
+#pattern <- sits_getdata("./inst/patterns/patterns_Damien_Ieda_Rodrigo_15classes_3bands_Water.json")
+pattern <- sits_getdata("./inst/patterns/temporal_pattern_example.json")
+
+sits_plot(pattern, type = "patterns")
+
+sel <- c("Fallow_Cotton", "Pasture1", "Forest", "Soybean_Cotton", "Water")
+pattern1 <- dplyr::filter(pattern, pattern$label %in% sel)
+sits_plot(pattern1, type = "patterns")
+
+#sits_save(pattern1, "~/Desktop/patterns_example.json")
+

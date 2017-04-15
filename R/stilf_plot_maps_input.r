@@ -27,7 +27,7 @@
 #' @param data_tb         Tibble. A tibble with values longitude and latitude and other values
 #' @param EPSG_WGS84      Character. A reference coordinate system. If TRUE, the values of latitude and longitude alredy use this coordinate system, if FALSE, the data set need to be transformed
 #' @param custom_palette  Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE
-#' @param RGB_color       Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'
+#' @param RGB_color       Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is setting scale_colour_hue
 
 #' @keywords datasets
 #' @return Plot with input data as colored map

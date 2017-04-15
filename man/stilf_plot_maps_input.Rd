@@ -15,7 +15,7 @@ custom_palette = FALSE, RGB_color = NULL)
 
 \item{custom_palette}{Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE}
 
-\item{RGB_color}{Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'}
+\item{RGB_color}{Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is setting scale_colour_hue}
 }
 \value{
 Plot with input data as colored map

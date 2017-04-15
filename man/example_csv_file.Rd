@@ -4,5 +4,5 @@
 \alias{example_csv_file}
 \title{Example CSV File}
 \description{
-Dataset of example with input data in format csv to run some functions this package.With data from a particular region from Sinop municipality, Mato Grosso, Brazil.
+Dataset of example with input data in format csv to run some functions this package. With data from a particular region from Sinop municipality, Mato Grosso, Brazil.
 }

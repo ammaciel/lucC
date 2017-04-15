@@ -194,5 +194,11 @@ stilf_fromCSV <- function (path_csv_file = NULL, separator = ",", header_file = 
 #' @title Example CSV File
 #' @name example_csv_file
 #'
-#' @description Dataset of example with input data in format csv to run some functions this package.With data from a particular region from Sinop municipality, Mato Grosso, Brazil.
+#' @description Dataset of example with input data in format csv to run some functions this package. With data from a particular region from Sinop municipality, Mato Grosso, Brazil.
+NULL
+
+#' @title data File
+#' @name stilf_data
+#'
+#' @description Dataset of example with input data in format RData to run some functions this package. With data from a particular region from Santa Carmem municipality, Mato Grosso, Brazil.
 NULL

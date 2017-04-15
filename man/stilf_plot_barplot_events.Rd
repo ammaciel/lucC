@@ -13,7 +13,7 @@ custom_palette = FALSE, RGB_color = NULL, pixel_resolution = 250)
 
 \item{custom_palette}{Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE}
 
-\item{RGB_color}{Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is the color brewer 'Paired'}
+\item{RGB_color}{Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is setting scale_colour_hue}
 
 \item{pixel_resolution}{Numeric. Is a spatial resolution of the pixel. Default is 250 meters considering MODIS 250 m. See more at \url{https://modis.gsfc.nasa.gov/about/specifications.php}.}
 }
