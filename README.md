@@ -8,7 +8,7 @@ wtss is an R client package for handling Web Time-Series Service (WTSS) in the c
 
 Classification method can be found using package dtwSat at <a href="https://github.com/vwmaus/dtwSat">https://github.com/vwmaus/dtwSat</a>
 
-Tools to satellite image time series analysis can be found using package sits at <a href="https://github.com/gilbertocamara/sits">https://github.com/gilbertocamara/sits</a>
+Tools to Satellite Image Time Series analysis can be found using package sits at <a href="https://github.com/gilbertocamara/sits">https://github.com/gilbertocamara/sits</a>
 
 
 <h3>Prerequisites: </h3> 
@@ -36,7 +36,7 @@ Tools to satellite image time series analysis can be found using package sits at
 
  - Create new variable tibble format <code>example.tb <- stilf_data</code>
 
- - Plot example.tb <pre class="R">stilf_plot_maps_input(example.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</pre>
+ - Plot example.tb <code>stilf_plot_maps_input(example.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</code>
 
 <img src="inst/figures/example1.png" alt="Fig. 1. Plot time series data classified" />
 <p class="caption">
@@ -86,16 +86,16 @@ output.tb <- QuestionOccurs(example_1.tb, p = p1, t = t1)
 output.tb
 </pre>
 
- - See example1.tb plot with stilf_plot_maps_input function <pre class="R">stilf_plot_maps_input(examples_1.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</pre>
+ - See example1.tb plot with stilf_plot_maps_input function <code>stilf_plot_maps_input(examples_1.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</code>
 
- - See all events discover to answer question with stilf_plot_maps_events function <pre class="R">stilf_plot_maps_events(output_df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"), shape_point = 0, colour_point = "black", size_point = 1)</pre>
+ - See all events discover to answer question with stilf_plot_maps_events function <code>stilf_plot_maps_events(output_df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"), shape_point = 0, colour_point = "black", size_point = 1)</code>
 
 <img src="inst/figures/example2.png" alt="Fig. 2. Plot events discovered from time series classified data" />
 <p class="caption">
 Fig. 2. Plot events discovered from time series classified data
 </p>
 
- - See barplot total area in square kilometers <pre class="R">stilf_plot_barplot_events(output_df, custom_palette = TRUE, RGB_color = "#929e6e", pixel_resolution = 250)</pre>
+ - See barplot total area in square kilometers <code>stilf_plot_barplot_events(output_df, custom_palette = TRUE, RGB_color = "#929e6e", pixel_resolution = 250)</code>
 
 <img src="inst/figures/example3.png" alt="Fig. 3. Barplot with value" />
 <p class="caption">
@@ -128,16 +128,16 @@ for(x in 1:length(coord)){
 output_tb2
 </pre>
 
- - See example1.tb plot with stilf_plot_maps_input function <pre class="R">stilf_plot_maps_input(df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</pre>
+ - See example1.tb plot with stilf_plot_maps_input function <code>stilf_plot_maps_input(df, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</code>
 
- - See all events discover to answer question with stilf_plot_maps_events function <pre class="R">stilf_plot_maps_events(output_tb2, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"), shape_point = 0, colour_point = "blue", size_point = 1)</pre>
+ - See all events discover to answer question with stilf_plot_maps_events function <code>stilf_plot_maps_events(output_tb2, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"), shape_point = 0, colour_point = "blue", size_point = 1)</code>
 
 <img src="inst/figures/example4.png" alt="Fig. 4. Plot events discovered from time series classified data" />
 <p class="caption">
 Fig. 4. Plot events discovered from time series classified data
 </p>
 
- - See plot of sequence with events over time <pre class="R">stilf_plot_sequence_events(output_tb2, show_y_index = FALSE, end_date = "2017-03-01", custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</pre>
+ - See plot of sequence with events over time <code>stilf_plot_sequence_events(output_tb2, show_y_index = FALSE, end_date = "2017-03-01", custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</code>
 
 <img src="inst/figures/example6.png" alt="Fig. 5. Plot of sequence with events" />
 <p class="caption">
