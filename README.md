@@ -111,7 +111,7 @@ Fig. 2. Plot events discovered from time series classified data
 
 - See barplot total area in square kilometers <code>stilf_plot_barplot_events(output.tb, custom_palette = TRUE, RGB_color = "#929e6e", pixel_resolution = 250)</code> and sequence plot <code>stilf_plot_sequence_events(output.tb, show_y_index = FALSE, end_date = "2017-03-01", custom_palette = TRUE, RGB_color = "#929e6e")</code>
 
-<table width="700" border="0" cellpadding="4">
+<table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td align="center" valign="center">
 <img src="inst/figures/example1.3.png" alt="Fig. 3.(a) Barplot with total area" />
@@ -185,7 +185,7 @@ remove(p1, p2, t1, t2)
 
  - View all events with stilf_plot_maps_events function <code>stilf_plot_maps_events(output.tb2, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e"), shape_point = 4, colour_point = "blue", size_point = 8)</code>
 
-<table width="700" border="0" cellpadding="1">
+<table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td align="center" valign="center">
 <img src="inst/figures/example2.1.png" alt="Fig. 4.(a) Pixel over time" />
@@ -252,7 +252,7 @@ Fig. 5. Plot events discovered from time series classified data
 
 - See barplot total area in square kilometers <code>stilf_plot_barplot_events(output.tb3, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"), pixel_resolution = 250)</code> and sequence plot <code>stilf_plot_sequence_events(output.tb3, show_y_index = TRUE, end_date = "2017-03-01", custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</code>
 
-<table width="700" border="0" cellpadding="4">
+<table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td align="center" valign="center">
 <img src="inst/figures/example3.2.png" alt="Fig. 6.(a) Barplot with total area" />
