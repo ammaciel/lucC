@@ -4,7 +4,7 @@ This package perfoms event extraction from a set of time series classified. The 
 
 With package "stilf is possible to build questions using thirteen Allen's interval temporal logic relationships and also others extended from their study. I suggest the reader read <a href="http://cse.unl.edu/~choueiry/Documents/Allen-CACM1983.pdf"> (Allen 1983)</a> and <a href="http://www.cs.ucf.edu/~lboloni/Teaching/EEL6938_2007/papers/Allen-GeneralTheoryActionTime.pdf"> (Allen 1984) </a> for more details. Besides, is possible to generate graphics with event information and plot maps with results. Using these events the user can to perform analysis on time series data discover land use and land cover changes.
 
-wtss is an R client package for handling Web Time-Series Service (WTSS) in the client side at <a href="https://github.com/e-sensing/wtss.R">https://github.com/e-sensing/wtss</a>
+wtss is an R client package for handling Web Time-Series Service (WTSS) in the client side at <a href="https://github.com/e-sensing/wtss.R">https://github.com/e-sensing/wtss.R</a>
 
 Classification method can be found using package dtwSat at <a href="https://github.com/vwmaus/dtwSat">https://github.com/vwmaus/dtwSat</a>
 
