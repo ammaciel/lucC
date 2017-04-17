@@ -112,12 +112,10 @@ stilf_applyTWDTW <- function(data_tb = NULL, patterns_tb = NULL, bands = NULL){
   # classify input data using TWDTW from sits
   for(i in 1:nrow(input_data)){
     
-    Sys.sleep(0.0)
-    
     aux <- input_data[i,]
     
     #classify point
-    matches <- sits::sits_TWDTW(aux, patterns_tb, bands)
+    matches <- sits::sits_TWDTW(aux, patterns_tb, bands = bands)
     
     # plot the classification
     # print(plot(x = matches, type = "classification", overlap = 0.5))
@@ -156,11 +154,6 @@ stilf_applyTWDTW <- function(data_tb = NULL, patterns_tb = NULL, bands = NULL){
   # remove data with 2000 in end_data
   res_classification <- dplyr::filter(res_classification, 
                                       !grepl("2000", as.character(res_classification$end_date), 
-                                             fixed = TRUE))
-  
-  # remove data with 2017 in end_data
-  res_classification <- dplyr::filter(res_classification, 
-                                      !grepl("2017", as.character(res_classification$end_date), 
                                              fixed = TRUE))
   
   # order id by number rows
