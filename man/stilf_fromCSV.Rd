@@ -25,12 +25,14 @@ Open the input data in CSV format in an user's directory
 # Open a data example
 library(stilf)
 
-file_csv = "./inst/example_csv_file.csv"
+stilf_starting_point()
 
-# read a csv into stilf_input_data format
-input_tb_csv <- file_csv \%>\% 
-  stilf_fromCSV(separator = ",", header_file = TRUE) 
-input_tb_csv
+file = "./data/example_TWDTW.csv"
+
+input_tb_raw_csv <- file \%>\% 
+  read.csv(sep = ",", header = TRUE) \%>\% 
+  stilf_data_preparation()
+input_tb_raw_csv
 
 }
 

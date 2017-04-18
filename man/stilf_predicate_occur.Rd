@@ -28,32 +28,32 @@ library(stilf)
 
 stilf_starting_point()
 
-# open json file
-json_file = "./inst/example_json_file.json"
+file_json = "./inst/extdata/patterns/example_TWDTW.json"
+input_tb_raw_json <- file_json \%>\% 
+  stilf_fromJSON() 
+input_tb_raw_json
 
-input_tb <- json_file \%>\% 
-  stilf_fromJSON()
+# plot maps input data
+stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE)
 
-input_tb
-
-# example of application
-time_ex1 <- stilf_interval("2001-01-01", "2003-01-01")
+# define interval
+time_ex1 <- stilf_interval("2002-01-01", "2014-01-01")
 time_ex1
-time_ex2 <- stilf_interval("2005-01-01", "2010-01-01")
-time_ex2
 
-# object_properties
-properties <- "Soybean_Fallow"
+# using occur
+ts_occur1 <- stilf_predicate_occur(geo_objects = input_tb_raw_json, 
+object_properties = "Pasture", event_time_intervals = time_ex1)
+ts_occur1
 
-# example predicate occur
-stilf_predicate_occur(geo_objects = new_a, 
+ts_occur2 <- stilf_predicate_occur(geo_objects = input_tb_raw_json, 
 object_properties = "Forest", event_time_intervals = time_ex1)
+ts_occur2
 
-stilf_predicate_occur(geo_objects = input_tb, 
-object_properties = properties, event_time_intervals = time_ex2)
+# events over input map
+stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE)
+stilf_plot_maps_events(ts_occur2, EPSG_WGS84 = TRUE)
 
 }
-
 
 }
 \author{

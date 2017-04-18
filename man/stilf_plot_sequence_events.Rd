@@ -36,32 +36,35 @@ library(stilf)
 stilf_starting_point()
 
 # open a JSON file example
-file_json = "./inst/example_json_Sinop_part.json"
+file_json = "./inst/extdata/patterns/example_TWDTW.json"
 
 # open file JSON
-input_tb_raw_json <- file_json \%>\% 
-  stilf_fromJSON() 
+input_tb_raw_json <- file_json \%>\%
+  stilf_fromJSON()
 input_tb_raw_json
 
 # plot maps input data
-stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE)
+stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE, 
+custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", 
+"#929e6e", "#f5e7a1"))
 
 # define interval
 time_ex1 <- stilf_interval("2002-01-01", "2014-01-01")
- 
+
 # apply predicate occur
 ts_occur1 <- stilf_predicate_occur(geo_objects = input_tb_raw_json, 
 object_properties = "Forest", event_time_intervals = time_ex1)
+ts_occur1
 
 # events over input map
 stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
-custom_palette = FALSE, size_square = 1)
+custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", 
+"#929e6e", "#f5e7a1"), shape_point = 0, colour_point = "black", 
+size_point = 2.3)
 
-# plot sequence of events
-stilf_plot_sequence_events(ts_occur1, show_y_index = TRUE,
-start_date = "2000-01-01", end_date = "2016-12-31")
+stilf_plot_sequence_events(ts_occur1, show_y_index = FALSE, 
+end_date = "2017-03-01", custom_palette = TRUE, RGB_color = "#929e6e") 
 
-  
 }
 
 }

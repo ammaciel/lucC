@@ -16,7 +16,8 @@ stilf_relation_before(first_interval , second_interval)
 Logical value if interval are TRUE or FALSE
 }
 \description{
-Provide an Allen's interval relation to classified time series data. And return a logical value if an interval is TRUE or FALSE
+Provide an Allen's interval relation to classified time series data. 
+And return a logical value if an interval is TRUE or FALSE
 }
 \examples{
 \dontrun{

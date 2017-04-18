@@ -32,53 +32,48 @@ library(stilf)
 
 stilf_starting_point()
 
-# open a JSON file with data classified
-input_tb <- "./inst/postprocess_Sinop.json" \%>\% 
-  stilf_fromJSON() 
+data("example_TWDTW")
+example_TWDTW
 
-# if necessary, create a new column to preserve the old label
-df <- input_tb
-df$"label2" <- df$label
+example_3.tb <- example_TWDTW \%>\% 
+  stilf_standard_date_events(data_tb = ., month_year = "09", day_month = "01")
 
-# change label for 
-for (x in 1:nrow(df)){
-  if (df$label2[x] == "Savanna") {
-    df$"label"[x] = "Cerrado"
-  } else if (df$label2[x] \%in\% c("Pasture1","Pasture2"))  {
-     df$"label"[x] = "Pasture"
-  } else if (df$label2[x] \%in\% c("Soybean_Fallow1", "Soybean_Fallow2", 
-                               "Soybean_NonComerc1", "Soybean_NonComerc2", 
-                               "Soybean_Comerc1", "Soybean_Comerc2", 
-                               "Soybean_Pasture", "NonComerc_Cotton", 
-                               "Fallow_Cotton", "Soybean_Cotton")) {
-     df$"label"[x] = "Cropping"
-  }
-}
-df
+example_3.tb
 
-# create a tibble with the same column names 
-output.tb <- df[FALSE,]
-coord <- unique(df$index)
+# p = properties of objects :
+p1 <- c("Forest", "Pasture", "Single_cropping", "Double_cropping")
 
-# Forest --> Pasture --> Cropping - Type of transition
-transition_string <- c("Forest", "Pasture", "Cropping")
+# t = interval:
+t1 <- stilf_interval("2000-08-01","2017-03-01")
 
-# Apply over all input data
+tb <- example_3.tb
+output.tb3 <- tb[FALSE,]
+coord <- unique(tb$index)
+
+# Apply for each time series based on index
 for(x in 1:length(coord)){
-  temp.tb <- df[which(as.character(df$index) == coord[x]),]
-  temp_final.tb <- stilf_event_transitions(temp.tb, 
-  properties = transition_string,
-  time_intervals = stilf_interval("2000-07-01", "2016-12-01"))
-  output.tb <- bind_rows(output.tb, temp_final.tb)
+  temp.tb <- tb[which(as.character(tb$index) == coord[x]),]
+  temp_final.tb <- stilf_event_transitions(temp.tb, properties = p1, 
+  time_intervals = t1)
+  output.tb3 <- dplyr::bind_rows(output.tb3, temp_final.tb)
 }
-output.tb
+output.tb3
 
-# plot transitions discovered
-stilf_plot_maps_input(df, EPSG_WGS84 = TRUE, 
-custom_palette = FALSE)
-stilf_plot_maps_events(output.tb, EPSG_WGS84 = TRUE, 
-custom_palette = FALSE)
-stilf_plot_sequence_events(output.tb)
+# plots
+stilf_plot_maps_input(example_3.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, 
+RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))
+
+stilf_plot_maps_events(output.tb3, EPSG_WGS84 = TRUE, custom_palette = TRUE, 
+RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"), shape_point = 0, 
+colour_point = "blue", size_point = 2.3) 
+
+stilf_plot_barplot_events(output.tb3, custom_palette = TRUE, 
+RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"), 
+pixel_resolution = 250) 
+
+stilf_plot_sequence_events(output.tb3, show_y_index = TRUE, 
+end_date = "2017-03-01", custom_palette = TRUE, 
+RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1")) 
 
 
 }

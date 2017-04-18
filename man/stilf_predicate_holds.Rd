@@ -29,15 +29,13 @@ during a time interval. Return a tibble with value within interval defined
 
 library(stilf)
 
-stilf_starting_point() 
+stilf_starting_point()
 
-# open json file
-json_file = "./inst/example_json_file.json"
+json_file = "./inst/extdata/patterns/example_TWDTW.json"
 
-input_tb <- json_file \%>\% 
-  stilf_fromJSON()
-
-input_tb
+input_tb_json <- json_file \%>\% 
+  stilf_fromJSON()  
+input_tb_json
 
 # example of application
 time_ex1 <- stilf_interval("2001-01-01", "2003-01-01")
@@ -46,15 +44,14 @@ time_ex2 <- stilf_interval("2005-01-01", "2010-01-01")
 time_ex2
 
 # object_properties
-properties <- "Soybean_Fallow"
+properties <- "Forest"
 
 # example predicate holds
-stilf_predicate_holds(geo_objects = new_a, 
+stilf_predicate_holds(geo_objects = input_tb_json, 
 object_properties = "Forest", time_intervals = time_ex1)
 
-stilf_predicate_holds(geo_objects = input_tb, 
+stilf_predicate_holds(geo_objects = input_tb_json, 
 object_properties = properties, time_intervals = time_ex2)
-
 
 }
 

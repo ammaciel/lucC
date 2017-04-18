@@ -32,8 +32,6 @@ time4 <- stilf_interval("2011-10-01","2011-11-01")
 # Apply a relation 'after' (start_I > end_J)
 stilf_relation_after(time4,time1)
 
-         
-           
 }
 
 }

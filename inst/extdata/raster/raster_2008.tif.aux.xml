@@ -1,0 +1,11 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <CategoryNames>
+      <Category></Category>
+      <Category>Double_cropping</Category>
+      <Category>Forest</Category>
+      <Category>Pasture</Category>
+      <Category>Single_cropping</Category>
+    </CategoryNames>
+  </PAMRasterBand>
+</PAMDataset>

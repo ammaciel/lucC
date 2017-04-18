@@ -21,13 +21,13 @@ Open the input data in JSON format in an user's directory
 # Open a data example
 library(stilf)
 
-json_file = "./inst/example_json_file.json"
+stilf_starting_point()
 
-# open a json data and store it format stilf_input_data
+json_file = "./inst/extdata/patterns/example_TWDTW.json"
+
 input_tb_json <- json_file \%>\% 
   stilf_fromJSON()  
 input_tb_json
-
 
 }
 

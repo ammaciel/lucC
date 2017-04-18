@@ -8,7 +8,7 @@
 ##                                                             ##
 ##   R script with extra Allen's relationships                 ##
 ##                                                             ##
-##                                             2017-02-26      ##
+##                                             2017-04-18      ##
 ##                                                             ##
 ##  J. F. Allen.  Towards a general theory of action and       ##
 ##  time. Artificial Intelligence, 23(2): 123--154, 1984.      ##

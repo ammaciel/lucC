@@ -46,16 +46,12 @@
 #' 
 #' stilf_starting_point()
 #' 
-#' # open a JSON file example
-#' file_json = "./inst/example_json_Sinop_part.json"
-#' 
-#' input_tb_raw_json <- file_json %>% 
-#'   stilf_fromJSON() 
-#' input_tb_raw_json
+#' # open data with time series set
+#' data("example_TWDTW")
+#' example_TWDTW
 #' 
 #' # save rasters in folder
-#' stilf_toGeoTIFF (input_tb_raw_json, "~/Desktop/raster")
-#' 
+#' stilf_toGeoTIFF (example_TWDTW, "~/Desktop/raster")
 #'  
 #'}
 #'

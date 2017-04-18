@@ -33,13 +33,13 @@ Tools to Satellite Image Time Series analysis can be found using package sits at
 
  - Load the stilf package <code>library(stilf)</code>
 
- - Load a example data <code>data("example_data_TWDTW")</code>
+ - Load a example data <code>data("example_TWDTW")</code>
 
  - Create new variable tibble format and apply stilf_standard_date_events to standardize start_date and end_date columns
 <pre class="R">
  # alter start_date and end_date to a especific range in order to extract events
-example_1.tb <- stilf_data %>% 
-  stilf_standard_date_events(data_tb = stilf_data, month_year = "09", day_month = "01")
+example_1.tb <- example_TWDTW %>% 
+  stilf_standard_date_events(data_tb = ., month_year = "09", day_month = "01")
   example_1.tb
 </pre>
 
@@ -48,7 +48,7 @@ example_1.tb <- stilf_data %>%
 <table width="700" border="0">
 <tr>
 <td align="center" valign="center">
-<img src="inst/figures/example1.1.png" alt="Fig. 1. Plot time series classified data" />
+<img src="inst/extdata/figures/example1.1.png" alt="Fig. 1. Plot time series classified data" />
 <p class="caption">
 Fig. 1. Plot time series classified data
 </p>
@@ -101,7 +101,7 @@ remove(t1,p1)
 <table width="700" border="0">
 <tr>
 <td align="center" valign="center">
-<img src="inst/figures/example1.2.png" alt="Fig. 2. Plot events discovered from time series classified data" />
+<img src="inst/extdata/figures/example1.2.png" alt="Fig. 2. Plot events discovered from time series classified data" />
 <p class="caption">
 Fig. 2. Plot events discovered from time series classified data
 </p>
@@ -114,13 +114,13 @@ Fig. 2. Plot events discovered from time series classified data
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td align="center" valign="center">
-<img src="inst/figures/example1.3.png" alt="Fig. 3.(a) Barplot with total area" />
+<img src="inst/extdata/figures/example1.3.png" alt="Fig. 3.(a) Barplot with total area" />
 <br />
 Fig. 3.(a) Barplot with total area
 </td>
 
 <td align="center" valign="center">
-<img src="inst/figures/example1.4.png" alt="Fig. 3.(b) Sequence plot" />
+<img src="inst/extdata/figures/example1.4.png" alt="Fig. 3.(b) Sequence plot" />
 <br />
 Fig. 3.(b) Sequence plot
 </td>
@@ -134,12 +134,12 @@ Fig. 3.(b) Sequence plot
 - Apply stilf_predicate_occur function to discover events for only one pixel with events of <i>Forest and Pasture</i>. 
 
 <pre class="R">
-data("example_data_TWDTW")
-stilf_data
+data("example_TWDTW")
+example_TWDTW
 
 # select only one time serie with index equals 13
 # alter start_date and end_date to a especific range in order to extract events
-example_2.tb <- stilf_data %>% 
+example_2.tb <- example_TWDTW %>% 
   dplyr::filter(., .$index == 13) %>% 
   stilf_standard_date_events(data_tb = ., month_year = "09", day_month = "01")
 
@@ -188,13 +188,13 @@ remove(p1, p2, t1, t2)
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td align="center" valign="center">
-<img src="inst/figures/example2.1.png" alt="Fig. 4.(a) Pixel over time" />
+<img src="inst/extdata/figures/example2.1.png" alt="Fig. 4.(a) Pixel over time" />
 <br />
 Fig. 4.(a) Pixel over time
 </td>
 
 <td align="center" valign="center">
-<img src="inst/figures/example2.2.png" alt="Fig. 4.(b) Pixel with events" />
+<img src="inst/extdata/figures/example2.2.png" alt="Fig. 4.(b) Pixel with events" />
 <br />
 Fig. 4.(b) Pixel with events
 </td>
@@ -208,10 +208,10 @@ Fig. 4.(b) Pixel with events
  - Apply stilf_predicate_occur function to discover for a sequence of events of <i>Forest, Pasture, Single cropping and Double cropping</i> in this order. 
 
 <pre class="R">
-data("example_data_TWDTW")
-stilf_data
+data("example_TWDTW")
+example_TWDTW
 
-example_3.tb <- stilf_data %>% 
+example_3.tb <- example_TWDTW %>% 
   stilf_standard_date_events(data_tb = ., month_year = "09", day_month = "01")
 
 example_3.tb
@@ -242,7 +242,7 @@ output.tb3
 <table width="700" border="0">
 <tr>
 <td align="center" valign="center">
-<img src="inst/figures/example3.1.png" alt="Fig. 5. Plot events discovered from time series classified data" />
+<img src="inst/extdata/figures/example3.1.png" alt="Fig. 5. Plot events discovered from time series classified data" />
 <p class="caption">
 Fig. 5. Plot events discovered from time series classified data
 </p>
@@ -255,13 +255,13 @@ Fig. 5. Plot events discovered from time series classified data
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
 <td align="center" valign="center">
-<img src="inst/figures/example3.2.png" alt="Fig. 6.(a) Barplot with total area" />
+<img src="inst/extdata/figures/example3.2.png" alt="Fig. 6.(a) Barplot with total area" />
 <br />
 Fig. 6.(a) Barplot with total area
 </td>
 
 <td align="center" valign="center">
-<img src="inst/figures/example3.3.png" alt="Fig. 6.(b) Sequence plot" />
+<img src="inst/extdata/figures/example3.3.png" alt="Fig. 6.(b) Sequence plot" />
 <br />
 Fig. 6.(b) Sequence plot
 </td>

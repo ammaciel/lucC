@@ -8,7 +8,7 @@
 ##                                                             ##
 ##   R script to plot input data                               ##
 ##                                                             ##  
-##                                             2017-03-31      ##
+##                                             2017-04-18      ##
 ##                                                             ##
 ##                                                             ##
 #################################################################
@@ -46,17 +46,18 @@
 #' 
 #' stilf_starting_point()
 #' 
-#' # open a CSV file example
-#' file_json = "./inst/example_json_Sinop_part.json"
+#' # open a JSON file example
+#' file_json = "./inst/extdata/patterns/example_TWDTW.json"
 #' 
 #' # open file JSON
-#' input_tb_raw_json <- file_json %>% 
-#'   stilf_fromJSON() 
+#' input_tb_raw_json <- file_json %>%
+#'   stilf_fromJSON()
 #' input_tb_raw_json
 #' 
 #' # plot maps input data
 #' stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE, 
-#' custom_palette = FALSE)
+#' custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", 
+#' "#929e6e", "#f5e7a1"))
 #' 
 #' 
 #'}

@@ -29,25 +29,16 @@ order to extract events
 
 library(stilf)
 
-stilf_starting_point()
+data("example_TWDTW")
+example_TWDTW
 
-file_json_zip = "./inst/areaSinop/classification_14patterns_3bands_Area1_Sinop.zip"
+# alter start_date and end_date to a especific range in 
+# order to extract events
+example_1.tb <- example_TWDTW \%>\% 
+  stilf_standard_date_events(data_tb = ., 
+  month_year = "09", day_month = "01")
 
-input_tb_area_Sinop <- file_json_zip \%>\% 
-  unzip() \%>\% 
-  stilf_fromJSON() 
-
-input_tb_area_Sinop
-
-#remove columns and pass to stilf format
-new_area_Sinop <- input_tb_area_Sinop \%>\% 
-  select(longitude,latitude,label,start_date,end_date,id,index) \%>\% 
-  stilf_data_preparation()
-
-new_area_Sinop
-
-stilf_standard_date_events(data_tb = df, month_year = "09", 
-day_month = "01")
+example_1.tb
 
 }
 

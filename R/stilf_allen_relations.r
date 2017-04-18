@@ -8,7 +8,7 @@
 ##                                                             ##
 ##   R script with thirteen Allen's relationships              ##
 ##                                                             ##
-##                                             2017-02-26      ##
+##                                             2017-04-18      ##
 ##                                                             ##
 ##  J. F. Allen.  Towards a general theory of action and       ##
 ##  time. Artificial Intelligence, 23(2): 123--154, 1984.      ##
@@ -46,7 +46,8 @@
 #' @author Adeline M. Maciel
 #' @docType data
 #'
-#' @description Provide an Allen's interval relation to classified time series data. And return a logical value if an interval is TRUE or FALSE
+#' @description Provide an Allen's interval relation to classified time series data. 
+#' And return a logical value if an interval is TRUE or FALSE
 #' 
 #' @usage stilf_relation_before(first_interval , second_interval)
 #'  
@@ -83,7 +84,6 @@
 #'}
 #'
 
-
 # 1. The '<' relation = stilf_relation_before
 stilf_relation_before <- function (first_interval, second_interval) {
   # checking if first or second interval values are correct 
@@ -96,7 +96,6 @@ stilf_relation_before <- function (first_interval, second_interval) {
   
   lubridate::int_end(first_interval) < lubridate::int_start(second_interval)
 }
-
 
 
 #' @title Allen Relation After
@@ -130,8 +129,6 @@ stilf_relation_before <- function (first_interval, second_interval) {
 #' # Apply a relation 'after' (start_I > end_J)
 #' stilf_relation_after(time4,time1)
 #' 
-#'          
-#'            
 #'}
 #'
 
@@ -146,7 +143,6 @@ stilf_relation_after <- function (first_interval, second_interval) {
   
   lubridate::int_end(first_interval) > lubridate::int_start(second_interval)
 }
-
 
 
 #' @title Allen Relation Meets

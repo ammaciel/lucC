@@ -8,7 +8,7 @@
 ##                                                             ##
 ##   R script with format as tibble the input data             ##
 ##                                                             ##
-##                                             2017-02-26      ##
+##                                             2017-04-18      ##
 ##                                                             ##
 ##                                                             ##
 #################################################################
@@ -40,19 +40,17 @@
 #' 
 #' stilf_starting_point()
 #' 
-#' # Example to save data in JSON format
-#' file = "./inst/example_csv_file.csv"
+#' file_csv = "./data/example_TWDTW.csv"
 #' 
-#' input_tb_csv <- file %>% 
-#'   stilf_fromCSV(separator = ",", header_file = TRUE) 
+#' input_tb_csv <- file_csv %>% 
+#'   stilf_fromCSV(separator = ",", header_file = TRUE) #%>% 
 #' input_tb_csv
 #' 
-#' output_file = "~/Desktop/output_file.json"
+#' # save the input as json format
+#' output_file = "~/Desktop/example_json.json"
 #' stilf_toJSON(input_tb_csv, output_file)
-#' 
 #'
 #'}
-#'
 #'
 
 stilf_toJSON <- function (data_tb, path_json_file = NULL) {
@@ -99,14 +97,14 @@ stilf_toJSON <- function (data_tb, path_json_file = NULL) {
 #' # Open a data example
 #' library(stilf)
 #' 
-#' json_file = "./inst/example_json_file.json"
+#' stilf_starting_point()
 #' 
-#' # open a json data and store it format stilf_input_data
+#' json_file = "./inst/extdata/patterns/example_TWDTW.json"
+#' 
 #' input_tb_json <- json_file %>% 
 #'   stilf_fromJSON()  
 #' input_tb_json
 #' 
-#'
 #'}
 #'
 #'
@@ -128,7 +126,6 @@ stilf_fromJSON <- function (path_json_file = NULL) {
   return(data_tb)
   
 }
-
 
 
 #' @title Open CSV file
@@ -155,12 +152,14 @@ stilf_fromJSON <- function (path_json_file = NULL) {
 #' # Open a data example
 #' library(stilf)
 #' 
-#' file_csv = "./inst/example_csv_file.csv"
+#' stilf_starting_point()
 #' 
-#' # read a csv into stilf_input_data format
-#' input_tb_csv <- file_csv %>% 
-#'   stilf_fromCSV(separator = ",", header_file = TRUE) 
-#' input_tb_csv
+#' file = "./data/example_TWDTW.csv"
+#' 
+#' input_tb_raw_csv <- file %>% 
+#'   read.csv(sep = ",", header = TRUE) %>% 
+#'   stilf_data_preparation()
+#' input_tb_raw_csv
 #'
 #'}
 #'
@@ -188,17 +187,27 @@ stilf_fromCSV <- function (path_csv_file = NULL, separator = ",", header_file = 
   
 }
 
-
-
+#' @title Example CSV with a time series set
+#' @name example_points_ts
+#'
+#' @description Dataset of points for using with sits_getdata and acquire time series from WTSS. With data from a particular region from Santa Carmem municipality, Mato Grosso, Brazil.
+NULL
 
 #' @title Example CSV File
-#' @name example_csv_file
+#' @name example_TWDTW
 #'
-#' @description Dataset of example with input data in format csv to run some functions this package. With data from a particular region from Sinop municipality, Mato Grosso, Brazil.
+#' @description Dataset of example of a time series set already classified using TWDTW in CSV format to run some functions this package. With data from a particular region from Santa Carmem municipality, Mato Grosso, Brazil.
 NULL
 
-#' @title data File
-#' @name stilf_data
+#' @title example file of time series set from sits
+#' @name example_ts
 #'
-#' @description Dataset of example with input data in format RData to run some functions this package. With data from a particular region from Santa Carmem municipality, Mato Grosso, Brazil.
+#' @description Dataset of example of time series set from sits in format RData to run some functions this package. With data from a particular region from Santa Carmem municipality, Mato Grosso, Brazil.
 NULL
+
+#' @title example file of a time series set already classified using TWDTW
+#' @name example_TWDTW
+#'
+#' @description Dataset of example of a time series set already classified using TWDTW in RData to run some functions this package. With data from a particular region from Santa Carmem municipality, Mato Grosso, Brazil.
+NULL
+

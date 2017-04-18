@@ -25,19 +25,17 @@ library(stilf)
 
 stilf_starting_point()
 
-# Example to save data in JSON format
-file = "./inst/example_csv_file.csv"
+file_csv = "./data/example_TWDTW.csv"
 
-input_tb_csv <- file \%>\% 
-  stilf_fromCSV(separator = ",", header_file = TRUE) 
+input_tb_csv <- file_csv \%>\% 
+  stilf_fromCSV(separator = ",", header_file = TRUE) #\%>\% 
 input_tb_csv
 
-output_file = "~/Desktop/output_file.json"
+# save the input as json format
+output_file = "~/Desktop/example_json.json"
 stilf_toJSON(input_tb_csv, output_file)
 
-
 }
-
 
 }
 \author{
