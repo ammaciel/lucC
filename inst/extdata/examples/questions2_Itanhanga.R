@@ -21,8 +21,9 @@ itanhanga.tb
 # read a pattern table from a JSON file
 patterns.tb <- sits_getdata("~/Dropbox/TWDTWAmazoniaCerrado/Assinaturas/JSON/patterns_Damien_Ieda_Rodrigo_15classes_3bands_Water.json")
 data.frame(unique(patterns.tb$label))
-cla <- c("Soybean_Pasture", "Water")
-patterns.tb <- dplyr::filter(patterns.tb, !patterns.tb$label %in% cla)
+
+# cla <- c("Soybean_Pasture", "Water")
+# patterns.tb <- dplyr::filter(patterns.tb, !patterns.tb$label %in% cla)
 
 # only this bands have in patterns
 bands <- c("ndvi", "evi", "nir")
@@ -40,8 +41,10 @@ values <- c("Index", "ndvi", "evi", "nir") #
 
 # classify with TWDTW and return a format to stilf
 #res <- stilf_applyTWDTW(santa_carmem.tb[1:3,], patterns.tb, bands)
-itanhanga_TWDTW.tb <- stilf_applyTWDTW(itanhanga.tb, patterns.tb, bands)
-itanhanga_TWDTW.tb
+itanhanga_TWDTW_sits.tb <- sits_TWDTW(itanhanga.tb, patterns.tb, bands)
+itanhanga_TWDTW_sits.tb
+
+15:36
 
 # use stilf_toJSON despite of decimal digits
 save(itanhanga_TWDTW.tb, file = "~/Desktop/ESTUDO_TESE/Studies/Itanhanga/itanhanga_TWDTW_stilf.tb.RData")
@@ -552,20 +555,26 @@ data.frame(table(lubridate::year(output.tb3$end_date), output.tb3$label))
 stilf_plot_maps_input(df_new_2, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1", "#FFB266")) # secondary_vegetation
 
 #png(filename = "~/Desktop/fig_5_area_sequence.png", width = 7, height = 7, units = 'in', res = 300)
-stilf_plot_maps_events(output.tb3, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1", "#FFB266"), shape_point = 4 ,colour_point = "blue", size_point = 1.5) 
+stilf_plot_maps_events(output.tb3, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#9b7447", "#1b791f", "#929e6e", "#66CC00", "#f5e7a1", "#FFB266"), shape_point = 0 ,colour_point = "black", size_point = 1.5) 
 #dev.off()
 
-#png(filename = "~/Desktop/fig_6_sequence.png", width = 7, height = 5, units = 'in', res = 300)
+png(filename = "~/Desktop/fig_6_sequence.png", width = 7, height = 5, units = 'in', res = 300)
 stilf_plot_sequence_events(output.tb3, show_y_index = FALSE, end_date = "2017-03-01", custom_palette = TRUE, RGB_color = c("#FFB266", "#929e6e", "#f5e7a1")) # "#FFB266", "#1b791f", "#929e6e", "#f5e7a1"
-#dev.off()
+dev.off()
 
-#png(filename = "~/Desktop/fig_7_barplot.png", width = 7, height = 5, units = 'in', res = 300)
+png(filename = "~/Desktop/fig_7_barplot.png", width = 7, height = 5, units = 'in', res = 300)
 stilf_plot_barplot_events(output.tb3, custom_palette = TRUE, RGB_color = c("#FFB266", "#929e6e", "#f5e7a1"), pixel_resolution = 231.6564) 
-#dev.off()
+dev.off()
 
 
 
 ###########################
+# open dataset with 6 labels - secondary vegetation
+df_new <- get(load("~/Desktop/ESTUDO_TESE/Studies/Itanhanga/itanhanga_TWDTW_postprocess.RData"))
+df_new
+# amount of data for class
+data.frame(table(df_new$label))
+
 selection <- read.csv(file = "~/Desktop/ESTUDO_TESE/Studies/Itanhanga/ita_selection.csv", sep = ",", stringsAsFactors = FALSE)
 sel <- selection$id
 
