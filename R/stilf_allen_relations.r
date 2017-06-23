@@ -8,7 +8,7 @@
 ##                                                             ##
 ##   R script with thirteen Allen's relationships              ##
 ##                                                             ##
-##                                             2017-04-18      ##
+##                                             2017-06-23      ##
 ##                                                             ##
 ##  J. F. Allen.  Towards a general theory of action and       ##
 ##  time. Artificial Intelligence, 23(2): 123--154, 1984.      ##
@@ -36,8 +36,8 @@
 # Derivates relations
 # in            (during(first_interval, second_interval) | starts(first_interval, second_interval) 
 #                   | finishes(first_interval, second_interval))
-# following     (meets(first_interval, second_interval) | before(first_interval, second_interval))
-# preceding     (met_by(first_interval, second_interval) | after(first_interval, second_interval))
+# follows       (meets(first_interval, second_interval) | before(first_interval, second_interval))
+# precedes      (met_by(first_interval, second_interval) | after(first_interval, second_interval))
 
 
 #' @title Allen Relation Before

@@ -8,7 +8,7 @@
 ##                                                             ##
 ##   R script with extra Allen's relationships                 ##
 ##                                                             ##
-##                                             2017-04-18      ##
+##                                             2017-06-23      ##
 ##                                                             ##
 ##  J. F. Allen.  Towards a general theory of action and       ##
 ##  time. Artificial Intelligence, 23(2): 123--154, 1984.      ##
@@ -36,8 +36,8 @@
 # Derivates relations
 # in            (during(first_interval, second_interval) | starts(first_interval, second_interval) 
 #                   | finishes(first_interval, second_interval))
-# following     (meets(first_interval, second_interval) | before(first_interval, second_interval))
-# preceding     (met_by(first_interval, second_interval) | after(first_interval, second_interval))
+# follows       (meets(first_interval, second_interval) | before(first_interval, second_interval))
+# precedes      (met_by(first_interval, second_interval) | after(first_interval, second_interval))
 
 
 
@@ -101,16 +101,15 @@ stilf_relation_in <- function(first_interval, second_interval){
 }
 
 
-#' @title Allen Relation Following
-#' @name stilf_relation_following
-#' @aliases stilf_relation_following
+#' @title Allen Relation Follows
+#' @name stilf_relation_follows
+#' @aliases stilf_relation_follows
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Provide an extra Allen's interval relation to classified time series data. And return a logical value if an interval is TRUE or FALSE
 #' 
-#' @usage stilf_relation_following(first_interval , second_interval)
-#' @usage stilf_relation_preceding(first_interval , second_interval)
+#' @usage stilf_relation_follows(first_interval , second_interval)
 #'  
 #' @param first_interval  stilf_interval. An interval between two dates.
 #' @param second_interval stilf_interval. An interval between two dates.
@@ -130,15 +129,15 @@ stilf_relation_in <- function(first_interval, second_interval){
 #' time1 <- stilf_interval("2011-09-01","2011-10-01")
 #' time3 <- stilf_interval("2011-10-01","2011-11-01")
 #' 
-#' # Apply a relation 'following' (meets(first_interval, second_interval) |
+#' # Apply a relation 'follows' (meets(first_interval, second_interval) |
 #' # before(first_interval, second_interval))
-#' stilf_relation_following(time1,time3)
+#' stilf_relation_follows(time1,time3)
 #' 
 #'}
 #'
 
-# 15. The 'stilf_relation_following' relation = stilf_relation_meets v stilf_relation_before
-stilf_relation_following <- function(first_interval, second_interval){
+# 15. The 'stilf_relation_follows' relation = stilf_relation_meets v stilf_relation_before
+stilf_relation_follows <- function(first_interval, second_interval){
   stopifnot(c(lubridate::is.interval(first_interval), 
               lubridate::is.interval(second_interval)))
   
@@ -151,15 +150,15 @@ stilf_relation_following <- function(first_interval, second_interval){
 }
 
 
-#' @title Allen Relation Preceding
-#' @name stilf_relation_preceding
-#' @aliases stilf_relation_preceding
+#' @title Allen Relation Precedes
+#' @name stilf_relation_precedes
+#' @aliases stilf_relation_precedes
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Provide an extra Allen's interval relation to classified time series data. And return a logical value if an interval is TRUE or FALSE
 #' 
-#' @usage stilf_relation_preceding(first_interval , second_interval)
+#' @usage stilf_relation_precedes(first_interval , second_interval)
 #'  
 #' @param first_interval  stilf_interval. An interval between two dates.
 #' @param second_interval stilf_interval. An interval between two dates.
@@ -179,17 +178,17 @@ stilf_relation_following <- function(first_interval, second_interval){
 #' time1 <- stilf_interval("2011-09-01","2011-10-01")
 #' time3 <- stilf_interval("2011-10-01","2011-11-01")
 #' 
-#' # Apply a relation 'preceding' (met_by(first_interval, second_interval) |
+#' # Apply a relation 'precedes' (met_by(first_interval, second_interval) |
 #' # after(first_interval, second_interval))
-#' stilf_relation_preceding(time1,time3)
+#' stilf_relation_precedes(time1,time3)
 #'          
 #'            
 #'}
 #'
 
 # Antonyms of following
-# 16. The 'stilf_relation_preceding' relation = stilf_relation_met_by || stilf_relation_after
-stilf_relation_preceding <- function(first_interval, second_interval){
+# 16. The 'stilf_relation_precedes' relation = stilf_relation_met_by || stilf_relation_after
+stilf_relation_precedes <- function(first_interval, second_interval){
   stopifnot(c(lubridate::is.interval(first_interval), 
               lubridate::is.interval(second_interval)))
   
