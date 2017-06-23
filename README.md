@@ -56,17 +56,17 @@ Fig. 1. Plot time series classified data
 </tr>
 </table>
 
- - Apply stilf_predicate_occur function to discover events of <i>Pasture</i>. For this is necessary create a for loop to read all data and not only one pixel over time 
+ - Apply stilf_predicate_holds function to discover events of <i>Pasture</i>. For this is necessary create a for loop to read all data and not only one pixel over time 
 
 <pre class="R">
-# p = properties of objects :
+# p = properties of locations :
 p1 <- "Pasture"
 
 # t = interval:
 t1 <- stilf_interval("2000-09-01","2017-03-01")
 
-# Test occur for many time series 
-QuestionOccurs <- function(data_tb, p, t){
+# Test holds for many time series 
+QuestionHolds <- function(data_tb, p, t){
   
   tb <- data_tb 
   coord <- unique(tb$index)
@@ -76,7 +76,7 @@ QuestionOccurs <- function(data_tb, p, t){
     #x=1
     temp <- tb[which(as.character(tb$index) == coord[x]),]
     
-    if (nrow(event2 <- stilf_predicate_occur(temp, p1, t1)) >= 1
+    if (nrow(event2 <- stilf_predicate_holds(temp, p1, t1)) >= 1
         
     ){
       temp0 <- rbind(event2)
@@ -88,7 +88,7 @@ QuestionOccurs <- function(data_tb, p, t){
   return(output.tb)
 }
 
-output.tb <- QuestionOccurs(example_1.tb, p = p1, t = t1)
+output.tb <- QuestionHolds(example_1.tb, p = p1, t = t1)
 output.tb
 
 remove(t1,p1)
@@ -131,7 +131,7 @@ Fig. 3.(b) Sequence plot
 <br />
 <h3>Example 2</h3>
 
-- Apply stilf_predicate_occur function to discover events for only one pixel with events of <i>Forest and Pasture</i>. 
+- Apply stilf_predicate_holds function to discover events for only one pixel with events of <i>Forest and Pasture</i>. 
 
 <pre class="R">
 data("example_TWDTW")
@@ -145,7 +145,7 @@ example_2.tb <- example_TWDTW %>%
 
 example_2.tb
 
-# p = properties of objects :
+# p = properties of locations :
 p1 <- "Forest"
 p2 <- "Pasture"
 
@@ -153,17 +153,17 @@ p2 <- "Pasture"
 t1 <- stilf_interval("2000-09-01","2004-09-01")
 t2 <- stilf_interval("2004-09-01","2017-09-01")
 
-# Test occur for one time serie
-QuestionOccurs <- function(data_tb, p, t){
+# Test holds for one time serie
+QuestionHolds <- function(data_tb, p, t){
  
   output.tb <- data_tb[FALSE,]
   data_tb
   
-  if (nrow(ev1 <- stilf_predicate_occur(data_tb, p1, t1)) >= 1 &
-      nrow(ev2 <- stilf_predicate_occur(data_tb, p2, t2)) >= 1 &
+  if (nrow(ev1 <- stilf_predicate_holds(data_tb, p1, t1)) >= 1 &
+      nrow(ev2 <- stilf_predicate_holds(data_tb, p2, t2)) >= 1 &
       
       isTRUE(stilf_relation_meets(tail(stilf_interval(ev1$start_date, ev1$end_date), 1),
-                                  head(stilf_interval(ev2$start_date, ev2$end_date),1)))
+                                  head(stilf_interval(ev2$start_date, ev2$end_date), 1)))
   ){
     temp0 <- rbind(ev1,ev2)
   } else {
@@ -174,7 +174,7 @@ QuestionOccurs <- function(data_tb, p, t){
   return(output.tb)
 }
 
-output.tb2 <- QuestionOccurs(example_2.tb, p = c(p1, p2), t = c(t1,t2))
+output.tb2 <- QuestionHolds(example_2.tb, p = c(p1, p2), t = c(t1,t2))
 output.tb2
 
 remove(p1, p2, t1, t2)
@@ -205,7 +205,7 @@ Fig. 4.(b) Pixel with events
 <br />
 <h3>Example 3</h3>
 
- - Apply stilf_predicate_occur function to discover for a sequence of events of <i>Forest, Pasture, Single cropping and Double cropping</i> in this order. 
+ - Apply stilf_predicate_holds function to discover for a sequence of events of <i>Forest, Pasture, Single cropping and Double cropping</i> in this order. 
 
 <pre class="R">
 data("example_TWDTW")
@@ -216,7 +216,7 @@ example_3.tb <- example_TWDTW %>%
 
 example_3.tb
 
-# p = properties of objects :
+# p = properties of locations :
 p1 <- c("Forest", "Pasture", "Single_cropping", "Double_cropping")
 
 # t = interval:
