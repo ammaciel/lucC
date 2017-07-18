@@ -1,12 +1,12 @@
-Package: stilf
+Package: lucC
 Type: Package
-Title: Spatial-temporal Interval Logic Formalism
+Title: Land Use Change Calculus
 Version: 0.1
 Date: 2017-04-05
 Authors@R: person("Adeline", "Maciel", role = c("aut", "cre"), email = "adelsud6@gmail.com")
 Author: Adeline Maciel [aut, cre]
 Maintainer: Adeline Maciel <adelsud6@gmail.com>
-Description: Spatial-temporal Interval Logic Formalism (STILF) search for events in classified maps from remote sensing data. With this formalism is possible to discover if exist a particular event in dataset.
+Description: Land Use Change Calculus (lucC) search for events in classified maps from remote sensing data. With this formalism is possible to discover if exist a particular event in data set.
 License: file LICENSE
 LazyData: TRUE
 Depends: R (>= 3.1.2),
@@ -30,6 +30,6 @@ Imports: dplyr,
       utils
 Remotes:
       gilbertocamara/sits
-URL: https://github.com/ammaciel/stilf
-BugReports: https://github.com/ammaciel/stilf
+URL: https://github.com/ammaciel/lucC
+BugReports: https://github.com/ammaciel/lucC
 Suggests: testthat

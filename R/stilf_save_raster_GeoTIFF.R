@@ -15,14 +15,14 @@
 
 
 #' @title Save tibble as Raster in Folder
-#' @name stilf_toGeoTIFF
-#' @aliases stilf_toGeoTIFF
+#' @name lucC_toGeoTIFF
+#' @aliases lucC_toGeoTIFF
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Plot map ggplot2 for all events discovered in input data
 #' 
-#' @usage stilf_toGeoTIFF (data_tb = NULL, path_raster_folder = NULL)
+#' @usage lucC_toGeoTIFF (data_tb = NULL, path_raster_folder = NULL)
 #' 
 #' @param data_tb             Tibble. A tibble with values longitude and latitude and other values
 #' @param path_raster_folder  Character. Name a path folder to save raster images data
@@ -42,26 +42,26 @@
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #' # open data with time series set
 #' data("example_TWDTW")
 #' example_TWDTW
 #' 
 #' # save rasters in folder
-#' stilf_toGeoTIFF (example_TWDTW, "~/Desktop/raster")
+#' lucC_toGeoTIFF (example_TWDTW, "~/Desktop/raster")
 #'  
 #'}
 #'
 
 # plot maps with events
-stilf_toGeoTIFF <- function(data_tb = NULL, path_raster_folder = NULL){ 
+lucC_toGeoTIFF <- function(data_tb = NULL, path_raster_folder = NULL){ 
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
-                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf predicates holds or occurs.")
+                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using lucC predicates holds or occurs.")
   ensurer::ensure_that(path_raster_folder, !is.null(path_raster_folder), 
                        err_desc = "path_raster_folder must be defined! Enter a path to SAVE your GeoTIFF images!")
   

@@ -17,21 +17,21 @@
 
 
 #' @title Predicate Allen Holds
-#' @name stilf_predicate_holds
-#' @aliases stilf_predicate_holds
+#' @name lucC_predicate_holds
+#' @aliases lucC_predicate_holds
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Provide a predicate of Allen's which asserts that a property holds 
 #' during a time interval. Return a tibble with value within defined interval 
 #' 
-#' @usage stilf_predicate_holds (locations = NULL, location_properties = NULL, 
-#' time_intervals = stilf_interval("2000-01-01", "2004-01-01"))
+#' @usage lucC_predicate_holds (locations = NULL, location_properties = NULL, 
+#' time_intervals = lucC_interval("2000-01-01", "2004-01-01"))
 #' 
 #' @param locations           Tibble. A tibble with values longitude and latitude and other values
 #' @param location_properties Character. Name of value present in a row of the tibble, such as 'Forest' or other value
 #' @param time_intervals      Interval. A interval of time to verify if location_properties is over or 
-#' not in stilf_interval format. Given a tibble with values, will be asserts if that location_properties 
+#' not in lucC_interval format. Given a tibble with values, will be asserts if that location_properties 
 #' of locations holds during a time interval. 
 #' 
 #' @keywords datasets
@@ -42,30 +42,30 @@
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #' json_file = "./inst/extdata/patterns/example_TWDTW.json"
 #' 
 #' input_tb_json <- json_file %>% 
-#'   stilf_fromJSON()  
+#'   lucC_fromJSON()  
 #' input_tb_json
 #' 
 #' # example of application
-#' time_ex1 <- stilf_interval("2001-01-01", "2003-01-01")
+#' time_ex1 <- lucC_interval("2001-01-01", "2003-01-01")
 #' time_ex1
-#' time_ex2 <- stilf_interval("2005-01-01", "2010-01-01")
+#' time_ex2 <- lucC_interval("2005-01-01", "2010-01-01")
 #' time_ex2
 #' 
 #' # location_properties
 #' properties <- "Forest"
 #' 
 #' # example predicate holds
-#' stilf_predicate_holds(locations = input_tb_json, 
+#' lucC_predicate_holds(locations = input_tb_json, 
 #' location_properties = "Forest", time_intervals = time_ex1)
 #' 
-#' stilf_predicate_holds(locations = input_tb_json, 
+#' lucC_predicate_holds(locations = input_tb_json, 
 #' location_properties = properties, time_intervals = time_ex2)
 #' 
 #'}
@@ -78,7 +78,7 @@
 # format: holds(o,p,t)
 # parameters: o = geo-objects, p = properties of objects and t = time intervals
 
-stilf_predicate_holds <- function(locations = NULL, location_properties = NULL, time_intervals = stilf_interval("2000-01-01", "2004-01-01")){
+lucC_predicate_holds <- function(locations = NULL, location_properties = NULL, time_intervals = lucC_interval("2000-01-01", "2004-01-01")){
  
   if (!is.null(locations) & !is.null(location_properties) & !is.null(time_intervals)) {
     o <- locations
@@ -87,7 +87,7 @@ stilf_predicate_holds <- function(locations = NULL, location_properties = NULL, 
   } else {
     stop("\nParameters:\n locations (data_df),\n 
          location_properties ('Forest') and\n 
-         time_intervals (stilf_interval('2000-01-01', '2004-01-01')),\n 
+         time_intervals (lucC_interval('2000-01-01', '2004-01-01')),\n 
          must be defined!\n")
   }
   
@@ -121,19 +121,19 @@ stilf_predicate_holds <- function(locations = NULL, location_properties = NULL, 
 
 
 #' #' @title Predicate Allen Occur
-#' #' @name stilf_predicate_occur
-#' #' @aliases stilf_predicate_occur
+#' #' @name lucC_predicate_occur
+#' #' @aliases lucC_predicate_occur
 #' #' @author Adeline M. Maciel
 #' #' @docType data
 #' #'
 #' #' @description Provide a predicate of Allen's which asserts that an event happened over a time interval
 #' #'
-#' #' @usage stilf_predicate_occur (locations = NULL, location_properties = NULL,
-#' #' event_time_intervals = stilf_interval("2000-01-01", "2004-01-01"))
+#' #' @usage lucC_predicate_occur (locations = NULL, location_properties = NULL,
+#' #' event_time_intervals = lucC_interval("2000-01-01", "2004-01-01"))
 #' #'
 #' #' @param locations           Tibble. A tibble with values longitude and latitude and other values
 #' #' @param location_properties     Character. Name of value present in a row of the tibble, such as 'Forest' or other value
-#' #' @param event_time_intervals  Interval. A interval of time to verify if event about location_properties occurs or not in stilf_interval format
+#' #' @param event_time_intervals  Interval. A interval of time to verify if event about location_properties occurs or not in lucC_interval format
 #' #'
 #' #' @keywords datasets
 #' #' @return Tibble with all events happened over a time interval
@@ -144,34 +144,34 @@ stilf_predicate_holds <- function(locations = NULL, location_properties = NULL, 
 #' #'
 #' #' @examples \dontrun{
 #' #'
-#' #' library(stilf)
+#' #' library(lucC)
 #' #'
-#' #' stilf_starting_point()
+#' #' lucC_starting_point()
 #' #'
 #' #' file_json = "./inst/extdata/patterns/example_TWDTW.json"
 #' #' input_tb_raw_json <- file_json %>%
-#' #'   stilf_fromJSON()
+#' #'   lucC_fromJSON()
 #' #' input_tb_raw_json
 #' #'
 #' #' # plot maps input data
-#' #' stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE)
+#' #' lucC_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE)
 #' #'
 #' #' # define interval
-#' #' time_ex1 <- stilf_interval("2002-01-01", "2014-01-01")
+#' #' time_ex1 <- lucC_interval("2002-01-01", "2014-01-01")
 #' #' time_ex1
 #' #'
 #' #' # using occur
-#' #' ts_occur1 <- stilf_predicate_occur(locations = input_tb_raw_json,
+#' #' ts_occur1 <- lucC_predicate_occur(locations = input_tb_raw_json,
 #' #' location_properties = "Pasture", event_time_intervals = time_ex1)
 #' #' ts_occur1
 #' #'
-#' #' ts_occur2 <- stilf_predicate_occur(locations = input_tb_raw_json,
+#' #' ts_occur2 <- lucC_predicate_occur(locations = input_tb_raw_json,
 #' #' location_properties = "Forest", event_time_intervals = time_ex1)
 #' #' ts_occur2
 #' #'
 #' #' # events over input map
-#' #' stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE)
-#' #' stilf_plot_maps_events(ts_occur2, EPSG_WGS84 = TRUE)
+#' #' lucC_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE)
+#' #' lucC_plot_maps_events(ts_occur2, EPSG_WGS84 = TRUE)
 #' #'
 #' #'}
 #' #'
@@ -182,7 +182,7 @@ stilf_predicate_holds <- function(locations = NULL, location_properties = NULL, 
 #' # format: occur(o,p,Te)
 #' # parameters: o = geo-objects, p = properties of objects and Te = event time intervals
 #' 
-#' stilf_predicate_occur <- function(locations = NULL, location_properties = NULL, event_time_intervals = stilf_interval("2000-01-01", "2004-01-01")){
+#' lucC_predicate_occur <- function(locations = NULL, location_properties = NULL, event_time_intervals = lucC_interval("2000-01-01", "2004-01-01")){
 #' 
 #'   if (!is.null(locations) & !is.null(location_properties) & !is.null(event_time_intervals)) {
 #'     o <- locations
@@ -191,7 +191,7 @@ stilf_predicate_holds <- function(locations = NULL, location_properties = NULL, 
 #'   } else {
 #'     stop("\nParameters:\n locations (data_df),\n
 #'          location_properties ('Forest') and\n
-#'          event_time_intervals (stilf_interval('2000-01-01', '2004-01-01')),\n
+#'          event_time_intervals (lucC_interval('2000-01-01', '2004-01-01')),\n
 #'          must be defined!\n")
 #'   }
 #' 

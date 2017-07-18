@@ -14,16 +14,16 @@
 ##                                                             ##
 #################################################################
 
-#' @title Stilf Apply TWDTW from SITS Format
-#' @name stilf_standard_date_events
-#' @aliases stilf_standard_date_events
+#' @title lucC Apply TWDTW from SITS Format
+#' @name lucC_standard_date_events
+#' @aliases lucC_standard_date_events
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Create two new columns in tibble with standard date in 
 #' order to extract events
 #' 
-#' @usage stilf_standard_date_events(data_tb = NULL, 
+#' @usage lucC_standard_date_events(data_tb = NULL, 
 #' month_year = "09", day_month = "01")
 #' 
 #' @param data_tb      Tibble. A tibble with values in sits format
@@ -40,7 +40,7 @@
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
 #' data("example_TWDTW")
 #' example_TWDTW
@@ -48,7 +48,7 @@
 #' # alter start_date and end_date to a especific range in 
 #' # order to extract events
 #' example_1.tb <- example_TWDTW %>% 
-#'   stilf_standard_date_events(data_tb = ., 
+#'   lucC_standard_date_events(data_tb = ., 
 #'   month_year = "09", day_month = "01")
 #' 
 #' example_1.tb
@@ -56,7 +56,7 @@
 #'}
 #'
 
-stilf_standard_date_events <- function(data_tb = NULL, month_year = "09", day_month = "01"){
+lucC_standard_date_events <- function(data_tb = NULL, month_year = "09", day_month = "01"){
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 

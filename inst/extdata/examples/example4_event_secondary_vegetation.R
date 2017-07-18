@@ -24,8 +24,8 @@ p13 <- "Fallow_Cotton"
 p14 <- "Soybean_Cotton"
 
 # te = interval:
-t1 <- stilf_interval("2000-09-01","2001-09-01")
-t2 <- stilf_interval("2001-09-01","2016-09-01")
+t1 <- lucC_interval("2000-09-01","2001-09-01")
+t2 <- lucC_interval("2001-09-01","2016-09-01")
 
 ##
 
@@ -44,40 +44,40 @@ QuestionOccurs <- function(data_tb, p, t){
       
     temp <- df[which(as.character(df$index) == coord[x]),]
     
-    if ((nrow(ev1.in1 <- stilf_predicate_occur(temp, p1, t1)) >= 1 | #forest in first interval
+    if ((nrow(ev1.in1 <- lucC_predicate_holds(temp, p1, t1)) >= 1 | #forest in first interval
          
-         nrow(ev2.in1 <- stilf_predicate_occur(temp, p2, t1)) >= 1 | # other classes in first interval
-         nrow(ev3.in1 <- stilf_predicate_occur(temp, p3, t1)) >= 1 |
-         nrow(ev4.in1 <- stilf_predicate_occur(temp, p4, t1)) >= 1 |
-         nrow(ev5.in1 <- stilf_predicate_occur(temp, p5, t1)) >= 1 |
-         nrow(ev6.in1 <- stilf_predicate_occur(temp, p6, t1)) >= 1 |
-         nrow(ev7.in1 <- stilf_predicate_occur(temp, p7, t1)) >= 1 |
-         nrow(ev8.in1 <- stilf_predicate_occur(temp, p8, t1)) >= 1 |
-         nrow(ev9.in1 <- stilf_predicate_occur(temp, p9, t1)) >= 1 |
-         nrow(ev10.in1 <- stilf_predicate_occur(temp, p10, t1)) >= 1 |
-         nrow(ev11.in1 <- stilf_predicate_occur(temp, p11, t1)) >= 1 |
-         nrow(ev12.in1 <- stilf_predicate_occur(temp, p12, t1)) >= 1 |
-         nrow(ev13.in1 <- stilf_predicate_occur(temp, p13, t1)) >= 1 |
-         nrow(ev14.in1 <- stilf_predicate_occur(temp, p14, t1)) >= 1 
+         nrow(ev2.in1 <- lucC_predicate_holds(temp, p2, t1)) >= 1 | # other classes in first interval
+         nrow(ev3.in1 <- lucC_predicate_holds(temp, p3, t1)) >= 1 |
+         nrow(ev4.in1 <- lucC_predicate_holds(temp, p4, t1)) >= 1 |
+         nrow(ev5.in1 <- lucC_predicate_holds(temp, p5, t1)) >= 1 |
+         nrow(ev6.in1 <- lucC_predicate_holds(temp, p6, t1)) >= 1 |
+         nrow(ev7.in1 <- lucC_predicate_holds(temp, p7, t1)) >= 1 |
+         nrow(ev8.in1 <- lucC_predicate_holds(temp, p8, t1)) >= 1 |
+         nrow(ev9.in1 <- lucC_predicate_holds(temp, p9, t1)) >= 1 |
+         nrow(ev10.in1 <- lucC_predicate_holds(temp, p10, t1)) >= 1 |
+         nrow(ev11.in1 <- lucC_predicate_holds(temp, p11, t1)) >= 1 |
+         nrow(ev12.in1 <- lucC_predicate_holds(temp, p12, t1)) >= 1 |
+         nrow(ev13.in1 <- lucC_predicate_holds(temp, p13, t1)) >= 1 |
+         nrow(ev14.in1 <- lucC_predicate_holds(temp, p14, t1)) >= 1 
          
     ) 
     &
-    (	  nrow(ev2.in2 <- stilf_predicate_occur(temp, p2, t2)) >= 1 | # other classes in second interval
-        nrow(ev3.in2 <- stilf_predicate_occur(temp, p3, t2)) >= 1 |
-        nrow(ev4.in2 <- stilf_predicate_occur(temp, p4, t2)) >= 1 |
-        nrow(ev5.in2 <- stilf_predicate_occur(temp, p5, t2)) >= 1 |
-        nrow(ev6.in2 <- stilf_predicate_occur(temp, p6, t2)) >= 1 |
-        nrow(ev7.in2 <- stilf_predicate_occur(temp, p7, t2)) >= 1 |
-        nrow(ev8.in2 <- stilf_predicate_occur(temp, p8, t2)) >= 1 |
-        nrow(ev9.in2 <- stilf_predicate_occur(temp, p9, t2)) >= 1 |
-        nrow(ev10.in2 <- stilf_predicate_occur(temp, p10, t2)) >= 1 |
-        nrow(ev11.in2 <- stilf_predicate_occur(temp, p11, t2)) >= 1 |
-        nrow(ev12.in2 <- stilf_predicate_occur(temp, p12, t2)) >= 1 |
-        nrow(ev13.in2 <- stilf_predicate_occur(temp, p13, t2)) >= 1 |
-        nrow(ev14.in2 <- stilf_predicate_occur(temp, p14, t2)) >= 1 
+    (	  nrow(ev2.in2 <- lucC_predicate_holds(temp, p2, t2)) >= 1 | # other classes in second interval
+        nrow(ev3.in2 <- lucC_predicate_holds(temp, p3, t2)) >= 1 |
+        nrow(ev4.in2 <- lucC_predicate_holds(temp, p4, t2)) >= 1 |
+        nrow(ev5.in2 <- lucC_predicate_holds(temp, p5, t2)) >= 1 |
+        nrow(ev6.in2 <- lucC_predicate_holds(temp, p6, t2)) >= 1 |
+        nrow(ev7.in2 <- lucC_predicate_holds(temp, p7, t2)) >= 1 |
+        nrow(ev8.in2 <- lucC_predicate_holds(temp, p8, t2)) >= 1 |
+        nrow(ev9.in2 <- lucC_predicate_holds(temp, p9, t2)) >= 1 |
+        nrow(ev10.in2 <- lucC_predicate_holds(temp, p10, t2)) >= 1 |
+        nrow(ev11.in2 <- lucC_predicate_holds(temp, p11, t2)) >= 1 |
+        nrow(ev12.in2 <- lucC_predicate_holds(temp, p12, t2)) >= 1 |
+        nrow(ev13.in2 <- lucC_predicate_holds(temp, p13, t2)) >= 1 |
+        nrow(ev14.in2 <- lucC_predicate_holds(temp, p14, t2)) >= 1 
     ) 
     &
-    nrow(ev1.in2 <- stilf_predicate_occur(temp, p1, t2)) >= 1 # if occur forest in second interval 
+    nrow(ev1.in2 <- lucC_predicate_holds(temp, p1, t2)) >= 1 # if occur forest in second interval 
     & 
     # verify if forest discovered in interval 2 occur after start_date other classes. Or f is different from first year 
     # If TRUE, this forest is a secondary_vegetation  
@@ -127,11 +127,11 @@ remove(t1,t2) # remove intervals
 length(which(duplicated(data_sec_veg_occurs)))
 #data_sec_veg_occurs <- data_sec_veg_occurs[!duplicated(data_sec_veg_occurs),]
 
-stilf_plot_maps_input(area_tb, EPSG_WGS84 = TRUE) 
-stilf_plot_maps_events(data_sec_veg_occurs, EPSG_WGS84 = TRUE) 
+lucC_plot_maps_input(area_tb, EPSG_WGS84 = TRUE) 
+lucC_plot_maps_events(data_sec_veg_occurs, EPSG_WGS84 = TRUE) 
 
-stilf_plot_maps_input(df_input_new, EPSG_WGS84 = TRUE) 
-stilf_plot_barplot_events(df_input_new[which(df_input_new$label == "Forest"),]) 
+lucC_plot_maps_input(df_input_new, EPSG_WGS84 = TRUE) 
+lucC_plot_barplot_events(df_input_new[which(df_input_new$label == "Forest"),]) 
 
 #############################
 # Rules to change Forest to Secondary_vegetation
@@ -172,5 +172,5 @@ remove(df_temp,df_first_line,df_posProc,df_pos,df_temp2,df_temp3)
 
 #############################
 
-#stilf_toJSON(df_input_new, "./inst/area_Sinop/part_Sinop_postprocess.json")
+#lucC_toJSON(df_input_new, "./inst/area_Sinop/part_Sinop_postprocess.json")
 

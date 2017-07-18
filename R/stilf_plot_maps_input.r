@@ -14,14 +14,14 @@
 #################################################################
 
 #' @title Plot Input Maps 
-#' @name stilf_plot_maps_input
-#' @aliases stilf_plot_maps_input
+#' @name lucC_plot_maps_input
+#' @aliases lucC_plot_maps_input
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Plot map ggplot2 for all input data
 #' 
-#' @usage stilf_plot_maps_input (data_tb = NULL, EPSG_WGS84 = TRUE, 
+#' @usage lucC_plot_maps_input (data_tb = NULL, EPSG_WGS84 = TRUE, 
 #' custom_palette = FALSE, RGB_color = NULL)
 #' 
 #' @param data_tb         Tibble. A tibble with values longitude and latitude and other values
@@ -42,20 +42,20 @@
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #' # open a JSON file example
 #' file_json = "./inst/extdata/patterns/example_TWDTW.json"
 #' 
 #' # open file JSON
 #' input_tb_raw_json <- file_json %>%
-#'   stilf_fromJSON()
+#'   lucC_fromJSON()
 #' input_tb_raw_json
 #' 
 #' # plot maps input data
-#' stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE, 
+#' lucC_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE, 
 #' custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", 
 #' "#929e6e", "#f5e7a1"))
 #' 
@@ -64,11 +64,11 @@
 #'
 
 # plot maps for input data
-stilf_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL) { 
+lucC_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL) { 
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
-                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf predicates holds or occurs.")
+                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using lucC predicates holds or occurs.")
   ensurer::ensure_that(EPSG_WGS84, !is.null(EPSG_WGS84), 
                        err_desc = "EPSG_WGS84 must be defined, if exists values of longitude and latitude (TRUE ou FALSE)! Default is TRUE")
   ensurer::ensure_that(custom_palette, !is.null(custom_palette), 

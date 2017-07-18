@@ -14,15 +14,15 @@
 #################################################################
 
 
-#' @title STILF Intervals
-#' @name stilf_interval
-#' @aliases stilf_interval
+#' @title lucC Intervals
+#' @name lucC_interval
+#' @aliases lucC_interval
 #' @author Adeline M. Maciel
 #' @docType data
 #'
-#' @description Provide a stilf_interval, an input pattern format used by Allen's relations. And return a value of interval
+#' @description Provide a lucC_interval, an input pattern format used by Allen's relations. And return a value of interval
 #'
-#' @usage stilf_interval(first_date , second_date)
+#' @usage lucC_interval(first_date , second_date)
 #' 
 #' @param first_date      Date. An date value like '2012-03-02'.
 #' @param second_date     Date. An date value like '2013-03-02'.
@@ -35,13 +35,13 @@
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #' # create some examples of intervals
-#' time1 <- stilf_interval("2011-09-01","2011-10-01")
-#' time2 <- stilf_interval("2011-09-15","2011-11-01")
+#' time1 <- lucC_interval("2011-09-01","2011-10-01")
+#' time2 <- lucC_interval("2011-09-15","2011-11-01")
 #'
 #'
 #'}
@@ -49,7 +49,7 @@
 #'
 
 # Transform two dates in an interval
-stilf_interval <- function (first_date, second_date) {
+lucC_interval <- function (first_date, second_date) {
   
   # Ensure if parameters exists
   ensurer::ensure_that(first_date, !is.null(first_date), 

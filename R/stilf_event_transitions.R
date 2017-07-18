@@ -14,24 +14,24 @@
 #################################################################
 
 
-#' @title STILF Event Transitions
-#' @name stilf_event_transitions
-#' @aliases stilf_event_transitions
+#' @title lucC Event Transitions
+#' @name lucC_event_transitions
+#' @aliases lucC_event_transitions
 #' @author Adeline M. Maciel
 #' @docType data
 #'
-#' @description Provide a stilf_event_transitions, a set of event transitions. 
+#' @description Provide a lucC_event_transitions, a set of event transitions. 
 #' And return a tibble with events discovered
 #'
-#' @usage stilf_event_transitions(data_tb = NULL, properties = NULL, 
-#' time_intervals = stilf_interval("2000-01-01", "2016-12-31"))
+#' @usage lucC_event_transitions(data_tb = NULL, properties = NULL, 
+#' time_intervals = lucC_interval("2000-01-01", "2016-12-31"))
 #' 
 #' @param data_tb          Tibble. A data frame with input values.
 #' @param properties       Character. A vector with at least 2 strings,
 #'                         and maximum 10 combination of transitions, 
 #'                         for example, c("Forest","Cropping").
 #' @param time_intervals   Interval. A interval of time to verify if 
-#'                         properties is into of stilf_interval format. 
+#'                         properties is into of lucC_interval format. 
 #' 
 #' @keywords datasets
 #' @return Tibble with event transition 
@@ -43,15 +43,15 @@
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #' data("example_TWDTW")
 #' example_TWDTW
 #' 
 #' example_3.tb <- example_TWDTW %>% 
-#'   stilf_standard_date_events(data_tb = ., month_year = "09", day_month = "01")
+#'   lucC_standard_date_events(data_tb = ., month_year = "09", day_month = "01")
 #' 
 #' example_3.tb
 #' 
@@ -59,7 +59,7 @@
 #' p1 <- c("Forest", "Pasture", "Single_cropping", "Double_cropping")
 #' 
 #' # t = interval:
-#' t1 <- stilf_interval("2000-08-01","2017-03-01")
+#' t1 <- lucC_interval("2000-08-01","2017-03-01")
 #' 
 #' tb <- example_3.tb
 #' output.tb3 <- tb[FALSE,]
@@ -68,25 +68,25 @@
 #' # Apply for each time series based on index
 #' for(x in 1:length(coord)){
 #'   temp.tb <- tb[which(as.character(tb$index) == coord[x]),]
-#'   temp_final.tb <- stilf_event_transitions(temp.tb, properties = p1, 
+#'   temp_final.tb <- lucC_event_transitions(temp.tb, properties = p1, 
 #'   time_intervals = t1)
 #'   output.tb3 <- dplyr::bind_rows(output.tb3, temp_final.tb)
 #' }
 #' output.tb3
 #' 
 #' # plots
-#' stilf_plot_maps_input(example_3.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, 
+#' lucC_plot_maps_input(example_3.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, 
 #' RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))
 #' 
-#' stilf_plot_maps_events(output.tb3, EPSG_WGS84 = TRUE, custom_palette = TRUE, 
+#' lucC_plot_maps_events(output.tb3, EPSG_WGS84 = TRUE, custom_palette = TRUE, 
 #' RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"), shape_point = 0, 
 #' colour_point = "blue", size_point = 2.3) 
 #' 
-#' stilf_plot_barplot_events(output.tb3, custom_palette = TRUE, 
+#' lucC_plot_barplot_events(output.tb3, custom_palette = TRUE, 
 #' RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"), 
 #' pixel_resolution = 250) 
 #' 
-#' stilf_plot_sequence_events(output.tb3, show_y_index = TRUE, 
+#' lucC_plot_sequence_events(output.tb3, show_y_index = TRUE, 
 #' end_date = "2017-03-01", custom_palette = TRUE, 
 #' RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1")) 
 #' 
@@ -94,7 +94,7 @@
 #' }
 
 # function to apply event transtion
-stilf_event_transitions <- function(data_tb = NULL, properties = NULL, time_intervals = stilf_interval("2000-01-01","2016-12-31")){
+lucC_event_transitions <- function(data_tb = NULL, properties = NULL, time_intervals = lucC_interval("2000-01-01","2016-12-31")){
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
@@ -106,7 +106,7 @@ stilf_event_transitions <- function(data_tb = NULL, properties = NULL, time_inte
   if (!is.null(time_intervals)) {
     t <- lubridate::int_standardize(time_intervals)
   } else {
-    cat("time_intervals (stilf_interval(\"2000-01-01\", \"2004-01-01\")),\n 
+    cat("time_intervals (lucC_interval(\"2000-01-01\", \"2004-01-01\")),\n 
          must be defined!\n")
   }
   
@@ -336,8 +336,8 @@ stilf_event_transitions <- function(data_tb = NULL, properties = NULL, time_inte
   # start the event transition
   aux.tb <- start_transition(count, interval.tb, aux.tb)
   
-  # create a stilf interval with information from start and end date from input tibble
-  interval <- stilf_interval(utils::head(data_tb$start_date,1),utils::tail(data_tb$end_date,1))
+  # create a lucC interval with information from start and end date from input tibble
+  interval <- lucC_interval(utils::head(data_tb$start_date,1),utils::tail(data_tb$end_date,1))
   
   logical <- NULL
   # verify if all properties are TRUE

@@ -15,14 +15,14 @@
 
 
 #' @title Format data as tibble format
-#' @name stilf_starting_point
-#' @aliases stilf_starting_point
+#' @name lucC_starting_point
+#' @aliases lucC_starting_point
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Change the global default setting to not auto-convert to factors
 #' 
-#' @usage stilf_starting_point()
+#' @usage lucC_starting_point()
 #' 
 #' @keywords datasets
 #' @return Change the global default setting
@@ -30,16 +30,16 @@
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #'}
 #'
 #'
 
 
-stilf_starting_point <- function(){
+lucC_starting_point <- function(){
   
   # change the global default setting to not auto-convert to factors
   options(stringsAsFactors = FALSE)
@@ -61,13 +61,13 @@ stilf_starting_point <- function(){
 
 
 #' @title Format data as tibble format
-#' @name stilf_data_preparation
-#' @aliases stilf_data_preparation
+#' @name lucC_data_preparation
+#' @aliases lucC_data_preparation
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Provide a format pattern to input data and make operations with Allen's relations and predicates. And return a tibble with values input
-#' @usage stilf_data_preparation(data_tb = NULL)
+#' @usage lucC_data_preparation(data_tb = NULL)
 #' 
 #' @param data_tb  Dataframe. A time series file.
 #' 
@@ -79,27 +79,27 @@ stilf_starting_point <- function(){
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #'
 #' # open a CSV example
 #' file = "./inst/example_csv_file.csv"
 #' 
-#' # read a raw csv and turn into format stilf with 
+#' # read a raw csv and turn into format lucC with 
 #' input_tb_raw_csv <- file %>% 
 #'   read.csv(sep = ",", header = TRUE) %>% 
-#'   stilf_data_preparation()
+#'   lucC_data_preparation()
 #' input_tb_raw_csv
 #'
-#' new_tb <- stilf_data_preparation(input_tb)
+#' new_tb <- lucC_data_preparation(input_tb)
 #' 
 #'}
 #'
 #'
 
 
-stilf_data_preparation <- function(data_tb = NULL){
+lucC_data_preparation <- function(data_tb = NULL){
 
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 

@@ -42,17 +42,17 @@
 
 
 #' @title Allen Relation In
-#' @name stilf_relation_in
-#' @aliases stilf_relation_in
+#' @name lucC_relation_in
+#' @aliases lucC_relation_in
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Provide an extra Allen's interval relation to classified time series data. And return a logical value if an interval is TRUE or FALSE
 #' 
-#' @usage stilf_relation_in(first_interval , second_interval)
+#' @usage lucC_relation_in(first_interval , second_interval)
 #'  
-#' @param first_interval  stilf_interval. An interval between two dates.
-#' @param second_interval stilf_interval. An interval between two dates.
+#' @param first_interval  lucC_interval. An interval between two dates.
+#' @param second_interval lucC_interval. An interval between two dates.
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
@@ -61,13 +61,13 @@
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #' # create some examples of intervals
-#' time7 <- stilf_interval("2011-08-01","2011-09-15")
-#' time8 <- stilf_interval("2011-08-15","2011-08-29")
+#' time7 <- lucC_interval("2011-08-01","2011-09-15")
+#' time8 <- lucC_interval("2011-08-15","2011-08-29")
 #' 
 #' # Two interval I and J, with:
 #' # I <- ("2011-08-15","2011-08-29")
@@ -80,14 +80,14 @@
 #' # Apply a relation 'in'  (during(first_interval, second_interval) | 
 #' # starts(first_interval, second_interval) | 
 #' # finishes(first_interval, second_interval))
-#' stilf_relation_in(time8,time7)
+#' lucC_relation_in(time8,time7)
 #' 
 #'            
 #'}
 #'
 
-# 14. The 'stilf_relation_in' relation = stilf_relation_during v stilf_relation_starts v stilf_relation_finishes
-stilf_relation_in <- function(first_interval, second_interval){
+# 14. The 'lucC_relation_in' relation = lucC_relation_during v lucC_relation_starts v lucC_relation_finishes
+lucC_relation_in <- function(first_interval, second_interval){
   stopifnot(c(lubridate::is.interval(first_interval), 
               lubridate::is.interval(second_interval)))
   
@@ -95,24 +95,24 @@ stilf_relation_in <- function(first_interval, second_interval){
   
   second_interval <- lubridate::int_standardize(second_interval)
   
-  stilf_relation_during(first_interval, second_interval) | 
-    stilf_relation_starts(first_interval, second_interval) | 
-    stilf_relation_finishes(first_interval, second_interval)
+  lucC_relation_during(first_interval, second_interval) | 
+    lucC_relation_starts(first_interval, second_interval) | 
+    lucC_relation_finishes(first_interval, second_interval)
 }
 
 
 #' @title Allen Relation Follows
-#' @name stilf_relation_follows
-#' @aliases stilf_relation_follows
+#' @name lucC_relation_follows
+#' @aliases lucC_relation_follows
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Provide an extra Allen's interval relation to classified time series data. And return a logical value if an interval is TRUE or FALSE
 #' 
-#' @usage stilf_relation_follows(first_interval , second_interval)
+#' @usage lucC_relation_follows(first_interval , second_interval)
 #'  
-#' @param first_interval  stilf_interval. An interval between two dates.
-#' @param second_interval stilf_interval. An interval between two dates.
+#' @param first_interval  lucC_interval. An interval between two dates.
+#' @param second_interval lucC_interval. An interval between two dates.
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
@@ -121,23 +121,23 @@ stilf_relation_in <- function(first_interval, second_interval){
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #' # create some examples of intervals
-#' time1 <- stilf_interval("2011-09-01","2011-10-01")
-#' time3 <- stilf_interval("2011-10-01","2011-11-01")
+#' time1 <- lucC_interval("2011-09-01","2011-10-01")
+#' time3 <- lucC_interval("2011-10-01","2011-11-01")
 #' 
 #' # Apply a relation 'follows' (meets(first_interval, second_interval) |
 #' # before(first_interval, second_interval))
-#' stilf_relation_follows(time1,time3)
+#' lucC_relation_follows(time1,time3)
 #' 
 #'}
 #'
 
-# 15. The 'stilf_relation_follows' relation = stilf_relation_meets v stilf_relation_before
-stilf_relation_follows <- function(first_interval, second_interval){
+# 15. The 'lucC_relation_follows' relation = lucC_relation_meets v lucC_relation_before
+lucC_relation_follows <- function(first_interval, second_interval){
   stopifnot(c(lubridate::is.interval(first_interval), 
               lubridate::is.interval(second_interval)))
   
@@ -145,23 +145,23 @@ stilf_relation_follows <- function(first_interval, second_interval){
   
   second_interval <- lubridate::int_standardize(second_interval)
   
-  stilf_relation_before(first_interval, second_interval) | 
-    stilf_relation_meets(first_interval, second_interval)
+  lucC_relation_before(first_interval, second_interval) | 
+    lucC_relation_meets(first_interval, second_interval)
 }
 
 
 #' @title Allen Relation Precedes
-#' @name stilf_relation_precedes
-#' @aliases stilf_relation_precedes
+#' @name lucC_relation_precedes
+#' @aliases lucC_relation_precedes
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Provide an extra Allen's interval relation to classified time series data. And return a logical value if an interval is TRUE or FALSE
 #' 
-#' @usage stilf_relation_precedes(first_interval , second_interval)
+#' @usage lucC_relation_precedes(first_interval , second_interval)
 #'  
-#' @param first_interval  stilf_interval. An interval between two dates.
-#' @param second_interval stilf_interval. An interval between two dates.
+#' @param first_interval  lucC_interval. An interval between two dates.
+#' @param second_interval lucC_interval. An interval between two dates.
 #' 
 #' @keywords datasets
 #' @return Logical value if interval are TRUE or FALSE
@@ -170,25 +170,25 @@ stilf_relation_follows <- function(first_interval, second_interval){
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #' # create some examples of intervals
-#' time1 <- stilf_interval("2011-09-01","2011-10-01")
-#' time3 <- stilf_interval("2011-10-01","2011-11-01")
+#' time1 <- lucC_interval("2011-09-01","2011-10-01")
+#' time3 <- lucC_interval("2011-10-01","2011-11-01")
 #' 
 #' # Apply a relation 'precedes' (met_by(first_interval, second_interval) |
 #' # after(first_interval, second_interval))
-#' stilf_relation_precedes(time1,time3)
+#' lucC_relation_precedes(time1,time3)
 #'          
 #'            
 #'}
 #'
 
 # Antonyms of following
-# 16. The 'stilf_relation_precedes' relation = stilf_relation_met_by || stilf_relation_after
-stilf_relation_precedes <- function(first_interval, second_interval){
+# 16. The 'lucC_relation_precedes' relation = lucC_relation_met_by || lucC_relation_after
+lucC_relation_precedes <- function(first_interval, second_interval){
   stopifnot(c(lubridate::is.interval(first_interval), 
               lubridate::is.interval(second_interval)))
   
@@ -196,8 +196,8 @@ stilf_relation_precedes <- function(first_interval, second_interval){
   
   second_interval <- lubridate::int_standardize(second_interval)
   
-  stilf_relation_after(first_interval, second_interval) | 
-    stilf_relation_met_by(first_interval, second_interval)
+  lucC_relation_after(first_interval, second_interval) | 
+    lucC_relation_met_by(first_interval, second_interval)
 }
 
 

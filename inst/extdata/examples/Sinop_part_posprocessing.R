@@ -1,33 +1,33 @@
 #####
 # Example: classify a set of time series using a pattern then show plots
-library(stilf)
+library(lucC)
 
-stilf_starting_point()
+lucC_starting_point()
 
-sinop.tb <- stilf_fromJSON("~/Desktop/Sinop_twdtw.json")
+sinop.tb <- lucC_fromJSON("~/Desktop/Sinop_twdtw.json")
 sinop.tb
 
 unique(lubridate::year(sinop.tb$end_date))
 unique(lubridate::year(sinop.tb$start_date))
 
-stilf_plot_maps_input(sinop.tb, EPSG_WGS84 = TRUE)
+lucC_plot_maps_input(sinop.tb, EPSG_WGS84 = TRUE)
 
-#remove columns and pass to stilf format
+#remove columns and pass to lucC format
 new_area_Sinop <- sinop.tb %>% 
   select(longitude,latitude,label,start_date,end_date,id,index) %>% 
-  stilf_data_preparation()
+  lucC_data_preparation()
 
 new_area_Sinop
 
 # alter start_date and end_date to a especific range in order to extract events
-area_tb <- stilf_standard_date_events(data_tb = new_area_Sinop, month_year = "08", day_month = "15")
+area_tb <- lucC_standard_date_events(data_tb = new_area_Sinop, month_year = "08", day_month = "15")
 
 area_tb
 
 #write.table(area_tb, "~/Desktop/Sinop_postprocess.csv", quote = FALSE, sep = ",", row.names = FALSE)
 
 # plot maps input data
-stilf_plot_maps_input(area_tb, EPSG_WGS84 = TRUE)
+lucC_plot_maps_input(area_tb, EPSG_WGS84 = TRUE)
 
 
 ########################################
@@ -57,8 +57,8 @@ p14 <- "Soybean_Cotton"
 p15 <- "Water"
 
 # te = interval:
-t1 <- stilf_interval("2000-08-15","2001-08-15")
-t2 <- stilf_interval("2001-08-15","2016-08-15")
+t1 <- lucC_interval("2000-08-15","2001-08-15")
+t2 <- lucC_interval("2001-08-15","2016-08-15")
 
 ##
 # Test occur for many time series in a dataframe
@@ -78,42 +78,42 @@ QuestionOccurs <- function(data_tb, p, t){
     
     temp <- df[which(as.character(df$index) == coord[x]),]
     
-    if ((nrow(ev1.in1 <- stilf_predicate_occur_BigData(temp, p1, t1)) >= 1 | #forest in first interval
+    if ((nrow(ev1.in1 <- lucC_predicate_holds_BigData(temp, p1, t1)) >= 1 | #forest in first interval
          
-         nrow(ev2.in1 <- stilf_predicate_occur_BigData(temp, p2, t1)) >= 1 | # other classes in frist interval
-         nrow(ev3.in1 <- stilf_predicate_occur_BigData(temp, p3, t1)) >= 1 |
-         nrow(ev4.in1 <- stilf_predicate_occur_BigData(temp, p4, t1)) >= 1 |
-         nrow(ev5.in1 <- stilf_predicate_occur_BigData(temp, p5, t1)) >= 1 |
-         nrow(ev6.in1 <- stilf_predicate_occur_BigData(temp, p6, t1)) >= 1 |
-         nrow(ev7.in1 <- stilf_predicate_occur_BigData(temp, p7, t1)) >= 1 |
-         nrow(ev8.in1 <- stilf_predicate_occur_BigData(temp, p8, t1)) >= 1 |
-         nrow(ev9.in1 <- stilf_predicate_occur_BigData(temp, p9, t1)) >= 1 |
-         nrow(ev10.in1 <- stilf_predicate_occur_BigData(temp, p10, t1)) >= 1 |
-         nrow(ev11.in1 <- stilf_predicate_occur_BigData(temp, p11, t1)) >= 1 |
-         nrow(ev12.in1 <- stilf_predicate_occur_BigData(temp, p12, t1)) >= 1 |
-         nrow(ev13.in1 <- stilf_predicate_occur_BigData(temp, p13, t1)) >= 1 |
-         nrow(ev14.in1 <- stilf_predicate_occur_BigData(temp, p14, t1)) >= 1 |
-         nrow(ev15.in1 <- stilf_predicate_occur_BigData(temp, p15, t1)) >= 1 
+         nrow(ev2.in1 <- lucC_predicate_holds_BigData(temp, p2, t1)) >= 1 | # other classes in frist interval
+         nrow(ev3.in1 <- lucC_predicate_holds_BigData(temp, p3, t1)) >= 1 |
+         nrow(ev4.in1 <- lucC_predicate_holds_BigData(temp, p4, t1)) >= 1 |
+         nrow(ev5.in1 <- lucC_predicate_holds_BigData(temp, p5, t1)) >= 1 |
+         nrow(ev6.in1 <- lucC_predicate_holds_BigData(temp, p6, t1)) >= 1 |
+         nrow(ev7.in1 <- lucC_predicate_holds_BigData(temp, p7, t1)) >= 1 |
+         nrow(ev8.in1 <- lucC_predicate_holds_BigData(temp, p8, t1)) >= 1 |
+         nrow(ev9.in1 <- lucC_predicate_holds_BigData(temp, p9, t1)) >= 1 |
+         nrow(ev10.in1 <- lucC_predicate_holds_BigData(temp, p10, t1)) >= 1 |
+         nrow(ev11.in1 <- lucC_predicate_holds_BigData(temp, p11, t1)) >= 1 |
+         nrow(ev12.in1 <- lucC_predicate_holds_BigData(temp, p12, t1)) >= 1 |
+         nrow(ev13.in1 <- lucC_predicate_holds_BigData(temp, p13, t1)) >= 1 |
+         nrow(ev14.in1 <- lucC_predicate_holds_BigData(temp, p14, t1)) >= 1 |
+         nrow(ev15.in1 <- lucC_predicate_holds_BigData(temp, p15, t1)) >= 1 
          
     ) 
     &
-    (	  nrow(ev2.in2 <- stilf_predicate_occur_BigData(temp, p2, t2)) >= 1 | # other classes in second interval
-        nrow(ev3.in2 <- stilf_predicate_occur_BigData(temp, p3, t2)) >= 1 |
-        nrow(ev4.in2 <- stilf_predicate_occur_BigData(temp, p4, t2)) >= 1 |
-        nrow(ev5.in2 <- stilf_predicate_occur_BigData(temp, p5, t2)) >= 1 |
-        nrow(ev6.in2 <- stilf_predicate_occur_BigData(temp, p6, t2)) >= 1 |
-        nrow(ev7.in2 <- stilf_predicate_occur_BigData(temp, p7, t2)) >= 1 |
-        nrow(ev8.in2 <- stilf_predicate_occur_BigData(temp, p8, t2)) >= 1 |
-        nrow(ev9.in2 <- stilf_predicate_occur_BigData(temp, p9, t2)) >= 1 |
-        nrow(ev10.in2 <- stilf_predicate_occur_BigData(temp, p10, t2)) >= 1 |
-        nrow(ev11.in2 <- stilf_predicate_occur_BigData(temp, p11, t2)) >= 1 |
-        nrow(ev12.in2 <- stilf_predicate_occur_BigData(temp, p12, t2)) >= 1 |
-        nrow(ev13.in2 <- stilf_predicate_occur_BigData(temp, p13, t2)) >= 1 |
-        nrow(ev14.in2 <- stilf_predicate_occur_BigData(temp, p14, t2)) >= 1 |
-        nrow(ev15.in2 <- stilf_predicate_occur_BigData(temp, p15, t2)) >= 1 
+    (	  nrow(ev2.in2 <- lucC_predicate_holds_BigData(temp, p2, t2)) >= 1 | # other classes in second interval
+        nrow(ev3.in2 <- lucC_predicate_holds_BigData(temp, p3, t2)) >= 1 |
+        nrow(ev4.in2 <- lucC_predicate_holds_BigData(temp, p4, t2)) >= 1 |
+        nrow(ev5.in2 <- lucC_predicate_holds_BigData(temp, p5, t2)) >= 1 |
+        nrow(ev6.in2 <- lucC_predicate_holds_BigData(temp, p6, t2)) >= 1 |
+        nrow(ev7.in2 <- lucC_predicate_holds_BigData(temp, p7, t2)) >= 1 |
+        nrow(ev8.in2 <- lucC_predicate_holds_BigData(temp, p8, t2)) >= 1 |
+        nrow(ev9.in2 <- lucC_predicate_holds_BigData(temp, p9, t2)) >= 1 |
+        nrow(ev10.in2 <- lucC_predicate_holds_BigData(temp, p10, t2)) >= 1 |
+        nrow(ev11.in2 <- lucC_predicate_holds_BigData(temp, p11, t2)) >= 1 |
+        nrow(ev12.in2 <- lucC_predicate_holds_BigData(temp, p12, t2)) >= 1 |
+        nrow(ev13.in2 <- lucC_predicate_holds_BigData(temp, p13, t2)) >= 1 |
+        nrow(ev14.in2 <- lucC_predicate_holds_BigData(temp, p14, t2)) >= 1 |
+        nrow(ev15.in2 <- lucC_predicate_holds_BigData(temp, p15, t2)) >= 1 
     ) 
     &
-    nrow(ev1.in2 <- stilf_predicate_occur_BigData(temp, p1, t2)) >= 1 # if occur forest in second interval 
+    nrow(ev1.in2 <- lucC_predicate_holds_BigData(temp, p1, t2)) >= 1 # if occur forest in second interval 
     & 
     # verify if forest discovered in interval 2 occur after start_date other classes. 
     # If TRUE, this forest is a secondary_vegetation  
@@ -159,8 +159,8 @@ remove(t1,t2) # remove intervals
 length(which(duplicated(data_sec_veg_occurs)))
 #data_sec_veg_occurs <- data_sec_veg_occurs[!duplicated(data_sec_veg_occurs),]
 
-stilf_plot_maps_input(area_tb, EPSG_WGS84 = TRUE) 
-stilf_plot_maps_events(data_sec_veg_occurs, EPSG_WGS84 = TRUE) 
+lucC_plot_maps_input(area_tb, EPSG_WGS84 = TRUE) 
+lucC_plot_maps_events(data_sec_veg_occurs, EPSG_WGS84 = TRUE) 
 
 
 
@@ -203,36 +203,36 @@ remove(df_temp,df_first_line,df_posProc,df_pos,df_temp2,df_temp3)
 
 #############################
 
-# stilf_toJSON(df_input_new, "~/Desktop/Sinop_postprocess.json") # foi salvo
+# lucC_toJSON(df_input_new, "~/Desktop/Sinop_postprocess.json") # foi salvo
 
 
 
 
 ########### Novo Horizonte do Norte - MT
 
-library(stilf)
+library(lucC)
 
-stilf_starting_point()
+lucC_starting_point()
 
-nhn_1.tb <- stilf_fromJSON("~/Desktop/ESTUDO_TESE/Studies/NHN_p1.json")
+nhn_1.tb <- lucC_fromJSON("~/Desktop/ESTUDO_TESE/Studies/NHN_p1.json")
 nhn_1.tb
 
-nhn_2.tb <- stilf_fromJSON("~/Desktop/ESTUDO_TESE/Studies/NHN_p2.json")
+nhn_2.tb <- lucC_fromJSON("~/Desktop/ESTUDO_TESE/Studies/NHN_p2.json")
 nhn_2.tb
 
-nhn_3.tb <- stilf_fromJSON("~/Desktop/ESTUDO_TESE/Studies/NHN_p3.json")
+nhn_3.tb <- lucC_fromJSON("~/Desktop/ESTUDO_TESE/Studies/NHN_p3.json")
 nhn_3.tb
 
-nhn_4.tb <- stilf_fromJSON("~/Desktop/ESTUDO_TESE/Studies/NHN_p4.json")
+nhn_4.tb <- lucC_fromJSON("~/Desktop/ESTUDO_TESE/Studies/NHN_p4.json")
 nhn_4.tb
 
-nhn2_1.tb <- stilf_fromJSON("~/Desktop/ESTUDO_TESE/Studies/new_nhn2_id_row_1.json")
+nhn2_1.tb <- lucC_fromJSON("~/Desktop/ESTUDO_TESE/Studies/new_nhn2_id_row_1.json")
 nhn2_1.tb
 
-nhn2_2.tb <- stilf_fromJSON("~/Desktop/ESTUDO_TESE/Studies/new_nhn2_id_row_2.json")
+nhn2_2.tb <- lucC_fromJSON("~/Desktop/ESTUDO_TESE/Studies/new_nhn2_id_row_2.json")
 nhn2_2.tb
 
-nhn2_3.tb <- stilf_fromJSON("~/Desktop/ESTUDO_TESE/Studies/new_nhn2_id_row_3.json")
+nhn2_3.tb <- lucC_fromJSON("~/Desktop/ESTUDO_TESE/Studies/new_nhn2_id_row_3.json")
 nhn2_3.tb
 
 

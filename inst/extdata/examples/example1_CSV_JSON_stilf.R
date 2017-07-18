@@ -5,137 +5,137 @@
 ###############
 
 #####
-# Example: read a csv as STILF format
-library(stilf)
+# Example: read a csv as lucC format
+library(lucC)
 
-stilf_starting_point()
+lucC_starting_point()
 
 file = "./data/example_TWDTW.csv"
 
 input_tb_raw_csv <- file %>% 
   read.csv(sep = ",", header = TRUE) %>% 
-  stilf_data_preparation()
+  lucC_data_preparation()
 input_tb_raw_csv
 
 #####
-# Example: read a csv as using stilf_fromCSV from package stilf
+# Example: read a csv as using lucC_fromCSV from package lucC
 
-library(stilf)
+library(lucC)
 
-stilf_starting_point()
+lucC_starting_point()
 
 file_csv = "./data/example_TWDTW.csv"
 
 input_tb_csv <- file_csv %>% 
-  stilf_fromCSV(separator = ",", header_file = TRUE) #%>% 
+  lucC_fromCSV(separator = ",", header_file = TRUE) #%>% 
 input_tb_csv
 
 # save the input as json format
 output_file = "~/Desktop/example_json.json"
-stilf_toJSON(input_tb_csv, output_file)
+lucC_toJSON(input_tb_csv, output_file)
 
 #####
 # Example: apply some operations use Allen's relations
 
-library(stilf)
+library(lucC)
 
-stilf_starting_point()
+lucC_starting_point()
 
 # define some intervals to example
-time1 <- stilf_interval("2011-09-01","2011-10-01")
-time2 <- stilf_interval("2011-09-15","2011-11-01")
-time3 <- stilf_interval("2011-10-01","2011-11-01")
-time4 <- stilf_interval("2011-10-01","2011-11-01")
+time1 <- lucC_interval("2011-09-01","2011-10-01")
+time2 <- lucC_interval("2011-09-15","2011-11-01")
+time3 <- lucC_interval("2011-10-01","2011-11-01")
+time4 <- lucC_interval("2011-10-01","2011-11-01")
 
 # verify some interval are TRUE or FALSE using Allen's relations
-stilf_relation_before(time1,time4)
+lucC_relation_before(time1,time4)
 
-stilf_relation_overlaps(time1,time2)
+lucC_relation_overlaps(time1,time2)
 
-stilf_relation_following(time1,time3)
+lucC_relation_following(time1,time3)
 
 #####
-# Example: read a json file using stilf_fromJSON and 
+# Example: read a json file using lucC_fromJSON and 
 # perform some operations using predicates
 
-library(stilf)
+library(lucC)
 
-stilf_starting_point()
+lucC_starting_point()
 
 json_file = "./inst/extdata/patterns/example_TWDTW.json"
 
 input_tb_json <- json_file %>% 
-  stilf_fromJSON()  
+  lucC_fromJSON()  
 input_tb_json
 
 # example of application
-time_ex1 <- stilf_interval("2001-01-01", "2003-01-01")
+time_ex1 <- lucC_interval("2001-01-01", "2003-01-01")
 time_ex1
-time_ex2 <- stilf_interval("2005-01-01", "2010-01-01")
+time_ex2 <- lucC_interval("2005-01-01", "2010-01-01")
 time_ex2
 
 # object_properties
 properties <- "Forest"
 
 # example predicate holds
-stilf_predicate_holds(geo_objects = input_tb_json, object_properties = "Forest", time_intervals = time_ex1)
+lucC_predicate_holds(geo_objects = input_tb_json, object_properties = "Forest", time_intervals = time_ex1)
 
-stilf_predicate_holds(geo_objects = input_tb_json, object_properties = properties, time_intervals = time_ex2)
+lucC_predicate_holds(geo_objects = input_tb_json, object_properties = properties, time_intervals = time_ex2)
 
 
 #####
-# Example: read a json file using stilf_fromJSON and 
+# Example: read a json file using lucC_fromJSON and 
 # perform some operations using predicates and plots
 
-library(stilf)
+library(lucC)
 
-stilf_starting_point()
+lucC_starting_point()
 
 file_json = "./inst/extdata/patterns/example_TWDTW.json"
 input_tb_raw_json <- file_json %>% 
-  stilf_fromJSON() 
+  lucC_fromJSON() 
 input_tb_raw_json
 
 # plot maps input data
-stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE)
+lucC_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE)
 
 # define interval
-time_ex1 <- stilf_interval("2002-01-01", "2014-01-01")
+time_ex1 <- lucC_interval("2002-01-01", "2014-01-01")
 time_ex1
 
 # using occur
-ts_occur1 <- stilf_predicate_occur(geo_objects = input_tb_raw_json, object_properties = "Pasture", event_time_intervals = time_ex1)
+ts_occur1 <- lucC_predicate_occur(geo_objects = input_tb_raw_json, object_properties = "Pasture", event_time_intervals = time_ex1)
 ts_occur1
 
-ts_occur2 <- stilf_predicate_occur(geo_objects = input_tb_raw_json, object_properties = "Forest", event_time_intervals = time_ex1)
+ts_occur2 <- lucC_predicate_occur(geo_objects = input_tb_raw_json, object_properties = "Forest", event_time_intervals = time_ex1)
 ts_occur2
 
 # events over input map
-stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE)
-stilf_plot_maps_events(ts_occur2, EPSG_WGS84 = TRUE)
+lucC_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE)
+lucC_plot_maps_events(ts_occur2, EPSG_WGS84 = TRUE)
 
 # plot sequence of events
-stilf_plot_sequence_events(ts_occur1, start_date = "2000-01-01", end_date = "2016-12-31")
-stilf_plot_sequence_events(ts_occur2, start_date = "2000-01-01", end_date = "2016-12-31")
+lucC_plot_sequence_events(ts_occur1, start_date = "2000-01-01", end_date = "2016-12-31")
+lucC_plot_sequence_events(ts_occur2, start_date = "2000-01-01", end_date = "2016-12-31")
 
 # plot barplot of events
-stilf_plot_barplot_events(ts_occur1)
-stilf_plot_barplot_events(ts_occur2)
+lucC_plot_barplot_events(ts_occur1)
+lucC_plot_barplot_events(ts_occur2)
 
 
 #####
 # Example: save images as GeoTIFF file to open in GIS after
-library(stilf)
+library(lucC)
 
-stilf_starting_point()
+lucC_starting_point()
 
 file_json = "./inst/extdata/patterns/example_TWDTW.json"
 input_tb_raw_json <- file_json %>% 
-  stilf_fromJSON() 
+  lucC_fromJSON() 
 input_tb_raw_json
 
 # save rasters in folder 
-stilf_toGeoTIFF (input_tb_raw_json, "~/Desktop/raster")
+lucC_toGeoTIFF (input_tb_raw_json, "~/Desktop/raster")
 
 # #------------------ verificar depois
 # pts <- sp::spsample(pts,type="regular",cellsize=231.6564)

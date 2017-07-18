@@ -15,13 +15,13 @@
 
 
 #' @title Save result as JSON format
-#' @name stilf_toJSON
-#' @aliases stilf_toJSON
+#' @name lucC_toJSON
+#' @aliases lucC_toJSON
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Save the output data in JSON format in an user's directory 
-#' @usage stilf_toJSON (data_tb, path_json_file = NULL)
+#' @usage lucC_toJSON (data_tb, path_json_file = NULL)
 #' 
 #' @param data_tb        Tibble. A data frame with input values
 #' @param path_json_file Character. Name path and file to save JSON file data
@@ -36,24 +36,24 @@
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #' file_csv = "./data/example_TWDTW.csv"
 #' 
 #' input_tb_csv <- file_csv %>% 
-#'   stilf_fromCSV(separator = ",", header_file = TRUE) #%>% 
+#'   lucC_fromCSV(separator = ",", header_file = TRUE) #%>% 
 #' input_tb_csv
 #' 
 #' # save the input as json format
 #' output_file = "~/Desktop/example_json.json"
-#' stilf_toJSON(input_tb_csv, output_file)
+#' lucC_toJSON(input_tb_csv, output_file)
 #'
 #'}
 #'
 
-stilf_toJSON <- function (data_tb, path_json_file = NULL) {
+lucC_toJSON <- function (data_tb, path_json_file = NULL) {
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
@@ -75,13 +75,13 @@ stilf_toJSON <- function (data_tb, path_json_file = NULL) {
 
 
 #' @title Open JSON file
-#' @name stilf_fromJSON
-#' @aliases stilf_fromJSON
+#' @name lucC_fromJSON
+#' @aliases lucC_fromJSON
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Open the input data in JSON format in an user's directory 
-#' @usage stilf_fromJSON (path_json_file = NULL)
+#' @usage lucC_fromJSON (path_json_file = NULL)
 #' 
 #' @param path_json_file Character. Name path and file to open JSON file data
 
@@ -95,21 +95,21 @@ stilf_toJSON <- function (data_tb, path_json_file = NULL) {
 #'
 #' @examples \dontrun{
 #' # Open a data example
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #' json_file = "./inst/extdata/patterns/example_TWDTW.json"
 #' 
 #' input_tb_json <- json_file %>% 
-#'   stilf_fromJSON()  
+#'   lucC_fromJSON()  
 #' input_tb_json
 #' 
 #'}
 #'
 #'
 
-stilf_fromJSON <- function (path_json_file = NULL) {
+lucC_fromJSON <- function (path_json_file = NULL) {
   
   # Ensure if parameters exists
   ensurer::ensure_that(path_json_file, !is.null(path_json_file), 
@@ -129,13 +129,13 @@ stilf_fromJSON <- function (path_json_file = NULL) {
 
 
 #' @title Open CSV file
-#' @name stilf_fromCSV
-#' @aliases stilf_fromCSV
+#' @name lucC_fromCSV
+#' @aliases lucC_fromCSV
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Open the input data in CSV format in an user's directory 
-#' @usage stilf_fromCSV (path_csv_file = NULL, separator = ",", header_file = TRUE)
+#' @usage lucC_fromCSV (path_csv_file = NULL, separator = ",", header_file = TRUE)
 #' 
 #' @param path_csv_file Character. Name path and file to open CSV file data
 #' @param separator     Character. Separator to csv, i.e. ',' or ';' ...
@@ -150,22 +150,22 @@ stilf_fromJSON <- function (path_json_file = NULL) {
 #'
 #' @examples \dontrun{
 #' # Open a data example
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #' file = "./data/example_TWDTW.csv"
 #' 
 #' input_tb_raw_csv <- file %>% 
 #'   read.csv(sep = ",", header = TRUE) %>% 
-#'   stilf_data_preparation()
+#'   lucC_data_preparation()
 #' input_tb_raw_csv
 #'
 #'}
 #'
 #'
 
-stilf_fromCSV <- function (path_csv_file = NULL, separator = ",", header_file = TRUE) {
+lucC_fromCSV <- function (path_csv_file = NULL, separator = ",", header_file = TRUE) {
   
   # Ensure if parameters exists
   ensurer::ensure_that(path_csv_file, !is.null(path_csv_file), 

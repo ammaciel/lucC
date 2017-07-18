@@ -14,15 +14,15 @@
 #################################################################
 
 
-#' @title Plot Events over Maps with STILF
-#' @name stilf_plot_maps_events
-#' @aliases stilf_plot_maps_events
+#' @title Plot Events over Maps with lucC
+#' @name lucC_plot_maps_events
+#' @aliases lucC_plot_maps_events
 #' @author Adeline M. Maciel
 #' @docType data
 #'
 #' @description Plot map ggplot2 for all events discovered in input data
 #' 
-#' @usage stilf_plot_maps_events (data_tb = NULL, EPSG_WGS84 = TRUE, 
+#' @usage lucC_plot_maps_events (data_tb = NULL, EPSG_WGS84 = TRUE, 
 #' custom_palette = FALSE, RGB_color = NULL, shape_point = 0, 
 #' colour_point = "black" , size_point= 1)
 #' 
@@ -48,33 +48,33 @@
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #' # open a JSON file example
 #' file_json = "./inst/extdata/patterns/example_TWDTW.json"
 #' 
 #' # open file JSON
 #' input_tb_raw_json <- file_json %>%
-#'   stilf_fromJSON()
+#'   lucC_fromJSON()
 #' input_tb_raw_json
 #' 
 #' # plot maps input data
-#' stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE, 
+#' lucC_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE, 
 #' custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", 
 #' "#929e6e", "#f5e7a1"))
 #' 
 #' # define interval
-#' time_ex1 <- stilf_interval("2002-01-01", "2014-01-01")
+#' time_ex1 <- lucC_interval("2002-01-01", "2014-01-01")
 #' 
 #' # apply predicate occur
-#' ts_occur1 <- stilf_predicate_occur(geo_objects = input_tb_raw_json, 
+#' ts_occur1 <- lucC_predicate_occur(geo_objects = input_tb_raw_json, 
 #' object_properties = "Forest", event_time_intervals = time_ex1)
 #' ts_occur1
 #' 
 #' # events over input map
-#' stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
+#' lucC_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
 #' custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", 
 #' "#929e6e", "#f5e7a1"), shape_point = 0, colour_point = "black", 
 #' size_point = 2.3)
@@ -84,11 +84,11 @@
 #'
 
 # plot maps with events
-stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL, shape_point = 0, colour_point = "black" , size_point= 1){ 
+lucC_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL, shape_point = 0, colour_point = "black" , size_point= 1){ 
  
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
-                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf predicates holds or occurs.")
+                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using lucC predicates holds or occurs.")
   ensurer::ensure_that(EPSG_WGS84, !is.null(EPSG_WGS84), 
                        err_desc = "EPSG_WGS84 must be defined, if exists values of longitude and latitude (TRUE ou FALSE)! Default is TRUE")
   ensurer::ensure_that(custom_palette, !is.null(custom_palette), 
@@ -198,15 +198,15 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pal
 }  
 
 
-#' @title Plot Sequence Maps with STILF Events
-#' @name stilf_plot_sequence_events
-#' @aliases stilf_plot_sequence_events
+#' @title Plot Sequence Maps with lucC Events
+#' @name lucC_plot_sequence_events
+#' @aliases lucC_plot_sequence_events
 #' @author Adeline M. Maciel
 #' @docType data
 #' 
 #' @description Plot time series as sequence of lines over time 
 #' 
-#' @usage stilf_plot_sequence_events (data_tb = NULL, custom_palette = FALSE, 
+#' @usage lucC_plot_sequence_events (data_tb = NULL, custom_palette = FALSE, 
 #' RGB_color = NULL, show_y_index = TRUE, start_date = "2000-01-01", 
 #' end_date = "2016-12-31")
 #' 
@@ -226,48 +226,48 @@ stilf_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pal
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #' # open a JSON file example
 #' file_json = "./inst/extdata/patterns/example_TWDTW.json"
 #' 
 #' # open file JSON
 #' input_tb_raw_json <- file_json %>%
-#'   stilf_fromJSON()
+#'   lucC_fromJSON()
 #' input_tb_raw_json
 #' 
 #' # plot maps input data
-#' stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE, 
+#' lucC_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE, 
 #' custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", 
 #' "#929e6e", "#f5e7a1"))
 #' 
 #' # define interval
-#' time_ex1 <- stilf_interval("2002-01-01", "2014-01-01")
+#' time_ex1 <- lucC_interval("2002-01-01", "2014-01-01")
 #' 
 #' # apply predicate occur
-#' ts_occur1 <- stilf_predicate_occur(geo_objects = input_tb_raw_json, 
+#' ts_occur1 <- lucC_predicate_occur(geo_objects = input_tb_raw_json, 
 #' object_properties = "Forest", event_time_intervals = time_ex1)
 #' ts_occur1
 #' 
 #' # events over input map
-#' stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
+#' lucC_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
 #' custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", 
 #' "#929e6e", "#f5e7a1"), shape_point = 0, colour_point = "black", 
 #' size_point = 2.3)
 #' 
-#' stilf_plot_sequence_events(ts_occur1, show_y_index = FALSE, 
+#' lucC_plot_sequence_events(ts_occur1, show_y_index = FALSE, 
 #' end_date = "2017-03-01", custom_palette = TRUE, RGB_color = "#929e6e") 
 #' 
 #'}
 #'
 
-stilf_plot_sequence_events <- function(data_tb = NULL, custom_palette = FALSE, RGB_color = NULL, show_y_index = TRUE, start_date = "2000-01-01", end_date = "2016-12-31"){ 
+lucC_plot_sequence_events <- function(data_tb = NULL, custom_palette = FALSE, RGB_color = NULL, show_y_index = TRUE, start_date = "2000-01-01", end_date = "2016-12-31"){ 
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
-                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf_plot_maps_events().")
+                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using lucC_plot_maps_events().")
   ensurer::ensure_that(custom_palette, !is.null(custom_palette), 
                        err_desc = "custom_palette must be defined, if wants use its own color palette setting! Default is FALSE")
   ensurer::ensure_that(show_y_index, !is.null(show_y_index), 
@@ -333,15 +333,15 @@ stilf_plot_sequence_events <- function(data_tb = NULL, custom_palette = FALSE, R
 
 
 
-#' @title Plot Barplot Maps with STILF Events
-#' @name stilf_plot_barplot_events
-#' @aliases stilf_plot_barplot_events
+#' @title Plot Barplot Maps with lucC Events
+#' @name lucC_plot_barplot_events
+#' @aliases lucC_plot_barplot_events
 #' @author Adeline M. Maciel
 #' @docType data
 #' 
 #' @description Plot barplot over time 
 #' 
-#' @usage stilf_plot_barplot_events (data_tb = NULL, 
+#' @usage lucC_plot_barplot_events (data_tb = NULL, 
 #' custom_palette = FALSE, RGB_color = NULL, pixel_resolution = 250)
 #' 
 #' @param data_tb          Tibble. A tibble with values longitude and latitude and other values
@@ -359,48 +359,48 @@ stilf_plot_sequence_events <- function(data_tb = NULL, custom_palette = FALSE, R
 #'
 #' @examples \dontrun{
 #' 
-#' library(stilf)
+#' library(lucC)
 #' 
-#' stilf_starting_point()
+#' lucC_starting_point()
 #' 
 #' # open a JSON file example
 #' file_json = "./inst/extdata/patterns/example_TWDTW.json"
 #' 
 #' # open file JSON
 #' input_tb_raw_json <- file_json %>%
-#'   stilf_fromJSON()
+#'   lucC_fromJSON()
 #' input_tb_raw_json
 #' 
 #' # plot maps input data
-#' stilf_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE, 
+#' lucC_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE, 
 #' custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", 
 #' "#929e6e", "#f5e7a1"))
 #' 
 #' # define interval
-#' time_ex1 <- stilf_interval("2002-01-01", "2014-01-01")
+#' time_ex1 <- lucC_interval("2002-01-01", "2014-01-01")
 #' 
 #' # apply predicate occur
-#' ts_occur1 <- stilf_predicate_occur(geo_objects = input_tb_raw_json, 
+#' ts_occur1 <- lucC_predicate_occur(geo_objects = input_tb_raw_json, 
 #' object_properties = "Forest", event_time_intervals = time_ex1)
 #' ts_occur1
 #' 
 #' # events over input map
-#' stilf_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
+#' lucC_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE, 
 #' custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", 
 #' "#929e6e", "#f5e7a1"), shape_point = 0, colour_point = "black", 
 #' size_point = 2.3)
 #' 
-#' stilf_plot_barplot_events(ts_occur1, custom_palette = TRUE, 
+#' lucC_plot_barplot_events(ts_occur1, custom_palette = TRUE, 
 #' RGB_color = "#929e6e", pixel_resolution = 250) 
 #' 
 #'}
 #'
 
-stilf_plot_barplot_events <- function(data_tb = NULL, custom_palette = FALSE, RGB_color = NULL, pixel_resolution = 250){ 
+lucC_plot_barplot_events <- function(data_tb = NULL, custom_palette = FALSE, RGB_color = NULL, pixel_resolution = 250){ 
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
-                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using stilf_plot_maps_events().")
+                       err_desc = "data_tb tibble, file must be defined!\nThis data can be obtained using lucC_plot_maps_events().")
   ensurer::ensure_that(custom_palette, !is.null(custom_palette), 
                        err_desc = "custom_palette must be defined, if wants use its own color palette setting! Default is FALSE")
   ensurer::ensure_that(pixel_resolution, !is.null(pixel_resolution), 
