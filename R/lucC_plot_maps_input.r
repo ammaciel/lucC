@@ -22,13 +22,17 @@
 #' @description Plot map ggplot2 for all input data
 #' 
 #' @usage lucC_plot_maps_input (data_tb = NULL, EPSG_WGS84 = TRUE, 
-#' custom_palette = FALSE, RGB_color = NULL)
+#' custom_palette = FALSE, RGB_color = NULL, relabel = FALSE, 
+#' original_labels = NULL, new_labels = NULL)
 #' 
 #' @param data_tb         Tibble. A tibble with values longitude and latitude and other values
 #' @param EPSG_WGS84      Character. A reference coordinate system. If TRUE, the values of latitude and longitude alredy use this coordinate system, if FALSE, the data set need to be transformed
 #' @param custom_palette  Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE
 #' @param RGB_color       Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is setting scale_colour_hue
-
+#' @param relabel         Boolean. A TRUE or FALSE value. If TRUE, user will provide its own legend text setting! Default is FALSE
+#' @param original_labels Character. A vector with original labels from legend text, for example, c("Forest","Pasture").
+#' @param new_labels      Character. A vector with new labels to legend text, for example, c("Mature_Forest","Pasture1").
+#'
 #' @keywords datasets
 #' @return Plot with input data as colored map
 #' @import ggplot2 magrittr
@@ -64,7 +68,7 @@
 #'
 
 # plot maps for input data
-lucC_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL) { 
+lucC_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL, relabel = FALSE, original_labels = NULL, new_labels = NULL) { 
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
@@ -73,6 +77,9 @@ lucC_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palet
                        err_desc = "EPSG_WGS84 must be defined, if exists values of longitude and latitude (TRUE ou FALSE)! Default is TRUE")
   ensurer::ensure_that(custom_palette, !is.null(custom_palette), 
                        err_desc = "custom_palette must be defined, if wants use its own color palette setting! Default is FALSE")
+  ensurer::ensure_that(relabel, !is.null(relabel), 
+                       err_desc = "relabel must be defined, if wants use its own legend text setting! Default is FALSE")
+  
   #ensurer::ensure_that(RGB_color, custom_palette == TRUE & is.character(RGB_color), 
   #                    err_desc = "RGB_color must be defined, if custom_palette equals TRUE, then provide a list of colors with the same length its number of legend! Default is the color brewer 'Paired'")
                       # & (length(RGB_color) == length(unique(data_tb$label)))
@@ -110,6 +117,25 @@ lucC_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palet
     my_palette = grDevices::colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
   } 
   
+  original_leg_lab <- levels(droplevels(mapBar$Var2))
+  cat("Original legend labels: \n", original_leg_lab, "\n")
+  
+  # insert own legend text
+  if(relabel == TRUE){
+    if(is.null(original_labels) | length(new_labels) != length(unique(mapBar$Var2)) | 
+       all(original_labels %in% original_leg_lab) == FALSE){
+      cat("\nIf relabel = TRUE, a vector with original labels must be defined!")
+      cat("\nProvide a list of original labels and new labels with the same length of the legend!\n") 
+    } else {
+      my_original_label = original_labels
+      my_new_labels = new_labels
+    }
+  } else {
+    # my legend text
+    my_original_label = unique(mapBar$Var2)
+    my_new_labels = unique(mapBar$Var2)
+  } 
+  
   # plot images all years
   g <- ggplot2::ggplot(map_input_df, aes(map_input_df$x, map_input_df$y)) +
         geom_raster(aes_string(fill=map_input_df$"z")) +
@@ -121,7 +147,7 @@ lucC_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palet
         theme(legend.position = "bottom") +#, strip.text = element_text(size=10)) +
         xlab("") +
         ylab("") +
-        scale_fill_manual(name="Legend:", values = my_palette)
+        scale_fill_manual(name="Legend:", values = my_palette, breaks = my_original_label, labels = my_new_labels)
         # scale_fill_brewer(name="Legend:", palette= "Paired")
 
   print(g)

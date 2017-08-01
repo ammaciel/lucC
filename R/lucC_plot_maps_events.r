@@ -8,7 +8,7 @@
 ##                                                             ##
 ##   R script to plot events as maps and sequences             ##
 ##                                                             ##  
-##                                             2017-04-18      ##
+##                                             2017-08-01      ##
 ##                                                             ##
 ##                                                             ##
 #################################################################
@@ -24,7 +24,8 @@
 #' 
 #' @usage lucC_plot_maps_events (data_tb = NULL, EPSG_WGS84 = TRUE, 
 #' custom_palette = FALSE, RGB_color = NULL, shape_point = 0, 
-#' colour_point = "black" , size_point= 1)
+#' colour_point = "black" , size_point= 1, relabel = FALSE, 
+#' original_labels = NULL, new_labels = NULL)
 #' 
 #' @param data_tb         Tibble. A tibble with values longitude and latitude and other values
 #' @param EPSG_WGS84      Character. A reference coordinate system. If TRUE, the values of latitude and longitude alredy use this coordinate system, if FALSE, the data set need to be transformed
@@ -33,6 +34,9 @@
 #' @param shape_point     Numeric or Character. Is a shape point for events highlighted over map. Default is 0.  This includes different points symbols commonly used in R as "pch", such as numeric values like 0 to square, 1 to circle and 4 to cross shape. And also other characters can be used including ".", "+", "*", "-", "#".    
 #' @param colour_point    Numeric. Is a colour for the shape point for events highlighted over map. Default is black
 #' @param size_point      Numeric. Is a size of the shape point around pixels in plot. Default is 1
+#' @param relabel         Boolean. A TRUE or FALSE value. If TRUE, user will provide its own legend text setting! Default is FALSE
+#' @param original_labels Character. A vector with original labels from legend text, for example, c("Forest","Pasture").
+#' @param new_labels      Character. A vector with new labels to legend text, for example, c("Mature_Forest","Pasture1").
 #' 
 #' @keywords datasets
 #' @return Plot with input data as colored map
@@ -84,7 +88,7 @@
 #'
 
 # plot maps with events
-lucC_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL, shape_point = 0, colour_point = "black" , size_point= 1){ 
+lucC_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL, shape_point = 0, colour_point = "black" , size_point= 1, relabel = FALSE, original_labels = NULL, new_labels = NULL){ 
  
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
@@ -99,6 +103,8 @@ lucC_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pale
                        err_desc = "Define the colour point for events highlighted over map! Default is black.")  
   ensurer::ensure_that(size_point, !is.null(size_point), 
                        err_desc = "Define the size point for events highlighted over map! Default is 1.")
+  ensurer::ensure_that(relabel, !is.null(relabel), 
+                       err_desc = "relabel must be defined, if wants use its own legend text setting! Default is FALSE")
   
   input_data <- data_tb
   
@@ -132,6 +138,25 @@ lucC_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pale
     my_palette = grDevices::colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
   } 
   
+  original_leg_lab <- levels(droplevels(mapBar$Var2))
+  cat("Original legend labels: \n", original_leg_lab, "\n")
+  
+  # insert own legend text
+  if(relabel == TRUE){
+    if(is.null(original_labels) | length(new_labels) != length(unique(mapBar$Var2)) | 
+       all(original_labels %in% original_leg_lab) == FALSE){
+      cat("\nIf relabel = TRUE, a vector with original labels must be defined!")
+      cat("\nProvide a list of original labels and new labels with the same length of the legend!\n") 
+    } else {
+      my_original_label = original_labels
+      my_new_labels = new_labels
+    }
+  } else {
+    # my legend text
+    my_original_label = unique(mapBar$Var2)
+    my_new_labels = unique(mapBar$Var2)
+  } 
+  
   # plot only events
   g <- ggplot2::ggplot() +
     geom_raster(data=map_input_df, aes(map_input_df$x, map_input_df$y, fill=map_input_df$"z")) +
@@ -144,7 +169,7 @@ lucC_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pale
     theme(legend.position = "bottom") +#, strip.text = element_text(size=10)) +
     xlab("") +
     ylab("") +
-    scale_fill_manual(name="Legend:", values = my_palette)
+    scale_fill_manual(name="Legend:", values = my_palette, breaks = my_original_label, labels = my_new_labels)
     #scale_fill_brewer(name="Legend:", palette= "Paired")
   
   print(g)
@@ -208,7 +233,8 @@ lucC_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pale
 #' 
 #' @usage lucC_plot_sequence_events (data_tb = NULL, custom_palette = FALSE, 
 #' RGB_color = NULL, show_y_index = TRUE, start_date = "2000-01-01", 
-#' end_date = "2016-12-31")
+#' end_date = "2016-12-31", relabel = FALSE, original_labels = NULL, 
+#' new_labels = NULL)
 #' 
 #' @param data_tb         Tibble. A tibble with values longitude and latitude and other values
 #' @param custom_palette  Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE
@@ -216,6 +242,9 @@ lucC_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pale
 #' @param show_y_index    Boolean. TRUE/FALSE to show the index values in the axis y of the graphic
 #' @param start_date      Date. A start date to plot in sequence in format (ymd), '2011-01-01'
 #' @param end_date        Date. A end date to plot in sequence in format (ymd), '2013-01-01'
+#' @param relabel         Boolean. A TRUE or FALSE value. If TRUE, user will provide its own legend text setting! Default is FALSE
+#' @param original_labels Character. A vector with original labels from legend text, for example, c("Forest","Pasture").
+#' @param new_labels      Character. A vector with new labels to legend text, for example, c("Mature_Forest","Pasture1").
 #' 
 #' @keywords datasets
 #' @return Plot sequence time series as lines
@@ -263,7 +292,7 @@ lucC_plot_maps_events <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_pale
 #'}
 #'
 
-lucC_plot_sequence_events <- function(data_tb = NULL, custom_palette = FALSE, RGB_color = NULL, show_y_index = TRUE, start_date = "2000-01-01", end_date = "2016-12-31"){ 
+lucC_plot_sequence_events <- function(data_tb = NULL, custom_palette = FALSE, RGB_color = NULL, show_y_index = TRUE, start_date = "2000-01-01", end_date = "2016-12-31", relabel = FALSE, original_labels = NULL, new_labels = NULL){ 
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
@@ -300,6 +329,25 @@ lucC_plot_sequence_events <- function(data_tb = NULL, custom_palette = FALSE, RG
     my_palette = scales::hue_pal()(colour_count)
   } 
   
+  original_leg_lab <- levels(droplevels(mapBar$Var2))
+  cat("Original legend labels: \n", original_leg_lab, "\n")
+  
+  # insert own legend text
+  if(relabel == TRUE){
+    if(is.null(original_labels) | length(new_labels) != length(unique(mapBar$Var2)) | 
+       all(original_labels %in% original_leg_lab) == FALSE){
+      cat("\nIf relabel = TRUE, a vector with original labels must be defined!")
+      cat("\nProvide a list of original labels and new labels with the same length of the legend!\n") 
+    } else {
+      my_original_label = original_labels
+      my_new_labels = new_labels
+    }
+  } else {
+    # my legend text
+    my_original_label = unique(mapBar$Var2)
+    my_new_labels = unique(mapBar$Var2)
+  }   
+  
   g <- ggplot2::ggplot(data, aes(y = data$Category)) +
     labs(x = "Years", y = "Time series set") +
     theme_bw()+
@@ -312,7 +360,7 @@ lucC_plot_sequence_events <- function(data_tb = NULL, custom_palette = FALSE, RG
     
     # define time period
     scale_x_date(limits=as.Date(c(start_date, end_date))) +
-    scale_color_manual(name="Legend:", values = my_palette)
+    scale_color_manual(name="Legend:", values = my_palette, breaks = my_original_label, labels = my_new_labels)
     #scale_color_grey(name = "Legend:", start = 0, end = 0.8)
     
   # shows axis y label with index values from tibble
@@ -342,12 +390,16 @@ lucC_plot_sequence_events <- function(data_tb = NULL, custom_palette = FALSE, RG
 #' @description Plot barplot over time 
 #' 
 #' @usage lucC_plot_barplot_events (data_tb = NULL, 
-#' custom_palette = FALSE, RGB_color = NULL, pixel_resolution = 250)
+#' custom_palette = FALSE, RGB_color = NULL, pixel_resolution = 250, 
+#' relabel = FALSE, original_labels = NULL, new_labels = NULL)
 #' 
 #' @param data_tb          Tibble. A tibble with values longitude and latitude and other values
 #' @param custom_palette   Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE
 #' @param RGB_color        Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is setting scale_colour_hue
 #' @param pixel_resolution Numeric. Is a spatial resolution of the pixel. Default is 250 meters considering MODIS 250 m. See more at \url{https://modis.gsfc.nasa.gov/about/specifications.php}.
+#' @param relabel          Boolean. A TRUE or FALSE value. If TRUE, user will provide its own legend text setting! Default is FALSE
+#' @param original_labels  Character. A vector with original labels from legend text, for example, c("Forest","Pasture").
+#' @param new_labels       Character. A vector with new labels to legend text, for example, c("Mature_Forest","Pasture1").
 #' 
 #' @keywords datasets
 #' @return Plot a barplot in Y axis in square kilometers (Area km^2) = (Number of pixel *(pixel_resolution*pixel_resolution))/(1000*1000)
@@ -396,7 +448,7 @@ lucC_plot_sequence_events <- function(data_tb = NULL, custom_palette = FALSE, RG
 #'}
 #'
 
-lucC_plot_barplot_events <- function(data_tb = NULL, custom_palette = FALSE, RGB_color = NULL, pixel_resolution = 250){ 
+lucC_plot_barplot_events <- function(data_tb = NULL, custom_palette = FALSE, RGB_color = NULL, pixel_resolution = 250, relabel = FALSE, original_labels = NULL, new_labels = NULL){ 
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
@@ -426,12 +478,31 @@ lucC_plot_barplot_events <- function(data_tb = NULL, custom_palette = FALSE, RGB
     my_palette = scales::hue_pal()(colour_count)
   } 
   
+  original_leg_lab <- levels(droplevels(mapBar$Var2))
+  cat("Original legend labels: \n", original_leg_lab, "\n")
+  
+  # insert own legend text
+  if(relabel == TRUE){
+    if(is.null(original_labels) | length(new_labels) != length(unique(mapBar$Var2)) | 
+       all(original_labels %in% original_leg_lab) == FALSE){
+      cat("\nIf relabel = TRUE, a vector with original labels must be defined!")
+      cat("\nProvide a list of original labels and new labels with the same length of the legend!\n") 
+    } else {
+      my_original_label = original_labels
+      my_new_labels = new_labels
+    }
+  } else {
+    # my legend text
+    my_original_label = unique(mapBar$Var2)
+    my_new_labels = unique(mapBar$Var2)
+  } 
+  
   g <- ggplot2::ggplot(mapBar,aes(x=mapBar$Var1, y=(mapBar$Freq*(pixel_resolution*pixel_resolution))/(1000*1000), fill=mapBar$Var2))+
     geom_bar(width = 0.7, stat="identity")+ #, position=position_dodge())+
     theme_bw()+
     ylab(expression(paste("Area ",km^{2}," = ((pixels number x pixel ", resolution^{2},")/",1000^{2},")")))+
     xlab("Years")+
-    scale_fill_manual(name="Legend:", values = my_palette) +
+    scale_fill_manual(name="Legend:", values = my_palette, breaks = my_original_label, labels = my_new_labels) +
     #scale_fill_grey(name = "Legend:", start = 0, end = 0.8) +
     theme(legend.position = "bottom", 
           #legend.text=element_text(size=10), 
