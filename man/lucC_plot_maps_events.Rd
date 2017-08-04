@@ -6,9 +6,9 @@
 \title{Plot Events over Maps with lucC}
 \usage{
 lucC_plot_maps_events (data_tb = NULL, EPSG_WGS84 = TRUE, 
-custom_palette = FALSE, RGB_color = NULL, shape_point = 0, 
-colour_point = "black" , size_point= 1, relabel = FALSE, 
-original_labels = NULL, new_labels = NULL)
+custom_palette = FALSE, RGB_color = NULL, plot_ncol = NULL, 
+shape_point = 0, colour_point = "black" , size_point= 1, 
+relabel = FALSE, original_labels = NULL, new_labels = NULL)
 }
 \arguments{
 \item{data_tb}{Tibble. A tibble with values longitude and latitude and other values}
@@ -18,6 +18,8 @@ original_labels = NULL, new_labels = NULL)
 \item{custom_palette}{Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE}
 
 \item{RGB_color}{Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is setting scale_colour_hue}
+
+\item{plot_ncol}{Numeric. A number of columns to show the maps}
 
 \item{shape_point}{Numeric or Character. Is a shape point for events highlighted over map. Default is 0.  This includes different points symbols commonly used in R as "pch", such as numeric values like 0 to square, 1 to circle and 4 to cross shape. And also other characters can be used including ".", "+", "*", "-", "#".}
 

@@ -6,8 +6,8 @@
 \title{Plot Input Maps}
 \usage{
 lucC_plot_maps_input (data_tb = NULL, EPSG_WGS84 = TRUE, 
-custom_palette = FALSE, RGB_color = NULL, relabel = FALSE, 
-original_labels = NULL, new_labels = NULL)
+custom_palette = FALSE, RGB_color = NULL, plot_ncol = NULL,
+relabel = FALSE, original_labels = NULL, new_labels = NULL)
 }
 \arguments{
 \item{data_tb}{Tibble. A tibble with values longitude and latitude and other values}
@@ -17,6 +17,8 @@ original_labels = NULL, new_labels = NULL)
 \item{custom_palette}{Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE}
 
 \item{RGB_color}{Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is setting scale_colour_hue}
+
+\item{plot_ncol}{Numeric. A number of columns to show the maps}
 
 \item{relabel}{Boolean. A TRUE or FALSE value. If TRUE, user will provide its own legend text setting! Default is FALSE}
 

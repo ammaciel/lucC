@@ -22,13 +22,14 @@
 #' @description Plot map ggplot2 for all input data
 #' 
 #' @usage lucC_plot_maps_input (data_tb = NULL, EPSG_WGS84 = TRUE, 
-#' custom_palette = FALSE, RGB_color = NULL, relabel = FALSE, 
-#' original_labels = NULL, new_labels = NULL)
+#' custom_palette = FALSE, RGB_color = NULL, plot_ncol = NULL,
+#' relabel = FALSE, original_labels = NULL, new_labels = NULL)
 #' 
 #' @param data_tb         Tibble. A tibble with values longitude and latitude and other values
 #' @param EPSG_WGS84      Character. A reference coordinate system. If TRUE, the values of latitude and longitude alredy use this coordinate system, if FALSE, the data set need to be transformed
 #' @param custom_palette  Boolean. A TRUE or FALSE value. If TRUE, user will provide its own color palette setting! Default is FALSE
 #' @param RGB_color       Character. A vector with color names to map legend, for example, c("Green","Blue"). Default is setting scale_colour_hue
+#' @param plot_ncol       Numeric. A number of columns to show the maps 
 #' @param relabel         Boolean. A TRUE or FALSE value. If TRUE, user will provide its own legend text setting! Default is FALSE
 #' @param original_labels Character. A vector with original labels from legend text, for example, c("Forest","Pasture").
 #' @param new_labels      Character. A vector with new labels to legend text, for example, c("Mature_Forest","Pasture1").
@@ -68,7 +69,7 @@
 #'
 
 # plot maps for input data
-lucC_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL, relabel = FALSE, original_labels = NULL, new_labels = NULL) { 
+lucC_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palette = FALSE, RGB_color = NULL, plot_ncol = NULL, relabel = FALSE, original_labels = NULL, new_labels = NULL) { 
   
   # Ensure if parameters exists
   ensurer::ensure_that(data_tb, !is.null(data_tb), 
@@ -117,12 +118,12 @@ lucC_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palet
     my_palette = grDevices::colorRampPalette(RColorBrewer::brewer.pal(name="Paired", n = 12))(colour_count)
   } 
   
-  original_leg_lab <- levels(droplevels(mapBar$Var2))
+  original_leg_lab <- base::levels(droplevels(map_input_df$z))
   cat("Original legend labels: \n", original_leg_lab, "\n")
   
   # insert own legend text
   if(relabel == TRUE){
-    if(is.null(original_labels) | length(new_labels) != length(unique(mapBar$Var2)) | 
+    if(is.null(original_labels) | length(new_labels) != length(unique(map_input_df$z)) | 
        all(original_labels %in% original_leg_lab) == FALSE){
       cat("\nIf relabel = TRUE, a vector with original labels must be defined!")
       cat("\nProvide a list of original labels and new labels with the same length of the legend!\n") 
@@ -132,8 +133,8 @@ lucC_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palet
     }
   } else {
     # my legend text
-    my_original_label = unique(mapBar$Var2)
-    my_new_labels = unique(mapBar$Var2)
+    my_original_label = unique(map_input_df$z)
+    my_new_labels = unique(map_input_df$z)
   } 
   
   # plot images all years
@@ -141,7 +142,7 @@ lucC_plot_maps_input <- function(data_tb = NULL, EPSG_WGS84 = TRUE, custom_palet
         geom_raster(aes_string(fill=map_input_df$"z")) +
         scale_y_continuous(expand = c(0, 0), breaks = NULL) +
         scale_x_continuous(expand = c(0, 0), breaks = NULL) +
-        facet_wrap("w") +
+        facet_wrap("w", ncol = plot_ncol) +  
         coord_fixed(ratio = 1) + 
         # coord_fixed(ratio = 1/cos(mean(map_input_df$x)*pi/180)) +
         theme(legend.position = "bottom") +#, strip.text = element_text(size=10)) +

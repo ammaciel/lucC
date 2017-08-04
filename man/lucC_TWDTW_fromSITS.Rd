@@ -56,7 +56,7 @@ custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1")
 
 }
 \seealso{
-sits details at https://github.com/gilbertocamara/sits/
+sits details at https://github.com/e-sensing/sits/
 package
 }
 \author{

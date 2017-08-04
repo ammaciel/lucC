@@ -24,12 +24,11 @@ Imports: dplyr,
       RColorBrewer,
       readr,
       scales,
-      sits,
       sp,
       tibble,
       utils
 Remotes:
-      gilbertocamara/sits
+      e-sensing/sits
 URL: https://github.com/ammaciel/lucC
 BugReports: https://github.com/ammaciel/lucC
 Suggests: testthat

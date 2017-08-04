@@ -27,7 +27,7 @@
 #' 
 #' @param data_tb       Tibble. A tibble with values in sits format
 #' 
-#' @seealso sits details at https://github.com/gilbertocamara/sits/
+#' @seealso sits details at https://github.com/e-sensing/sits/
 #' package
 #' 
 #' @keywords datasets
@@ -37,7 +37,7 @@
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @importFrom lubridate year
 #' @export
-#'
+#' 
 #' @examples \dontrun{
 #' 
 #' library(lucC)
