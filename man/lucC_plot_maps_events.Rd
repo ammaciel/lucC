@@ -63,7 +63,7 @@ custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f",
 time_ex1 <- lucC_interval("2002-01-01", "2014-01-01")
 
 # apply predicate occur
-ts_occur1 <- lucC_predicate_occur(geo_objects = input_tb_raw_json, 
+ts_occur1 <- lucC_predicate_holds(geo_objects = input_tb_raw_json, 
 object_properties = "Forest", event_time_intervals = time_ex1)
 ts_occur1
 

@@ -7,7 +7,8 @@
 \usage{
 lucC_plot_barplot_events (data_tb = NULL, 
 custom_palette = FALSE, RGB_color = NULL, pixel_resolution = 250, 
-relabel = FALSE, original_labels = NULL, new_labels = NULL)
+relabel = FALSE, original_labels = NULL, new_labels = NULL,
+side_by_side = FALSE)
 }
 \arguments{
 \item{data_tb}{Tibble. A tibble with values longitude and latitude and other values}
@@ -23,6 +24,8 @@ relabel = FALSE, original_labels = NULL, new_labels = NULL)
 \item{original_labels}{Character. A vector with original labels from legend text, for example, c("Forest","Pasture").}
 
 \item{new_labels}{Character. A vector with new labels to legend text, for example, c("Mature_Forest","Pasture1").}
+
+\item{side_by_side}{Boolean. Make bar of a barplot a side-by-side plot. Default is FALSE.}
 }
 \value{
 Plot a barplot in Y axis in square kilometers (Area km^2) = (Number of pixel *(pixel_resolution*pixel_resolution))/(1000*1000)
@@ -54,7 +57,7 @@ custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f",
 time_ex1 <- lucC_interval("2002-01-01", "2014-01-01")
 
 # apply predicate occur
-ts_occur1 <- lucC_predicate_occur(geo_objects = input_tb_raw_json, 
+ts_occur1 <- lucC_predicate_holds(geo_objects = input_tb_raw_json, 
 object_properties = "Forest", event_time_intervals = time_ex1)
 ts_occur1
 
