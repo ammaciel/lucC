@@ -504,7 +504,7 @@ lucC_plot_barplot_events <- function(data_tb = NULL, custom_palette = FALSE, RGB
   if (side_by_side == TRUE){
     bar_position = "dodge"
   } else { 
-    bar_position = "fill"
+    bar_position = "stack"
   }
     
   g <- ggplot2::ggplot(mapBar,aes(x=mapBar$Var1, y=(mapBar$Freq*(pixel_resolution*pixel_resolution))/(1000*1000), fill=mapBar$Var2))+
