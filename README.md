@@ -43,7 +43,7 @@ example_1.tb <- example_TWDTW %>%
   example_1.tb
 </pre>
 
- - Plot example_1.tb <code>lucC_plot_maps_input(example_1.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</code>
+ - Plot example_1.tb <code>lucC_plot_maps_input(example_1.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e", "#f5e7a1", "#FFB266"))</code>
 
 <table width="700" border="0">
 <tr>
@@ -94,9 +94,9 @@ output.tb
 remove(t1,p1)
 </pre>
 
- - See example_1.tb plot with lucC_plot_maps_input function <code>lucC_plot_maps_input(example_1.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</code>
+ - See example_1.tb plot with lucC_plot_maps_input function <code>lucC_plot_maps_input(example_1.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e", "#f5e7a1", "#FFB266"))</code>
 
- - See all events with lucC_plot_maps_events function <code>lucC_plot_maps_events(output.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"), shape_point = 0, colour_point = "black", size_point = 2.3)</code>
+ - See all events with lucC_plot_maps_events function <code>lucC_plot_maps_events(output.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e", "#f5e7a1", "#FFB266"), shape_point = 0, colour_point = "black", size_point = 2.3)</code>
 
 <table width="700" border="0">
 <tr>
@@ -109,7 +109,7 @@ Fig. 2. Plot events discovered from time series classified data
 </tr>
 </table>
 
-- See barplot total area in square kilometers <code>lucC_plot_barplot_events(output.tb, custom_palette = TRUE, RGB_color = "#929e6e", pixel_resolution = 250)</code> and sequence plot <code>lucC_plot_sequence_events(output.tb, show_y_index = FALSE, end_date = "2017-03-01", custom_palette = TRUE, RGB_color = "#929e6e")</code>
+- See barplot total area in square kilometers <code>lucC_plot_bar_events(output.tb, custom_palette = TRUE, RGB_color = "#929e6e", pixel_resolution = 250)</code> and sequence plot <code>lucC_plot_sequence_events(output.tb, show_y_index = FALSE, end_date = "2017-03-01", custom_palette = TRUE, RGB_color = "#929e6e")</code>
 
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
@@ -181,9 +181,9 @@ remove(p1, p2, t1, t2)
 </pre>
 
 
- - View example_2.tb plot with lucC_plot_maps_input function <code>lucC_plot_maps_input(example_2.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e"))</code>
+ - View example_2.tb plot with lucC_plot_maps_input function <code>lucC_plot_maps_input(example_2.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e", "#FFB266"))</code>
 
- - View all events with lucC_plot_maps_events function <code>lucC_plot_maps_events(output.tb2, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e"), shape_point = 4, colour_point = "blue", size_point = 8)</code>
+ - View all events with lucC_plot_maps_events function <code>lucC_plot_maps_events(output.tb2, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e", "#FFB266"), shape_point = 4, colour_point = "blue", size_point = 8)</code>
 
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
@@ -235,9 +235,9 @@ for(x in 1:length(coord)){
 output.tb3
 </pre>
 
- - See plot with lucC_plot_maps_input function <code>lucC_plot_maps_input(example_3.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</code>
+ - See plot with lucC_plot_maps_input function <code>lucC_plot_maps_input(example_3.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e", "#f5e7a1", "#FFB266"))</code>
 
- - View all events with lucC_plot_maps_events function <code>lucC_plot_maps_events(output.tb3, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"), shape_point = 0, colour_point = "blue", size_point = 2.3)</code>
+ - View all events with lucC_plot_maps_events function <code>lucC_plot_maps_events(output.tb3, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e", "#f5e7a1", "#FFB266"), shape_point = 0, colour_point = "blue", size_point = 2.3)</code>
 
 <table width="700" border="0">
 <tr>
@@ -250,7 +250,7 @@ Fig. 5. Plot events discovered from time series classified data
 </tr>
 </table>
 
-- See barplot total area in square kilometers <code>lucC_plot_barplot_events(output.tb3, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"), pixel_resolution = 250)</code> and sequence plot <code>lucC_plot_sequence_events(output.tb3, show_y_index = TRUE, end_date = "2017-03-01", custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</code>
+- See barplot total area in square kilometers <code>lucC_plot_bar_events(output.tb3, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"), pixel_resolution = 250)</code> and sequence plot <code>lucC_plot_sequence_events(output.tb3, show_y_index = TRUE, end_date = "2017-03-01", custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</code>
 
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
