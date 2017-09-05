@@ -140,7 +140,7 @@ lucC_plot_sequence_events <- function(data_tb = NULL, custom_palette = FALSE, RG
   }   
   
   g <- ggplot2::ggplot(data, aes(y = data$Category)) +
-    labs(x = "Years", y = "Time series set") +
+    labs(x = "Time", y = "Locations") +
     theme_bw()+
     geom_segment(aes(x = data$"start_date", y = data$Category,
                      xend = data$"end_date", yend = data$Category,
@@ -157,11 +157,11 @@ lucC_plot_sequence_events <- function(data_tb = NULL, custom_palette = FALSE, RG
   # shows axis y label with index values from tibble
   if(show_y_index == TRUE){
     g <- g + theme(legend.position = "bottom", 
-                   #legend.text=element_text(size=10),
+                   legend.text=element_text(size=10), ###
                    legend.key = element_blank())  
   } else {
     g <- g + theme(legend.position = "bottom", 
-                   #legend.text=element_text(size=10),
+                   legend.text=element_text(size=10), ###
                    axis.text.y=element_blank(),
                    legend.key = element_blank())  
   } 
@@ -301,11 +301,11 @@ lucC_plot_bar_events <- function(data_tb = NULL, custom_palette = FALSE, RGB_col
     geom_bar(width = 0.7, stat="identity", position = bar_position)+
     theme_bw()+
     ylab(expression(paste("Area ",km^{2}," = ((pixels number x pixel ", resolution^{2},")/",1000^{2},")")))+
-    xlab("Years")+
+    xlab("Time")+
     scale_fill_manual(name="Legend:", values = my_palette, breaks = my_original_label, labels = my_new_labels) +
     #scale_fill_grey(name = "Legend:", start = 0, end = 0.8) +
     theme(legend.position = "bottom", 
-          #legend.text=element_text(size=10), 
+          legend.text=element_text(size=10),  ###
           legend.key = element_blank())
   
   print(g)
@@ -435,11 +435,11 @@ lucC_plot_frequency_events <- function(data_tb = NULL, custom_palette = FALSE, R
     geom_point( size = 2, shape = 16) +
     theme_bw()+
     ylab(expression(paste("Area ",km^{2}," = ((pixels number x pixel ", resolution^{2},")/",1000^{2},")")))+
-    xlab("Years")+
+    xlab("Time")+
     scale_color_manual(name="Legend:", values = my_palette, breaks = my_original_label, labels = my_new_labels) +
     #scale_fill_grey(name = "Legend:", start = 0, end = 0.8) +
     theme(legend.position = "bottom", 
-          #legend.text=element_text(size=10), 
+          legend.text=element_text(size=10), ##
           legend.key = element_blank())
   
   print(g)
@@ -579,7 +579,7 @@ lucC_plot_area_events <- function(data_tb = NULL, custom_palette = FALSE, RGB_co
   g <- ggplot2::ggplot(mapArea,aes(x=mapArea$Year, y=mapArea$Freq1))+
     geom_area(aes(fill=mapArea$Var2), stat="identity", position = "stack")+
     theme_bw()+
-    xlab("Years")+
+    xlab("Time")+
     scale_fill_manual(name="Legend:", values = my_palette, breaks = my_original_label, labels = my_new_labels) +
     scale_x_continuous(breaks = x_axis) +
     #scale_fill_grey(name = "Legend:", start = 0, end = 0.8) +
