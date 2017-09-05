@@ -157,11 +157,19 @@ lucC_plot_sequence_events <- function(data_tb = NULL, custom_palette = FALSE, RG
   # shows axis y label with index values from tibble
   if(show_y_index == TRUE){
     g <- g + theme(legend.position = "bottom", 
+<<<<<<< HEAD
                    legend.text=element_text(size=11), ###
                    legend.key = element_blank())  
   } else {
     g <- g + theme(legend.position = "bottom", 
                    legend.text=element_text(size=11), ###
+=======
+                   legend.text=element_text(size=10), ###
+                   legend.key = element_blank())  
+  } else {
+    g <- g + theme(legend.position = "bottom", 
+                   legend.text=element_text(size=10), ###
+>>>>>>> 392640e70cc74db10770c71d647c23daeb8f93de
                    axis.text.y=element_blank(),
                    legend.key = element_blank())  
   } 
@@ -305,7 +313,11 @@ lucC_plot_bar_events <- function(data_tb = NULL, custom_palette = FALSE, RGB_col
     scale_fill_manual(name="Legend:", values = my_palette, breaks = my_original_label, labels = my_new_labels) +
     #scale_fill_grey(name = "Legend:", start = 0, end = 0.8) +
     theme(legend.position = "bottom", 
+<<<<<<< HEAD
           legend.text=element_text(size=11),  ###
+=======
+          legend.text=element_text(size=10),  ###
+>>>>>>> 392640e70cc74db10770c71d647c23daeb8f93de
           legend.key = element_blank())
   
   print(g)
@@ -439,7 +451,11 @@ lucC_plot_frequency_events <- function(data_tb = NULL, custom_palette = FALSE, R
     scale_color_manual(name="Legend:", values = my_palette, breaks = my_original_label, labels = my_new_labels) +
     #scale_fill_grey(name = "Legend:", start = 0, end = 0.8) +
     theme(legend.position = "bottom", 
+<<<<<<< HEAD
           legend.text=element_text(size=11), ##
+=======
+          legend.text=element_text(size=10), ##
+>>>>>>> 392640e70cc74db10770c71d647c23daeb8f93de
           legend.key = element_blank())
   
   print(g)
