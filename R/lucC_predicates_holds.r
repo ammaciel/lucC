@@ -8,7 +8,7 @@
 ##                                                             ##
 ##   R script with predicates holds(o,p,t) and occur(o,p,Te)   ##
 ##                                                             ##  
-##                                             2017-06-23      ##
+##                                             2017-10-04      ##
 ##                                                             ##
 ##  J. F. Allen.  end_datewards a general theory of action and ##
 ##  time. Artificial Intelligence, 23(2): 123--154, 1984.      ##
@@ -37,7 +37,6 @@
 #' @keywords datasets
 #' @return Tibble with all events hold during a time interval
 #' @importFrom lubridate int_standardize int_start int_end
-#' @importFrom dplyr bind_rows
 #' @export
 #'
 #' @examples \dontrun{
@@ -48,14 +47,15 @@
 #' 
 #' json_file = "./inst/extdata/patterns/example_TWDTW.json"
 #' 
-#' input_tb_json <- json_file %>% 
-#'   lucC_fromJSON()  
+#' input_tb_json <- json_file %>%
+#'   lucC_fromJSON() %>% 
+#'   lucC_standard_date_events(month_year = "09", day_month = "01")
 #' input_tb_json
 #' 
 #' # example of application
-#' time_ex1 <- lucC_interval("2001-01-01", "2003-01-01")
+#' time_ex1 <- lucC_interval("2000-09-01", "2003-09-01")
 #' time_ex1
-#' time_ex2 <- lucC_interval("2005-01-01", "2010-01-01")
+#' time_ex2 <- lucC_interval("2003-09-01", "2010-09-01")
 #' time_ex2
 #' 
 #' # location_properties
@@ -79,147 +79,92 @@
 # parameters: o = geo-objects, p = properties of objects and t = time intervals
 
 lucC_predicate_holds <- function(locations = NULL, location_properties = NULL, time_intervals = lucC_interval("2000-01-01", "2004-01-01")){
- 
-  if (!is.null(locations) & !is.null(location_properties) & !is.null(time_intervals)) {
-    o <- locations
-    p <- location_properties
-    t <- lubridate::int_standardize(time_intervals)
-  } else {
-    stop("\nParameters:\n locations (data_df),\n 
+
+    if (!is.null(locations) & !is.null(location_properties) & !is.null(time_intervals)) {
+      o <- locations
+      p <- location_properties
+      t <- lubridate::int_standardize(time_intervals)
+    } else {
+      stop("\nParameters:\n locations (data_df),\n 
          location_properties ('Forest') and\n 
          time_intervals (lucC_interval('2000-01-01', '2004-01-01')),\n 
          must be defined!\n")
-  }
-  
-  intStart <- format(lubridate::int_start(t), format = '%Y-%m-%d')
-  intEnd <- format(lubridate::int_end(t), format = '%Y-%m-%d')
-  
-  df <- o
-  df <- df[order(df$end_date),] # order by end_date
-  p <- as.character(p)
-  aux.df = df[FALSE,]
-
-  for (i in 1:nrow(df)) {
-    
-     if ((df$label[i] == p) & ((df$start_date[i] >= intStart) & (df$end_date[i] <= intEnd))) {
-      aux.df <- dplyr::bind_rows(aux.df,df[i,])
-      #cat(sprintf("time: %d in interval: %s -- %s = TRUE \n", i, df$start_date[i], df$end_date[i]))
-    } else {
-      # cat(sprintf("time: %d in interval: %s -- %s = FALSE \n", i, df$start_date[i], df$start_date[i]))
     }
     
-  }
-  
-  # if(nrow(aux.df) > 0){
-  #   cat("\nHave been found ", nrow(aux.df)," properties which holds during a time interval.\n")
-  # } else {
-  #   cat("\nAny property have been founded. Alter your location_properties or time_intervals parameters.\n")
-  # }
-  # 
-  return(aux.df)
+    intStart <- format(lubridate::int_start(t), format = '%Y-%m-%d')
+    intEnd <- format(lubridate::int_end(t), format = '%Y-%m-%d')
+    
+    df <- o
+    df <- df[order(df$end_date),] # order by end_date
+    p <- as.character(p)
+    
+    # verify if properties of location holds
+    holds <- function(x){
+      row_holds = NULL
+      if (isTRUE((x[["label"]] == p) & ((x[["start_date"]] >= intStart) & (x[["end_date"]] <= intEnd))))
+        row_holds <- x
+      
+      row_holds
+    }
+    
+    out.df = data.frame(do.call("rbind", apply(df, 1, holds)))
+    
+    # only columns importants
+    aux.df <- data.frame(longitude  = as.double(out.df$longitude), 
+                         latitude   = as.double(out.df$latitude), 
+                         start_date = as.character(out.df$start_date), 
+                         end_date   = as.character(out.df$end_date), 
+                         label      = as.character(out.df$label),
+                         id         = as.numeric(out.df$id),
+                         index      = as.numeric(out.df$index))
+    
+    return(aux.df)
 }
 
+# ----------
+# old version using foo loop - very slow
+#
+# lucC_predicate_holds <- function(locations = NULL, location_properties = NULL, time_intervals = lucC_interval("2000-01-01", "2004-01-01")){
+#   
+#   if (!is.null(locations) & !is.null(location_properties) & !is.null(time_intervals)) {
+#     o <- locations
+#     p <- location_properties
+#     t <- lubridate::int_standardize(time_intervals)
+#   } else {
+#     stop("\nParameters:\n locations (data_df),\n 
+#          location_properties ('Forest') and\n 
+#          time_intervals (lucC_interval('2000-01-01', '2004-01-01')),\n 
+#          must be defined!\n")
+#   }
+#   
+#   intStart <- format(lubridate::int_start(t), format = '%Y-%m-%d')
+#   intEnd <- format(lubridate::int_end(t), format = '%Y-%m-%d')
+#   
+#   df <- o
+#   df <- df[order(df$end_date),] # order by end_date
+#   p <- as.character(p)
+#   aux.df = df[FALSE,]
+#   
+#   for (i in 1:nrow(df)) {
+#     
+#     if ((df$label[i] == p) & ((df$start_date[i] >= intStart) & (df$end_date[i] <= intEnd))) {
+#       aux.df <- dplyr::bind_rows(aux.df,df[i,])
+#       #cat(sprintf("time: %d in interval: %s -- %s = TRUE \n", i, df$start_date[i], df$end_date[i]))
+#     } else {
+#       # cat(sprintf("time: %d in interval: %s -- %s = FALSE \n", i, df$start_date[i], df$start_date[i]))
+#     }
+#     
+#   }
+#   
+#   # if(nrow(aux.df) > 0){
+#   #   cat("\nHave been found ", nrow(aux.df)," properties which holds during a time interval.\n")
+#   # } else {
+#   #   cat("\nAny property have been founded. Alter your location_properties or time_intervals parameters.\n")
+#   # }
+#   # 
+#   return(aux.df)
+# }
 
-#' #' @title Predicate Allen Occur
-#' #' @name lucC_predicate_occur
-#' #' @aliases lucC_predicate_occur
-#' #' @author Adeline M. Maciel
-#' #' @docType data
-#' #'
-#' #' @description Provide a predicate of Allen's which asserts that an event happened over a time interval
-#' #'
-#' #' @usage lucC_predicate_occur (locations = NULL, location_properties = NULL,
-#' #' event_time_intervals = lucC_interval("2000-01-01", "2004-01-01"))
-#' #'
-#' #' @param locations           Tibble. A tibble with values longitude and latitude and other values
-#' #' @param location_properties     Character. Name of value present in a row of the tibble, such as 'Forest' or other value
-#' #' @param event_time_intervals  Interval. A interval of time to verify if event about location_properties occurs or not in lucC_interval format
-#' #'
-#' #' @keywords datasets
-#' #' @return Tibble with all events happened over a time interval
-#' #' @importFrom lubridate int_standardize int_start int_end
-#' #' @importFrom dplyr bind_rows
-#' 
-#' #' @export
-#' #'
-#' #' @examples \dontrun{
-#' #'
-#' #' library(lucC)
-#' #'
-#' #' lucC_starting_point()
-#' #'
-#' #' file_json = "./inst/extdata/patterns/example_TWDTW.json"
-#' #' input_tb_raw_json <- file_json %>%
-#' #'   lucC_fromJSON()
-#' #' input_tb_raw_json
-#' #'
-#' #' # plot maps input data
-#' #' lucC_plot_maps_input(input_tb_raw_json, EPSG_WGS84 = TRUE)
-#' #'
-#' #' # define interval
-#' #' time_ex1 <- lucC_interval("2002-01-01", "2014-01-01")
-#' #' time_ex1
-#' #'
-#' #' # using occur
-#' #' ts_occur1 <- lucC_predicate_occur(locations = input_tb_raw_json,
-#' #' location_properties = "Pasture", event_time_intervals = time_ex1)
-#' #' ts_occur1
-#' #'
-#' #' ts_occur2 <- lucC_predicate_occur(locations = input_tb_raw_json,
-#' #' location_properties = "Forest", event_time_intervals = time_ex1)
-#' #' ts_occur2
-#' #'
-#' #' # events over input map
-#' #' lucC_plot_maps_events(ts_occur1, EPSG_WGS84 = TRUE)
-#' #' lucC_plot_maps_events(ts_occur2, EPSG_WGS84 = TRUE)
-#' #'
-#' #'}
-#' #'
-#' 
-#' # OCCUR(event, time)
-#' # Asserts that an event happened over a time interval
-#' # version: 2
-#' # format: occur(o,p,Te)
-#' # parameters: o = geo-objects, p = properties of objects and Te = event time intervals
-#' 
-#' lucC_predicate_occur <- function(locations = NULL, location_properties = NULL, event_time_intervals = lucC_interval("2000-01-01", "2004-01-01")){
-#' 
-#'   if (!is.null(locations) & !is.null(location_properties) & !is.null(event_time_intervals)) {
-#'     o <- locations
-#'     p <- location_properties
-#'     te <- lubridate::int_standardize(event_time_intervals)
-#'   } else {
-#'     stop("\nParameters:\n locations (data_df),\n
-#'          location_properties ('Forest') and\n
-#'          event_time_intervals (lucC_interval('2000-01-01', '2004-01-01')),\n
-#'          must be defined!\n")
-#'   }
-#' 
-#'   intStart <- format(lubridate::int_start(te), format = '%Y-%m-%d')
-#'   intEnd <- format(lubridate::int_end(te), format = '%Y-%m-%d')
-#' 
-#'   df <- o
-#'   df <- df[order(df$end_date),] # order by end_date
-#'   p <- as.character(p)
-#'   aux.df = df[FALSE,]
-#' 
-#'   for (i in 1:nrow(df)) {
-#' 
-#'     if ((df$label[i] == p) & ((df$start_date[i] >= intStart) & (df$end_date[i] <= intEnd))) {
-#'       aux.df <- dplyr::bind_rows(aux.df,df[i,])
-#'       #cat(sprintf("time: %d in interval: %s -- %s = TRUE \n", i, df$start_date[i], df$end_date[i]))
-#'     } else {
-#'       # cat(sprintf("time: %d in interval: %s -- %s = FALSE \n", i, df$start_date[i], df$start_date[i]))
-#'     }
-#'   }
-#' 
-#' #   if(nrow(aux.df) > 0){
-#' #     cat("\nHave been found ", nrow(aux.df)," events which happened over a time interval.\n")
-#' #   } else {
-#' #     cat("\nAny event have been founded. Alter your location_properties or event_time_intervals parameters.\n")
-#' #   }
-#' 
-#'   return(aux.df)
-#' }
-#' 
+
+
 
