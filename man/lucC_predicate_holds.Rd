@@ -33,14 +33,15 @@ lucC_starting_point()
 
 json_file = "./inst/extdata/patterns/example_TWDTW.json"
 
-input_tb_json <- json_file \%>\% 
-  lucC_fromJSON()  
+input_tb_json <- json_file \%>\%
+  lucC_fromJSON() \%>\% 
+  lucC_standard_date_events(month_year = "09", day_month = "01")
 input_tb_json
 
 # example of application
-time_ex1 <- lucC_interval("2001-01-01", "2003-01-01")
+time_ex1 <- lucC_interval("2000-09-01", "2003-09-01")
 time_ex1
-time_ex2 <- lucC_interval("2005-01-01", "2010-01-01")
+time_ex2 <- lucC_interval("2003-09-01", "2010-09-01")
 time_ex2
 
 # location_properties
