@@ -45,10 +45,9 @@
 #' 
 #' lucC_starting_point()
 #' 
-#' json_file = "./inst/extdata/patterns/example_TWDTW.json"
+#' data("example_TWDTW")
 #' 
-#' input_tb_json <- json_file %>%
-#'   lucC_fromJSON() %>% 
+#' input_tb_json <- example_TWDTW %>%
 #'   lucC_standard_date_events(month_year = "09", day_month = "01")
 #' input_tb_json
 #' 
@@ -74,40 +73,46 @@
 
 # HOLDS(property, time) 
 # Asserts that a property holds during a time interval
-# version: 1 
+# version: 2 
 # format: holds(o,p,t)
-# parameters: o = geo-objects, p = properties of objects and t = time intervals
+# parameters: o = locations, p = properties of locations and t = time intervals
 
 lucC_predicate_holds <- function(locations = NULL, location_properties = NULL, time_intervals = lucC_interval("2000-01-01", "2004-01-01")){
 
-    if (!is.null(locations) & !is.null(location_properties) & !is.null(time_intervals)) {
-      o <- locations
-      p <- location_properties
-      t <- lubridate::int_standardize(time_intervals)
-    } else {
-      stop("\nParameters:\n locations (data_df),\n 
+  if (!is.null(locations) & !is.null(location_properties) & !is.null(time_intervals)) {
+    o <- locations
+    p <- location_properties
+    t <- lubridate::int_standardize(time_intervals)
+  } else {
+    stop("\nParameters:\n locations (data_df),\n 
          location_properties ('Forest') and\n 
          time_intervals (lucC_interval('2000-01-01', '2004-01-01')),\n 
          must be defined!\n")
-    }
+  }
+  
+  intStart <- format(lubridate::int_start(t), format = '%Y-%m-%d')
+  intEnd <- format(lubridate::int_end(t), format = '%Y-%m-%d')
+  
+  df <- o
+  df <- df[order(df$end_date),] # order by end_date
+  p <- as.character(p)
+  
+  # verify if properties of location holds
+  holds <- function(x){
+    row_holds = NULL
     
-    intStart <- format(lubridate::int_start(t), format = '%Y-%m-%d')
-    intEnd <- format(lubridate::int_end(t), format = '%Y-%m-%d')
+    if (isTRUE((x[["label"]] == p) & ((x[["start_date"]] >= intStart) & (x[["end_date"]] <= intEnd))))
+      row_holds <- x
     
-    df <- o
-    df <- df[order(df$end_date),] # order by end_date
-    p <- as.character(p)
-    
-    # verify if properties of location holds
-    holds <- function(x){
-      row_holds = NULL
-      if (isTRUE((x[["label"]] == p) & ((x[["start_date"]] >= intStart) & (x[["end_date"]] <= intEnd))))
-        row_holds <- x
-      
-      row_holds
-    }
-    
-    out.df = data.frame(do.call("rbind", apply(df, 1, holds)))
+    row_holds
+  }
+  
+  #out.df = data.frame(do.call("rbind", apply(df, 1, holds)))
+  allvalues <- apply(df, 1, holds)
+  
+  if(!is.null(allvalues)){
+    #sapply(allvalues,nrow)
+    out.df = data.frame(do.call("rbind", allvalues), stringsAsFactors = FALSE)
     
     # only columns importants
     aux.df <- data.frame(longitude  = as.double(out.df$longitude), 
@@ -117,8 +122,11 @@ lucC_predicate_holds <- function(locations = NULL, location_properties = NULL, t
                          label      = as.character(out.df$label),
                          id         = as.numeric(out.df$id),
                          index      = as.numeric(out.df$index))
-    
-    return(aux.df)
+  } else {
+    aux.df <- data.frame()
+  }
+  
+  return(aux.df)
 }
 
 # ----------

@@ -31,10 +31,9 @@ library(lucC)
 
 lucC_starting_point()
 
-json_file = "./inst/extdata/patterns/example_TWDTW.json"
+data("example_TWDTW")
 
-input_tb_json <- json_file \%>\%
-  lucC_fromJSON() \%>\% 
+input_tb_json <- example_TWDTW \%>\%
   lucC_standard_date_events(month_year = "09", day_month = "01")
 input_tb_json
 
