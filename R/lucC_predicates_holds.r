@@ -117,11 +117,12 @@ lucC_predicate_holds <- function(locations = NULL, location_properties = NULL, t
     # only columns importants
     aux.df <- data.frame(longitude  = as.double(out.df$longitude), 
                          latitude   = as.double(out.df$latitude), 
-                         start_date = as.character(out.df$start_date), 
-                         end_date   = as.character(out.df$end_date), 
+                         start_date = as.Date(out.df$start_date, format = "%Y-%m-%d"), 
+                         end_date   = as.Date(out.df$end_date, format = "%Y-%m-%d"), 
                          label      = as.character(out.df$label),
                          id         = as.numeric(out.df$id),
-                         index      = as.numeric(out.df$index))
+                         index      = as.numeric(out.df$index), 
+                         stringsAsFactors=FALSE)
   } else {
     aux.df <- data.frame()
   }
