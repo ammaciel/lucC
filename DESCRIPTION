@@ -1,8 +1,8 @@
 Package: lucC
 Type: Package
 Title: Land Use Change Calculus
-Version: 0.1
-Date: 2017-07-18
+Version: 0.10.6
+Date: 2017-10-06
 Authors@R: person("Adeline", "Maciel", role = c("aut", "cre"), email = "adelsud6@gmail.com")
 Author: Adeline Maciel [aut, cre]
 Maintainer: Adeline Maciel <adelsud6@gmail.com>

@@ -120,8 +120,8 @@ lucC_predicate_holds <- function(locations = NULL, location_properties = NULL, t
                          start_date = as.Date(out.df$start_date, format = "%Y-%m-%d"), 
                          end_date   = as.Date(out.df$end_date, format = "%Y-%m-%d"), 
                          label      = as.character(out.df$label),
-                         id         = as.numeric(out.df$id),
-                         index      = as.numeric(out.df$index), 
+                         id         = as.integer(out.df$id),
+                         index      = as.integer(out.df$index), 
                          stringsAsFactors=FALSE)
   } else {
     aux.df <- data.frame()

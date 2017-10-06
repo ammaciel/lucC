@@ -52,7 +52,7 @@ lucC_relation_before(time1,time4)
 
 lucC_relation_overlaps(time1,time2)
 
-lucC_relation_following(time1,time3)
+lucC_relation_follows(time1,time3)
 
 #####
 # Example: read a json file using lucC_fromJSON and 
@@ -78,9 +78,9 @@ time_ex2
 properties <- "Forest"
 
 # example predicate holds
-lucC_predicate_holds(geo_objects = input_tb_json, object_properties = "Forest", time_intervals = time_ex1)
+lucC_predicate_holds(locations = input_tb_json, location_properties = "Forest", time_intervals = time_ex1)
 
-lucC_predicate_holds(geo_objects = input_tb_json, object_properties = properties, time_intervals = time_ex2)
+lucC_predicate_holds(locations = input_tb_json, location_properties = properties, time_intervals = time_ex2)
 
 
 #####
@@ -104,10 +104,10 @@ time_ex1 <- lucC_interval("2002-01-01", "2014-01-01")
 time_ex1
 
 # using occur
-ts_occur1 <- lucC_predicate_occur(geo_objects = input_tb_raw_json, object_properties = "Pasture", event_time_intervals = time_ex1)
+ts_occur1 <- lucC_predicate_holds(locations = input_tb_raw_json, location_properties = "Pasture", time_intervals = time_ex1)
 ts_occur1
 
-ts_occur2 <- lucC_predicate_occur(geo_objects = input_tb_raw_json, object_properties = "Forest", event_time_intervals = time_ex1)
+ts_occur2 <- lucC_predicate_holds(locations = input_tb_raw_json, location_properties = "Forest", time_intervals = time_ex1)
 ts_occur2
 
 # events over input map
@@ -119,8 +119,8 @@ lucC_plot_sequence_events(ts_occur1, start_date = "2000-01-01", end_date = "2016
 lucC_plot_sequence_events(ts_occur2, start_date = "2000-01-01", end_date = "2016-12-31")
 
 # plot barplot of events
-lucC_plot_barplot_events(ts_occur1)
-lucC_plot_barplot_events(ts_occur2)
+lucC_plot_bar_events(ts_occur1)
+lucC_plot_bar_events(ts_occur2)
 
 
 #####
@@ -135,6 +135,7 @@ input_tb_raw_json <- file_json %>%
 input_tb_raw_json
 
 # save rasters in folder 
+# create a folder before run this 
 lucC_toGeoTIFF (input_tb_raw_json, "~/Desktop/raster")
 
 # #------------------ verificar depois

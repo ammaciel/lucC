@@ -37,13 +37,15 @@ Tools to Satellite Image Time Series analysis can be found using package sits at
 
  - Create new variable tibble format and apply lucC_standard_date_events to standardize start_date and end_date columns
 <pre class="R">
- # alter start_date and end_date to a especific range in order to extract events
-example_1.tb <- example_TWDTW %>% 
-  lucC_standard_date_events(data_tb = ., month_year = "09", day_month = "01")
-  example_1.tb
+# alter start_date and end_date to a especific range in order to extract events
+lucC_starting_point()
+data_tb <- example_TWDTW %>% 
+  lucC_standard_date_events(data_tb = ., month_year = "09", day_month = "01") %>% 
+  dplyr::select(longitude, latitude, start_date, end_date, label, id, index)
+data_tb
 </pre>
 
- - Plot example_1.tb <code>lucC_plot_maps_input(example_1.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e", "#f5e7a1", "#FFB266"))</code>
+ - Plot example_1.tb <code>lucC_plot_maps_input(data_tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c( "#FFB266", "#1b791f",  "#929e6e", "#f5e7a1"))</code>
 
 <table width="700" border="0">
 <tr>
@@ -66,37 +68,29 @@ p1 <- "Pasture"
 t1 <- lucC_interval("2000-09-01","2017-03-01")
 
 # Test holds for many time series 
-QuestionHolds <- function(data_tb, p, t){
+question_holds <- function(data.tb){
   
-  tb <- data_tb 
-  coord <- unique(tb$index)
-  output.tb <- tb[FALSE,]
+  aux.df = NULL
+  if (nrow(event2 <- lucC_predicate_holds(data.tb, p1, t1)) >= 1)
+    aux.df <- event2
+  else
+    aux.df <- NULL
   
-  for(x in 1:length(coord)){
-    #x=1
-    temp <- tb[which(as.character(tb$index) == coord[x]),]
-    
-    if (nrow(event2 <- lucC_predicate_holds(temp, p1, t1)) >= 1
-        
-    ){
-      temp0 <- rbind(event2)
-    } else {
-      temp0 <- NULL
-    }
-    output.tb <- dplyr::bind_rows(output.tb,temp0)
-  }
-  return(output.tb)
+  data.frame(aux.df)
+  
 }
 
-output.tb <- QuestionHolds(example_1.tb, p = p1, t = t1)
-output.tb
+temp.tb <- data_tb
 
-remove(t1,p1)
+output.tb = data.frame(do.call("rbind", parallel::mclapply( X = split(temp.tb, temp.tb$index), 
+                                                            mc.cores=1, #parallel::detectCores(),
+                                                            FUN = question_holds)))
+output.tb
 </pre>
 
- - See example_1.tb plot with lucC_plot_maps_input function <code>lucC_plot_maps_input(example_1.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e", "#f5e7a1", "#FFB266"))</code>
+ - See example_1.tb plot with lucC_plot_maps_input function <code>lucC_plot_maps_input(data_tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f",  "#929e6e","#f5e7a1"))</code>
 
- - See all events with lucC_plot_maps_events function <code>lucC_plot_maps_events(output.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e", "#f5e7a1", "#FFB266"), shape_point = 0, colour_point = "black", size_point = 2.3)</code>
+ - See all events with lucC_plot_maps_events function <code>lucC_plot_maps_events(output.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f",  "#929e6e","#f5e7a1"), shape_point = 0, colour_point = "black", size_point = 2.3)</code>
 
 <table width="700" border="0">
 <tr>
@@ -109,7 +103,7 @@ Fig. 2. Plot events discovered from time series classified data
 </tr>
 </table>
 
-- See barplot total area in square kilometers <code>lucC_plot_bar_events(output.tb, custom_palette = TRUE, RGB_color = "#929e6e", pixel_resolution = 250)</code> and sequence plot <code>lucC_plot_sequence_events(output.tb, show_y_index = FALSE, end_date = "2017-03-01", custom_palette = TRUE, RGB_color = "#929e6e")</code>
+- See barplot total area in square kilometers <code>lucC_plot_bar_events(output.tb, custom_palette = TRUE, RGB_color = "#929e6e", pixel_resolution = 231.6564, side_by_side = FALSE)</code> and sequence plot <code>lucC_plot_sequence_events(output.tb, end_date = "2017-03-01", custom_palette = TRUE, RGB_color = "#929e6e", show_y_index = FALSE)</code>
 
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
@@ -134,16 +128,22 @@ Fig. 3.(b) Sequence plot
 - Apply lucC_predicate_holds function to discover events for only one pixel with events of <i>Forest and Pasture</i>. 
 
 <pre class="R">
+# load library
+library(lucC)
+lucC_starting_point()
+
+# load data example
 data("example_TWDTW")
 example_TWDTW
 
-# select only one time serie with index equals 13
 # alter start_date and end_date to a especific range in order to extract events
-example_2.tb <- example_TWDTW %>% 
-  dplyr::filter(., .$index == 13) %>% 
-  lucC_standard_date_events(data_tb = ., month_year = "09", day_month = "01")
-
-example_2.tb
+# because we work with annual intervals
+# select only one time serie with index equals 13
+data_tb <- example_TWDTW %>% 
+  lucC_standard_date_events(data_tb = ., month_year = "09", day_month = "01") %>% 
+  dplyr::select(longitude, latitude, start_date, end_date, label, id, index) %>% 
+  dplyr::filter(., .$index == 13)
+data_tb
 
 # p = properties of locations :
 p1 <- "Forest"
@@ -154,36 +154,39 @@ t1 <- lucC_interval("2000-09-01","2004-09-01")
 t2 <- lucC_interval("2004-09-01","2017-09-01")
 
 # Test holds for one time serie
-QuestionHolds <- function(data_tb, p, t){
- 
-  output.tb <- data_tb[FALSE,]
-  data_tb
+question_holds <- function(data.tb){
   
-  if (nrow(ev1 <- lucC_predicate_holds(data_tb, p1, t1)) >= 1 &
-      nrow(ev2 <- lucC_predicate_holds(data_tb, p2, t2)) >= 1 &
+  aux.df = NULL
+  
+  if (nrow(ev1 <- lucC_predicate_holds(data.tb, p1, t1)) >= 1 &
+      nrow(ev2 <- lucC_predicate_holds(data.tb, p2, t2)) >= 1 ){
+    
+    if(nrow(ev1) != 0 & nrow(ev2) != 0){
       
-      isTRUE(lucC_relation_meets(tail(lucC_interval(ev1$start_date, ev1$end_date), 1),
-                                  head(lucC_interval(ev2$start_date, ev2$end_date), 1)))
-  ){
-    temp0 <- rbind(ev1,ev2)
+      if(isTRUE(lucC_relation_meets(tail(lucC_interval(ev1$start_date, ev1$end_date), 1),
+                                    head(lucC_interval(ev2$start_date, ev2$end_date), 1))))
+        aux.df <- rbind(ev1,ev2)
+    } else 
+      aux.df <- NULL
+    
   } else {
-    temp0 <- NULL
+    aux.df <- NULL
   }
-  output.tb <- dplyr::bind_rows(output.tb,temp0)
-
-  return(output.tb)
+  
+  data.frame(aux.df)
 }
 
-output.tb2 <- QuestionHolds(example_2.tb, p = c(p1, p2), t = c(t1,t2))
+temp.tb <- data_tb
+output.tb2 = data.frame(do.call("rbind", parallel::mclapply( X = split(temp.tb, temp.tb$index), 
+                                                             mc.cores=1, #parallel::detectCores(),
+                                                             FUN = question_holds)))
 output.tb2
-
-remove(p1, p2, t1, t2)
 </pre>
 
 
- - View example_2.tb plot with lucC_plot_maps_input function <code>lucC_plot_maps_input(example_2.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e", "#FFB266"))</code>
+ - View example_2.tb plot with lucC_plot_maps_input function <code>lucC_plot_maps_input(data_tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e"))</code>
 
- - View all events with lucC_plot_maps_events function <code>lucC_plot_maps_events(output.tb2, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e", "#FFB266"), shape_point = 4, colour_point = "blue", size_point = 8)</code>
+ - View all events with lucC_plot_maps_events function <code>lucC_plot_maps_events(output.tb2, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e"), shape_point = 4, colour_point = "blue", size_point = 8)</code>
 
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
@@ -208,36 +211,47 @@ Fig. 4.(b) Pixel with events
  - Apply lucC_predicate_holds function to discover for a sequence of events of <i>Forest, Pasture, Single cropping and Double cropping</i> in this order. 
 
 <pre class="R">
+# load library
+library(lucC)
+lucC_starting_point()
+
+# load data example
 data("example_TWDTW")
 example_TWDTW
 
-example_3.tb <- example_TWDTW %>% 
-  lucC_standard_date_events(data_tb = ., month_year = "09", day_month = "01")
-
-example_3.tb
+# alter start_date and end_date to a especific range in order to extract events
+# because we work with annual intervals
+data_tb <- example_TWDTW %>% 
+  lucC_standard_date_events(data_tb = ., month_year = "09", day_month = "01") %>% 
+  dplyr::select(longitude, latitude, start_date, end_date, label, id, index) 
+data_tb
 
 # p = properties of locations :
 p1 <- c("Forest", "Pasture", "Single_cropping", "Double_cropping")
 
 # t = interval:
-t1 <- lucC_interval("2000-08-01","2017-03-01")
+t1 <- lucC_interval("2000-09-01","2017-09-01")
 
-tb <- example_3.tb
-output.tb3 <- tb[FALSE,]
-coord <- unique(tb$index)
-
-# Apply for each time series based on index
-for(x in 1:length(coord)){
-  temp.tb <- tb[which(as.character(tb$index) == coord[x]),]
-  temp_final.tb <- lucC_event_transitions(temp.tb, properties = p1, time_intervals = t1)
-  output.tb3 <- dplyr::bind_rows(output.tb3, temp_final.tb)
+# Test holds for one time serie
+question_holds <- function(data.tb){
+  
+  aux.df = NULL
+  
+  aux.df <- lucC_event_transitions(data.tb, properties = p1, time_intervals = t1)
+  
+  data.frame(aux.df)
 }
+
+temp.tb <- data_tb
+output.tb3 = data.frame(do.call("rbind", parallel::mclapply( X = split(temp.tb, temp.tb$index), 
+                                                             mc.cores=1, #parallel::detectCores(),
+                                                             FUN = question_holds)))
 output.tb3
 </pre>
 
- - See plot with lucC_plot_maps_input function <code>lucC_plot_maps_input(example_3.tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e", "#f5e7a1", "#FFB266"))</code>
+ - See plot with lucC_plot_maps_input function <code>lucC_plot_maps_input(data_tb, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f",  "#929e6e","#f5e7a1"))</code>
 
- - View all events with lucC_plot_maps_events function <code>lucC_plot_maps_events(output.tb3, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#1b791f", "#929e6e", "#f5e7a1", "#FFB266"), shape_point = 0, colour_point = "blue", size_point = 2.3)</code>
+ - View all events with lucC_plot_maps_events function <code>lucC_plot_maps_events(output.tb3, EPSG_WGS84 = TRUE, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f",  "#929e6e","#f5e7a1"), shape_point = 0, colour_point = "blue", size_point = 2.3)</code>
 
 <table width="700" border="0">
 <tr>
@@ -250,7 +264,7 @@ Fig. 5. Plot events discovered from time series classified data
 </tr>
 </table>
 
-- See barplot total area in square kilometers <code>lucC_plot_bar_events(output.tb3, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"), pixel_resolution = 250)</code> and sequence plot <code>lucC_plot_sequence_events(output.tb3, show_y_index = TRUE, end_date = "2017-03-01", custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f", "#929e6e", "#f5e7a1"))</code>
+- See barplot total area in square kilometers <code>lucC_plot_bar_events(output.tb3, custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f",  "#929e6e","#f5e7a1"), pixel_resolution = 250, side_by_side = FALSE)</code> and sequence plot <code>lucC_plot_sequence_events(output.tb3, show_y_index = FALSE, end_date = "2017-03-01", custom_palette = TRUE, RGB_color = c("#FFB266", "#1b791f",  "#929e6e","#f5e7a1"), relabel = FALSE, original_labels = c("Double_cropping", "Forest", "Pasture", "Single_cropping"), new_labels = c("DC","F","P","SC"))</code>
 
 <table width="700" border="0" cellspacing="0" cellpadding="0">
 <tr>
